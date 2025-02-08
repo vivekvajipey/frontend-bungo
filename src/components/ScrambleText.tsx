@@ -14,21 +14,14 @@ const MAX_GLITCH_CHARS = 3; // Maximum number of characters to glitch at once
 
 type Props = {
   children: string;
+  onComplete?: () => void;
 };
 
-const ScrambleText: React.FC<Props> = ({ children }) => {
+const ScrambleText: React.FC<Props> = ({ children, onComplete }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const glitchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const TARGET_TEXT = children;
   const [text, setText] = useState(TARGET_TEXT);
-
-  // Split text into lines and process each line separately
-  const lines = TARGET_TEXT.split('\n');
-  const processedLines = lines.map(line => {
-    // Add zero-width spaces between characters to help maintain spacing
-    return line.split('').join('\u200B');
-  });
-  const PROCESSED_TARGET = processedLines.join('\n');
 
   // Box-Muller transform for normal distribution
   const getNormalRandom = () => {
@@ -51,13 +44,10 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
     let pos = 0;
 
     intervalRef.current = setInterval(() => {
-      const scrambled = PROCESSED_TARGET.split('')
+      const scrambled = TARGET_TEXT.split("")
         .map((char, index) => {
-          // Preserve newlines and zero-width spaces
-          if (char === '\n' || char === '\u200B') return char;
-          
           if (pos / CYCLES_PER_LETTER > index) {
-            return TARGET_TEXT[Math.floor(index / 2)]; // Account for zero-width spaces
+            return char;
           }
 
           const randomCharIndex = Math.floor(Math.random() * CHARS.length);
@@ -65,13 +55,14 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
 
           return randomChar;
         })
-        .join('');
+        .join("");
 
       setText(scrambled);
       pos++;
 
       if (pos >= TARGET_TEXT.length * CYCLES_PER_LETTER) {
         stopScramble();
+        onComplete?.();
       }
     }, SHUFFLE_TIME);
   };
@@ -87,16 +78,14 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
 
   // Quick random character glitch
   const glitchScramble = () => {
-    const textArray = PROCESSED_TARGET.split('');
+    const textArray = TARGET_TEXT.split("");
     const numCharsToGlitch = Math.floor(Math.random() * MAX_GLITCH_CHARS) + 1;
     const positions = new Set<number>();
 
-    // Select random positions to glitch (skipping newlines and zero-width spaces)
+    // Select random positions to glitch
     while (positions.size < numCharsToGlitch) {
-      const pos = Math.floor(Math.random() * textArray.length);
-      if (textArray[pos] !== '\n' && textArray[pos] !== '\u200B') {
-        positions.add(pos);
-      }
+      const pos = Math.floor(Math.random() * TARGET_TEXT.length);
+      positions.add(pos);
     }
 
     // First glitch
@@ -106,12 +95,12 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
         return CHARS[randomCharIndex];
       }
       return char;
-    }).join('');
+    }).join("");
     setText(glitched);
 
     // Revert back after a short duration
     setTimeout(() => {
-      setText(PROCESSED_TARGET);
+      setText(TARGET_TEXT);
     }, GLITCH_DURATION);
   };
 
@@ -120,12 +109,14 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    setText(PROCESSED_TARGET);
+    setText(TARGET_TEXT);
   };
 
   useEffect(() => {
-    setText(PROCESSED_TARGET);
+    // Initial full scramble animation
     fullScramble();
+
+    // Start irregular glitch effect
     scheduleNextGlitch();
 
     // Cleanup
@@ -142,7 +133,7 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
       className="relative overflow-hidden"
     >
       <div className="relative z-10 flex items-center gap-2">
-        <span className="whitespace-pre-wrap">{text}</span>
+        <span>{text}</span>
       </div>
     </motion.div>
   );

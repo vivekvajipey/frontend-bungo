@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
 import { AxiosError } from 'axios';
-import ScrambleText from '@/src/components/ScrambleText';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tomorrow } from 'next/font/google';
+import SequentialScrambleText from '@/src/components/SequentialScrambleText';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -14,14 +14,14 @@ const tomorrow = Tomorrow({
 });
 
 const FRAMES = [
-  "i am bungo",
-  "what are you called?",
-  "many have come before you\nmany will come after you",
-  "few leave richer than they came.",
-  "to play, you must pay.",
-  "but if you win you will receive what others gave",
-  "ready?",
-  "are you a real human? prove it"
+  ["i am bungo"],
+  ["what are you called?"],
+  ["many have come before you", "many will come after you"],
+  ["few leave richer than they came."],
+  ["to play, you must pay."],
+  ["but if you win", "you will receive what others gave"],
+  ["ready?"],
+  ["are you a real human?", "prove it"]
 ];
 
 export default function Home() {
@@ -87,10 +87,10 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="w-[600px] pointer-events-none px-4"
+              className="max-w-2xl px-4 pointer-events-none"
             >
-              <div className="text-4xl text-left">
-                <ScrambleText>{FRAMES[currentFrame]}</ScrambleText>
+              <div className="text-center">
+                <SequentialScrambleText lines={FRAMES[currentFrame]} />
               </div>
               <motion.p
                 initial={{ opacity: 0 }}
