@@ -66,11 +66,19 @@ class ApiService {
     }
   }
 
-  async createAttempt(userId: string): Promise<Attempt> {
-    const response = await axios.post(`${API_BASE_URL}/attempts/create`, null, {
-      params: { user_id: userId }
-    });
-    return response.data;
+  async createAttempt(userId: string, wlddId: string): Promise<Attempt> {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/attempts/create`, null, {
+        params: { 
+          user_id: userId,
+          wldd_id: wlddId
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error creating attempt:', error);
+      throw error;
+    }
   }
 
   async sendMessage(attemptId: string, content: string): Promise<Message> {
