@@ -114,10 +114,13 @@ export default function Home() {
                 <ScrambleText 
                   postScrambleContent={
                     currentFrame === 7 
-                      ? Array(FRAMES[currentFrame].length).fill(null).map((_, i, arr) => 
-                          i === arr.length - 1 ? <ProveHumanityButton onClick={handleFrameClick} /> : null
+                      ? FRAMES[currentFrame].map((_, i) => 
+                          i === FRAMES[currentFrame].length - 1 ? <ProveHumanityButton key={i} onClick={handleFrameClick} /> : null
                         )
-                      : FRAMES[currentFrame].map(() => getPostScrambleContent(currentFrame))
+                      : FRAMES[currentFrame].map((_, i) => {
+                          const content = getPostScrambleContent(currentFrame);
+                          return content ? <div key={i}>{content}</div> : null;
+                        })
                   }
                 >
                   {FRAMES[currentFrame]}

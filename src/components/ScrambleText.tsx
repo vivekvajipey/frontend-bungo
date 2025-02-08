@@ -83,7 +83,7 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
       glitchScramble();
       scheduleNextGlitch();
     }, nextInterval);
-  }, [glitchScramble]);
+  }, [glitchScramble, getNextInterval]);
 
   const fullScramble = useCallback(() => {
     let pos = 0;
