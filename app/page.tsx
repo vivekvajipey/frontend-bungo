@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+      <div className="bg-white p-8 rounded-lg shadow-md w-96 text-gray-900">
         <h1 className="text-2xl font-bold mb-6 text-center">Welcome to Bungo</h1>
         
         <form onSubmit={handleSubmit} className="space-y-4">
