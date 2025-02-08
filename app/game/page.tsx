@@ -30,22 +30,32 @@ export default function GamePage() {
   }, [router]);
 
   const createAttempt = async () => {
-    if (!session) return;
+    if (!session) {
+      console.log('No session available');
+      return;
+    }
     
     try {
       setError('');
+      console.log('Starting attempt creation with entry fee:', session.entry_fee);
+      
       // Show entry fee before payment
       if (!confirm(`Start new attempt? Entry fee: ${session.entry_fee} WLD`)) {
+        console.log('User cancelled payment confirmation');
         return;
       }
 
-      // Process payment and get reference
+      console.log('Processing payment...');
       const paymentReference = await apiService.processPayment();
+      console.log('Got payment reference:', paymentReference);
       
-      // Create attempt with payment reference
+      console.log('Creating attempt with payment reference...');
       const newAttempt = await apiService.createAttempt(paymentReference);
+      console.log('New attempt created:', newAttempt);
+      
       setCurrentAttempt(newAttempt);
     } catch (err: unknown) {
+      console.error('Error creating attempt:', err);
       const error = err as AxiosError<{detail: string}>;
       setError(error.response?.data?.detail || 'Failed to create attempt');
     }
@@ -128,7 +138,7 @@ export default function GamePage() {
             onClick={createAttempt}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
           >
-            Start New Attempt
+            Start New Attempt ({session.entry_fee} WLD)
           </button>
 
           {/* Current attempt interface */}
