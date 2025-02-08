@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MiniKit, Tokens, PayCommandInput, MiniAppPaymentSuccessPayload } from '@worldcoin/minikit-js';
+import { MiniKit, Tokens, PayCommandInput, MiniAppPaymentSuccessPayload, tokenToDecimals } from '@worldcoin/minikit-js';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
@@ -141,12 +141,12 @@ class ApiService {
         to: recipient,
         tokens: [{
           symbol: Tokens.WLD,
-          token_amount: amount
+          token_amount: tokenToDecimals(parseFloat(amount), Tokens.WLD).toString()
         }],
         description: "Bungo game attempt entry fee"
       };
 
-      console.log('Requesting payment through World App...');
+      console.log('Payment payload:', paymentPayload);
       const payRes = await MiniKit.commandsAsync.pay(paymentPayload);
       console.log('Payment response:', payRes);
 
