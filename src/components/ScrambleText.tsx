@@ -6,23 +6,28 @@ import { motion } from "framer-motion";
 const CYCLES_PER_LETTER = 2;
 const SHUFFLE_TIME = 50;
 const CHARS = "!@#$%^&*():{};|,.<>/?";
-const MEAN_INTERVAL = 2000; // Mean time between glitches
-const INTERVAL_STDDEV = 1000; // Standard deviation for the interval
-const MIN_INTERVAL = 500; // Minimum time between glitches
-const GLITCH_DURATION = 100; // How long each glitch lasts
-const MAX_GLITCH_CHARS = 3; // Maximum number of characters to glitch at once
+const MEAN_INTERVAL = 2000;
+const INTERVAL_STDDEV = 1000;
+const MIN_INTERVAL = 600;
+const GLITCH_DURATION = 100;
+const MAX_GLITCH_CHARS = 3;
 
-type Props = {
+type SingleLineProps = {
   children: string;
+  onComplete?: () => void;
+  skipInitialScramble?: boolean;
 };
 
-const ScrambleText: React.FC<Props> = ({ children }) => {
+const SingleLineScramble: React.FC<SingleLineProps> = ({ 
+  children, 
+  onComplete,
+  skipInitialScramble = false 
+}) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const glitchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const TARGET_TEXT = children;
   const [text, setText] = useState(TARGET_TEXT);
 
-  // Box-Muller transform for normal distribution
   const getNormalRandom = () => {
     let u = 0, v = 0;
     while (u === 0) u = Math.random();
@@ -31,14 +36,11 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
     return normal;
   };
 
-  // Get next interval time using normal distribution
   const getNextInterval = () => {
     const interval = MEAN_INTERVAL + (getNormalRandom() * INTERVAL_STDDEV);
-    // Ensure we don't go below minimum interval
     return Math.max(MIN_INTERVAL, interval);
   };
 
-  // Full left-to-right scramble animation
   const fullScramble = () => {
     let pos = 0;
 
@@ -61,11 +63,11 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
 
       if (pos >= TARGET_TEXT.length * CYCLES_PER_LETTER) {
         stopScramble();
+        onComplete?.();
       }
     }, SHUFFLE_TIME);
   };
 
-  // Schedule next glitch with random interval
   const scheduleNextGlitch = () => {
     const nextInterval = getNextInterval();
     glitchTimeoutRef.current = setTimeout(() => {
@@ -74,19 +76,16 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
     }, nextInterval);
   };
 
-  // Quick random character glitch
   const glitchScramble = () => {
     const textArray = TARGET_TEXT.split("");
     const numCharsToGlitch = Math.floor(Math.random() * MAX_GLITCH_CHARS) + 1;
     const positions = new Set<number>();
 
-    // Select random positions to glitch
     while (positions.size < numCharsToGlitch) {
       const pos = Math.floor(Math.random() * TARGET_TEXT.length);
       positions.add(pos);
     }
 
-    // First glitch
     const glitched = textArray.map((char, index) => {
       if (positions.has(index)) {
         const randomCharIndex = Math.floor(Math.random() * CHARS.length);
@@ -96,7 +95,6 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
     }).join("");
     setText(glitched);
 
-    // Revert back after a short duration
     setTimeout(() => {
       setText(TARGET_TEXT);
     }, GLITCH_DURATION);
@@ -111,29 +109,62 @@ const ScrambleText: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    // Initial full scramble animation
-    fullScramble();
+    if (!skipInitialScramble) {
+      fullScramble();
+    } else {
+      onComplete?.();
+    }
 
-    // Start irregular glitch effect
     scheduleNextGlitch();
 
-    // Cleanup
     return () => {
       stopScramble();
       if (glitchTimeoutRef.current) {
         clearTimeout(glitchTimeoutRef.current);
       }
     };
-  }, []);
+  }, [skipInitialScramble]);
 
   return (
-    <motion.div
-      className="relative overflow-hidden"
-    >
+    <motion.div className="relative overflow-hidden">
       <div className="relative z-10 flex items-center gap-2">
         <span>{text}</span>
       </div>
     </motion.div>
+  );
+};
+
+type MultiLineProps = {
+  children: string[];
+};
+
+const ScrambleText: React.FC<MultiLineProps> = ({ children }) => {
+  const [currentLine, setCurrentLine] = useState(0);
+
+  const handleLineComplete = () => {
+    if (currentLine < children.length - 1) {
+      setCurrentLine(prev => prev + 1);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      {children.map((line, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: index <= currentLine ? 1 : 0 }}
+          className="min-h-[1.2em]"
+        >
+          <SingleLineScramble
+            onComplete={index < children.length - 1 ? handleLineComplete : undefined}
+            skipInitialScramble={index !== currentLine}
+          >
+            {line}
+          </SingleLineScramble>
+        </motion.div>
+      ))}
+    </div>
   );
 };
 

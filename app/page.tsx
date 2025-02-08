@@ -14,14 +14,14 @@ const tomorrow = Tomorrow({
 });
 
 const FRAMES = [
-  "i am bungo",
-  "what are you called?",
-  "many have come before you\nmany will come after you",
-  "few leave richer than they came.",
-  "to play, you must pay.",
-  "but if you win you will receive what others gave",
-  "ready?",
-  "are you a real human? prove it"
+  ["i am bungo"],
+  ["what are you called?"],
+  ["many have come before you", "many will come after you"],
+  ["few leave richer than they came."],
+  ["to play, you must pay."],
+  ["but if you win", "you will receive what others gave"],
+  ["ready?"],
+  ["are you a real human?", "prove it"]
 ];
 
 export default function Home() {
