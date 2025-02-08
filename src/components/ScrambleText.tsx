@@ -130,13 +130,17 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
   }, [skipInitialScramble, fullScramble, onComplete, scheduleNextGlitch, stopScramble]);
 
   return (
-    <div>
-      <motion.div className="relative overflow-hidden">
+    <div className="flex flex-col items-center">
+      <motion.div className="relative overflow-hidden mb-4">
         <div className="relative z-10 flex items-center justify-center">
-          <span>{text}</span>
+          <span className="text-6xl text-center">{text}</span>
         </div>
       </motion.div>
-      {isScrambleComplete && postScrambleContent}
+      {isScrambleComplete && postScrambleContent && (
+        <div className="mt-4 w-full">
+          {postScrambleContent}
+        </div>
+      )}
     </div>
   );
 };
