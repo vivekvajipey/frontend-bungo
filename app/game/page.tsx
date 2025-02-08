@@ -36,7 +36,15 @@ export default function GamePage() {
     if (!user || !session) return;
     
     try {
-      const newAttempt = await apiService.createAttempt(user.id, user.wldd_id);
+      // Process payment first
+      const paymentSuccess = await apiService.processPayment();
+      if (!paymentSuccess) {
+        setError('Payment failed. Please try again.');
+        return;
+      }
+
+      // Create attempt after successful payment
+      const newAttempt = await apiService.createAttempt(user.id);
       setAttempt(newAttempt);
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;
