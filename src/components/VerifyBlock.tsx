@@ -3,14 +3,9 @@
 import { MiniKit, VerificationLevel } from "@worldcoin/minikit-js";
 import { useCallback, useState } from "react";
 
-const verifyPayload = {
-  action: "play_bungo",
-  signal: "", 
-  verification_level: VerificationLevel.Orb,
-};
-
 interface VerifyBlockProps {
   onVerificationSuccess: () => void;
+  show: boolean;
 }
 
 interface WorldIDCredentials {
@@ -20,7 +15,7 @@ interface WorldIDCredentials {
   verification_level: string;
 }
 
-export function VerifyBlock({ onVerificationSuccess }: VerifyBlockProps) {
+export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
   const [isVerified, setIsVerified] = useState(false);
   const [verifyError, setVerifyError] = useState<string | null>(null);
 
@@ -31,7 +26,10 @@ export function VerifyBlock({ onVerificationSuccess }: VerifyBlockProps) {
     }
 
     try {
-      const { finalPayload } = await MiniKit.commandsAsync.verify(verifyPayload);
+      const { finalPayload } = await MiniKit.commandsAsync.verify({
+        action: "enter",
+        verification_level: VerificationLevel.Orb
+      });
 
       if (finalPayload.status === "error") {
         setVerifyError("Verification failed");
@@ -45,8 +43,7 @@ export function VerifyBlock({ onVerificationSuccess }: VerifyBlockProps) {
         },
         body: JSON.stringify({
           payload: finalPayload,
-          action: verifyPayload.action,
-          signal: verifyPayload.signal,
+          action: "enter",
         }),
       });
 
@@ -73,6 +70,8 @@ export function VerifyBlock({ onVerificationSuccess }: VerifyBlockProps) {
       console.error(error);
     }
   }, [onVerificationSuccess]);
+
+  if (!show) return null;
 
   return (
     <div className="flex flex-col items-center gap-4 p-4">
