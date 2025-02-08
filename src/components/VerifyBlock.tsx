@@ -1,6 +1,6 @@
 'use client';
 
-import { MiniKit, VerificationLevel, ISuccessResult } from "@worldcoin/minikit-js";
+import { MiniKit, VerificationLevel } from "@worldcoin/minikit-js";
 import { useCallback, useState } from "react";
 
 const verifyPayload = {
