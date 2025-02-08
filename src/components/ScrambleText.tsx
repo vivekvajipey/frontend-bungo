@@ -12,6 +12,19 @@ const MIN_INTERVAL = 600;
 const GLITCH_DURATION = 100;
 const MAX_GLITCH_CHARS = 3;
 
+const getNormalRandom = () => {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  const normal = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+  return normal;
+};
+
+const getNextInterval = () => {
+  const interval = MEAN_INTERVAL + (getNormalRandom() * INTERVAL_STDDEV);
+  return Math.max(MIN_INTERVAL, interval);
+};
+
 type SingleLineProps = {
   children: string;
   onComplete?: () => void;
@@ -30,19 +43,6 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
   const TARGET_TEXT = children;
   const [text, setText] = useState(TARGET_TEXT);
   const [isScrambleComplete, setIsScrambleComplete] = useState(false);
-
-  const getNormalRandom = () => {
-    let u = 0, v = 0;
-    while (u === 0) u = Math.random();
-    while (v === 0) v = Math.random();
-    const normal = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-    return normal;
-  };
-
-  const getNextInterval = () => {
-    const interval = MEAN_INTERVAL + (getNormalRandom() * INTERVAL_STDDEV);
-    return Math.max(MIN_INTERVAL, interval);
-  };
 
   const stopScramble = useCallback(() => {
     if (intervalRef.current) {
@@ -83,7 +83,7 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
       glitchScramble();
       scheduleNextGlitch();
     }, nextInterval);
-  }, [glitchScramble, getNextInterval]);
+  }, [glitchScramble]);
 
   const fullScramble = useCallback(() => {
     let pos = 0;
