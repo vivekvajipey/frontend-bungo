@@ -32,6 +32,25 @@ export default function Home() {
     }
   };
 
+  const handleWlddIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // If it's just the prefix or shorter, keep it as WLDD-
+    if (value.length <= 5) {
+      setWlddId('WLDD-');
+      return;
+    }
+    
+    if (value.startsWith('WLDD-')) {
+      // Only update if the value is within length limit
+      if (value.length <= 13) {
+        setWlddId(value);
+      }
+    } else {
+      // If user tried to modify prefix, keep the prefix and take last 8 chars
+      setWlddId('WLDD-' + value.slice(-8));
+    }
+  };
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96 text-gray-900">
@@ -46,7 +65,7 @@ export default function Home() {
               type="text"
               id="wlddId"
               value={wlddId}
-              onChange={(e) => setWlddId(e.target.value)}
+              onChange={handleWlddIdChange}
               placeholder="WLDD-XXXXXXXX"
               pattern="WLDD-[0-9A-Z]{8}"
               required

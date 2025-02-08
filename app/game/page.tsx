@@ -125,6 +125,12 @@ export default function GamePage() {
                       type="text"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          sendMessage();
+                        }
+                      }}
                       placeholder="Type your message..."
                       className="flex-1 border rounded px-2 py-1"
                     />
