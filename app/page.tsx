@@ -21,8 +21,8 @@ const FRAMES = [
   ["what are you called?"],
   ["many have come before you", "many will come after you"],
   ["few leave richer than they came."],
-  ["to play, you must pay."],
-  ["but if you win,", "you will receive what others gave"],
+  ["to play,", "you must pay."],
+  ["but if you win, you will", "receive what others gave"],
   ["ready?"],
   ["are you a real human?", "prove it"]
 ];
