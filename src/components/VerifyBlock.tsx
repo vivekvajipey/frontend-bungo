@@ -26,8 +26,12 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
     }
 
     try {
+      // Generate a random session ID as our signal
+      const signal = crypto.randomUUID();
+
       const { finalPayload } = await MiniKit.commandsAsync.verify({
         action: "enter",
+        signal,
         verification_level: VerificationLevel.Orb
       });
 
@@ -42,8 +46,8 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         nullifier_hash: finalPayload.nullifier_hash,
         proof: finalPayload.proof,
         verification_level: finalPayload.verification_level,
-        action: "enter",  // Must match the action used in verify command
-        signal: ""  // Optional, can be empty string if not used
+        action: "enter",
+        signal: signal  // Send signal to our backend
       };
 
       const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
