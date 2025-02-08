@@ -16,6 +16,12 @@ export default function GamePage() {
   const [isScoring, setIsScoring] = useState(false);
 
   useEffect(() => {
+    const credentials = localStorage.getItem('worldid_credentials');
+    if (!credentials) {
+      router.push('/');
+      return;
+    }
+
     const userStr = localStorage.getItem('user');
     if (!userStr) {
       router.push('/');

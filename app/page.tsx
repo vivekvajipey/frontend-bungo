@@ -12,8 +12,13 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    // If we're already verified, redirect to game
+    const credentials = localStorage.getItem('worldid_credentials');
+    if (credentials) {
+      router.push('/game');
+    }
     setIsWorldApp(apiService.isInWorldApp());
-  }, []);
+  }, [router]);
 
   const handleEnter = () => {
     if (!MiniKit.isInstalled()) {
