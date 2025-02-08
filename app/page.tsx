@@ -80,16 +80,18 @@ export default function Home() {
     <main className={`min-h-screen flex flex-col items-center justify-center bg-black text-red-600 ${tomorrow.className}`}>
       <AnimatePresence mode="wait">
         {!showVerification ? (
-          <div className="relative w-full h-screen flex flex-col items-center justify-center">
+          <div 
+            className="relative w-full h-screen flex flex-col items-center justify-center"
+            onClick={currentFrame !== 1 && currentFrame !== 7 ? handleFrameClick : undefined}
+          >
             <motion.div
               key={`frame-${currentFrame}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className={currentFrame === 1 || currentFrame === 7 ? "" : "pointer-events-none"}
-              onClick={currentFrame !== 1 && currentFrame !== 7 ? handleFrameClick : undefined}
             >
-              <div className="text-6xl whitespace-pre-line text-center">
+              <div className="text-4xl whitespace-pre-line text-center">
                 <ScrambleText 
                   postScrambleContent={
                     currentFrame === 7 
