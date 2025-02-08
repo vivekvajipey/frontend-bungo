@@ -106,7 +106,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="pointer-events-none"
+              className={currentFrame === 1 || currentFrame === 7 ? "" : "pointer-events-none"}
             >
               <div className="text-6xl whitespace-pre-line text-center">
                 <ScrambleText 
