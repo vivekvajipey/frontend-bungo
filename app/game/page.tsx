@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  const [attempt, setAttempt] = useState<Attempt | null>(null);
+  const [currentAttempt, setCurrentAttempt] = useState<Attempt | null>(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -33,16 +33,20 @@ export default function GamePage() {
     if (!session) return;
     
     try {
-      // Process payment first
+      setError('');
+      // Show entry fee before payment
+      if (!confirm(`Start new attempt? Entry fee: ${session.entry_fee} WLD`)) {
+        return;
+      }
+
       const paymentSuccess = await apiService.processPayment();
       if (!paymentSuccess) {
         setError('Payment failed. Please try again.');
         return;
       }
 
-      // Create attempt after successful payment
       const newAttempt = await apiService.createAttempt(session.user.id);
-      setAttempt(newAttempt);
+      setCurrentAttempt(newAttempt);
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;
       setError(error.response?.data?.detail || 'Failed to create attempt');
@@ -50,11 +54,11 @@ export default function GamePage() {
   };
 
   const sendMessage = async () => {
-    if (!attempt || !message.trim()) return;
+    if (!currentAttempt || !message.trim()) return;
 
     try {
-      const response = await apiService.sendMessage(attempt.id, message);
-      setAttempt(prev => prev ? {
+      const response = await apiService.sendMessage(currentAttempt.id, message);
+      setCurrentAttempt(prev => prev ? {
         ...prev,
         messages: [...prev.messages, response],
         messages_remaining: prev.messages_remaining - 1
@@ -67,15 +71,14 @@ export default function GamePage() {
   };
 
   const handleScore = async () => {
-    if (!attempt) return;
+    if (!currentAttempt) return;
     
     try {
       setIsScoring(true);
-      const result = await apiService.forceScore(attempt.id);
-      setAttempt(prev => prev ? {
+      const result = await apiService.forceScore(currentAttempt.id);
+      setCurrentAttempt(prev => prev ? {
         ...prev,
         score: result.score,
-        is_winner: result.score > 7.0
       } : null);
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;
@@ -102,78 +105,96 @@ export default function GamePage() {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white rounded-lg shadow p-6 text-gray-900">
           <h1 className="text-2xl font-bold mb-4">Active Session</h1>
-          <p className="mb-4">Pot: {attempt?.total_pot ?? session.total_pot} WLDD</p>
+          <p className="mb-2">Entry Fee: {session?.entry_fee} WLD</p>
+          <p className="mb-4">Total Pot: {session?.total_pot} WLD</p>
           
-          {!attempt ? (
-            <button
-              onClick={createAttempt}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Start Attempt
-            </button>
-          ) : (
-            <div className="space-y-4">
-              <div className="border rounded p-4">
-                <h2 className="font-semibold mb-2">Your Conversation</h2>
-                <div className="space-y-2 mb-4">
-                  {attempt.messages.map((msg, i) => (
-                    <div key={i} className="space-y-1">
-                      <p className="font-medium">You: {msg.content}</p>
-                      <p className="text-gray-600">AI: {msg.ai_response}</p>
-                    </div>
-                  ))}
-                </div>
-                
-                {attempt.messages_remaining > 0 ? (
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          sendMessage();
-                        }
-                      }}
-                      placeholder="Type your message..."
-                      className="flex-1 border rounded px-2 py-1"
-                    />
-                    <button
-                      onClick={sendMessage}
-                      className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-                    >
-                      Send
-                    </button>
+          {/* Show all attempts */}
+          {session?.attempts.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-xl font-bold mb-2">Your Attempts</h2>
+              <div className="space-y-2">
+                {session.attempts.map(attempt => (
+                  <div key={attempt.id} className="p-3 border rounded">
+                    <p>Score: {attempt.score?.toFixed(1) ?? 'Not scored'}</p>
+                    {attempt.earnings && (
+                      <p className="text-green-600">Earnings: {attempt.earnings} WLD</p>
+                    )}
                   </div>
-                ) : attempt.score === undefined ? (
-                  <div className="mt-4">
-                    <p className="text-gray-600 mb-2">No messages remaining. Ready for scoring!</p>
-                    <button
-                      onClick={handleScore}
-                      disabled={isScoring}
-                      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:opacity-50"
-                    >
-                      {isScoring ? 'Scoring...' : 'Score Attempt'}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="mt-4">
-                    <p className="text-lg font-semibold">
-                      Final Score: {attempt.score.toFixed(1)}/10
-                    </p>
-                    <p className="text-gray-600">
-                      {attempt.is_winner ? 
-                        '🎉 Congratulations! You won!' : 
-                        'Thanks for playing! Better luck next time.'}
-                    </p>
-                  </div>
-                )}
-                
-                <p className="mt-2 text-sm text-gray-600">
-                  Messages remaining: {attempt.messages_remaining}
-                </p>
+                ))}
               </div>
+            </div>
+          )}
+
+          {/* Always show Start Attempt button */}
+          <button
+            onClick={createAttempt}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+          >
+            Start New Attempt
+          </button>
+
+          {/* Current attempt interface */}
+          {currentAttempt && (
+            <div className="border rounded p-4 mt-4">
+              <h2 className="font-semibold mb-2">Current Attempt</h2>
+              <div className="space-y-2 mb-4">
+                {currentAttempt.messages.map((msg, i) => (
+                  <div key={i} className="space-y-1">
+                    <p className="font-medium">You: {msg.content}</p>
+                    <p className="text-gray-600">AI: {msg.ai_response}</p>
+                  </div>
+                ))}
+              </div>
+              
+              {currentAttempt.messages_remaining > 0 ? (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                      }
+                    }}
+                    placeholder="Type your message..."
+                    className="flex-1 border rounded px-2 py-1"
+                  />
+                  <button
+                    onClick={sendMessage}
+                    className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+                  >
+                    Send
+                  </button>
+                </div>
+              ) : currentAttempt.score === undefined ? (
+                <div className="mt-4">
+                  <p className="text-gray-600 mb-2">No messages remaining. Ready for scoring!</p>
+                  <button
+                    onClick={handleScore}
+                    disabled={isScoring}
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:opacity-50"
+                  >
+                    {isScoring ? 'Scoring...' : 'Score Attempt'}
+                  </button>
+                </div>
+              ) : (
+                <div className="mt-4">
+                  <p className="text-lg font-semibold">
+                    Final Score: {currentAttempt.score.toFixed(1)}/10
+                  </p>
+                  {currentAttempt.earnings && (
+                    <p className="text-green-600">
+                      Earnings: {currentAttempt.earnings} WLD
+                    </p>
+                  )}
+                </div>
+              )}
+              
+              <p className="mt-2 text-sm text-gray-600">
+                Messages remaining: {currentAttempt.messages_remaining}
+              </p>
             </div>
           )}
 

@@ -20,10 +20,17 @@ export interface Session {
   entry_fee: number;
   total_pot: number;
   status: string;
-  winning_attempts: string[];
+  attempts: AttemptSummary[];
+  winning_conversation?: string;
   user: {
     id: string;
   };
+}
+
+interface AttemptSummary {
+  id: string;
+  score?: number;
+  earnings?: number;
 }
 
 export interface Attempt {
@@ -31,9 +38,9 @@ export interface Attempt {
   session_id: string;
   user_id: string;
   messages: Message[];
-  is_winner: boolean;
   messages_remaining: number;
   score?: number;
+  earnings?: number;
   total_pot?: number;
 }
 
@@ -152,14 +159,13 @@ class ApiService {
       };
 
       console.log('Requesting payment through World App...');
-      // const payRes = await MiniKit.commandsAsync.pay(paymentPayload);
-      // console.log('Payment response:', payRes);
+      const payRes = await MiniKit.commandsAsync.pay(paymentPayload);
+      console.log('Payment response:', payRes);
 
-      // if (payRes.finalPayload.status === "success") {
-      //   console.log('Payment successful, confirming with backend...');
-      //   return await this.confirmPayment(reference, payRes.finalPayload);
-      // }
-      console.log('Payment successful, confirming with backend...');
+      if (payRes.finalPayload.status === "success") {
+        console.log('Payment successful, confirming with backend...');
+        return await this.confirmPayment(reference, payRes.finalPayload);
+      }
       return false;
     } catch (error) {
       console.error('Payment failed:', error);
