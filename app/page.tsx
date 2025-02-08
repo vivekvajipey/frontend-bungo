@@ -81,13 +81,13 @@ export default function Home() {
     >
       <AnimatePresence mode="wait">
         {!isLastFrame ? (
-          <div className="relative w-full h-screen flex flex-col items-center justify-center">
+          <div className="relative w-full h-screen flex flex-col items-center justify-center p-4">
             <motion.div
               key={`frame-${currentFrame}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="max-w-2xl px-4 pointer-events-none"
+              className="w-full pointer-events-none"
             >
               <div className="text-center">
                 <SequentialScrambleText lines={FRAMES[currentFrame]} />
@@ -96,7 +96,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                className="mt-8 text-sm text-red-800 text-center"
+                className="mt-8 text-xs sm:text-sm text-red-800 text-center"
               >
                 click to continue
               </motion.p>
@@ -108,9 +108,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-md px-4"
+            className="w-full max-w-[90vw] sm:max-w-md px-4"
           >
-            <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
+            <div className="bg-black/50 p-6 sm:p-8 rounded-lg border border-red-800 backdrop-blur-sm">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="wlddId" className="block text-sm font-medium text-red-400">
@@ -125,18 +125,18 @@ export default function Home() {
                     pattern="WLDD-[0-9A-Z]{8}"
                     required
                     className="mt-1 block w-full rounded-md border-red-800 bg-black/30 text-red-500 placeholder-red-900
-                      shadow-sm focus:border-red-500 focus:ring-red-500"
+                      shadow-sm focus:border-red-500 focus:ring-red-500 text-sm sm:text-base"
                   />
                 </div>
 
                 {error && (
-                  <p className="text-red-500 text-sm">{error}</p>
+                  <p className="text-red-500 text-xs sm:text-sm">{error}</p>
                 )}
 
                 <button
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
-                    shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
+                    shadow-sm text-sm sm:text-base font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
                     transition-colors duration-200"
                 >
