@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
+import { AxiosError } from 'axios';
 
 export default function Home() {
   const [wlddId, setWlddId] = useState('');
@@ -18,8 +19,9 @@ export default function Home() {
       // Store user info in localStorage for persistence
       localStorage.setItem('user', JSON.stringify(user));
       router.push('/game');
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to create user');
+    } catch (err: unknown) {
+      const error = err as AxiosError<{detail: string}>;
+      setError(error.response?.data?.detail || 'Failed to create user');
     }
   };
 

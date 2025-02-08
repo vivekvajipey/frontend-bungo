@@ -29,6 +29,7 @@ export interface Attempt {
   messages: Message[];
   is_winner: boolean;
   messages_remaining: number;
+  score?: number;
 }
 
 export interface Message {

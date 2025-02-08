@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService, Session, Attempt, User } from '@/src/services/api';
+import { AxiosError } from 'axios';
 
 export default function GamePage() {
   const router = useRouter();
@@ -37,8 +38,9 @@ export default function GamePage() {
     try {
       const newAttempt = await apiService.createAttempt(user.id);
       setAttempt(newAttempt);
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to create attempt');
+    } catch (err: unknown) {
+      const error = err as AxiosError<{detail: string}>;
+      setError(error.response?.data?.detail || 'Failed to create attempt');
     }
   };
 
@@ -53,8 +55,9 @@ export default function GamePage() {
         messages_remaining: prev.messages_remaining - 1
       } : null);
       setMessage('');
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to send message');
+    } catch (err: unknown) {
+      const error = err as AxiosError<{detail: string}>;
+      setError(error.response?.data?.detail || 'Failed to send message');
     }
   };
 
@@ -69,8 +72,9 @@ export default function GamePage() {
         score: result.score,
         is_winner: result.score > 7.0
       } : null);
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to score attempt');
+    } catch (err: unknown) {
+      const error = err as AxiosError<{detail: string}>;
+      setError(error.response?.data?.detail || 'Failed to score attempt');
     } finally {
       setIsScoring(false);
     }
