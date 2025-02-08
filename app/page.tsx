@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
 import { AxiosError } from 'axios';
+import ScrambleText from '@/src/components/ScrambleText';
 
 export default function Home() {
   const [wlddId, setWlddId] = useState('');
@@ -52,13 +53,15 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96 text-gray-900">
-        <h1 className="text-2xl font-bold mb-6 text-center">Welcome to Bungo</h1>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-black text-red-600">
+      <div className="mb-16">
+        <ScrambleText>i am bungo</ScrambleText>
+      </div>
+      
+      <div className="bg-black/50 p-8 rounded-lg border border-red-800 w-96 backdrop-blur-sm">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="wlddId" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="wlddId" className="block text-sm font-medium text-red-400">
               WLDD ID
             </label>
             <input
@@ -69,7 +72,8 @@ export default function Home() {
               placeholder="WLDD-XXXXXXXX"
               pattern="WLDD-[0-9A-Z]{8}"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1 block w-full rounded-md border-red-800 bg-black/30 text-red-500 placeholder-red-900
+                shadow-sm focus:border-red-500 focus:ring-red-500"
             />
           </div>
 
@@ -79,7 +83,10 @@ export default function Home() {
 
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
+              shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+              transition-colors duration-200"
           >
             Enter Game
           </button>
