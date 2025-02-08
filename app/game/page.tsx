@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiService, Session, Attempt, User } from '@/src/services/api';
+import { apiService } from '@/src/services/api';
+import { Session, Attempt } from '@/src/services/api';
 import { AxiosError } from 'axios';
 
 export default function GamePage() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [attempt, setAttempt] = useState<Attempt | null>(null);
   const [message, setMessage] = useState('');
@@ -22,24 +22,15 @@ export default function GamePage() {
       return;
     }
 
-    const userStr = localStorage.getItem('user');
-    if (!userStr) {
-      router.push('/');
-      return;
-    }
-
-    const loadedUser = JSON.parse(userStr);
-    setUser(loadedUser);
-
     // Check for active session
     apiService.getCurrentSession()
       .then(setSession)
-      .catch(console.error)
+      .catch(() => router.push('/'))
       .finally(() => setLoading(false));
   }, [router]);
 
   const createAttempt = async () => {
-    if (!user || !session) return;
+    if (!session) return;
     
     try {
       // Process payment first
@@ -50,7 +41,7 @@ export default function GamePage() {
       }
 
       // Create attempt after successful payment
-      const newAttempt = await apiService.createAttempt(user.id);
+      const newAttempt = await apiService.createAttempt(session.user.id);
       setAttempt(newAttempt);
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;

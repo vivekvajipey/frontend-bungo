@@ -21,6 +21,9 @@ export interface Session {
   total_pot: number;
   status: string;
   winning_attempts: string[];
+  user: {
+    id: string;
+  };
 }
 
 export interface Attempt {
