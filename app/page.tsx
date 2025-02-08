@@ -15,6 +15,13 @@ export default function Home() {
     setError('');
 
     try {
+      // First check if there's an active session
+      const session = await apiService.getCurrentSession();
+      if (!session) {
+        setError('No active game session available. Please try again later.');
+        return;
+      }
+
       const user = await apiService.createUser(wlddId);
       // Store user info in localStorage for persistence
       localStorage.setItem('user', JSON.stringify(user));
