@@ -31,59 +31,67 @@ export default function GamePage() {
     const loadedUser = JSON.parse(userStr);
     setUser(loadedUser);
 
-    // Check for active session
-    apiService.getCurrentSession()
-      .then(setSession)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    // Mock session data
+    setSession({
+      id: "mock-session-123",
+      total_pot: 1000,
+      is_active: true,
+      created_at: new Date().toISOString()
+    });
+    setLoading(false);
   }, [router]);
 
   const createAttempt = async () => {
-    if (!user || !session) return;
-    
-    try {
-      const newAttempt = await apiService.createAttempt(user.id, user.wldd_id);
-      setAttempt(newAttempt);
-    } catch (err: unknown) {
-      const error = err as AxiosError<{detail: string}>;
-      setError(error.response?.data?.detail || 'Failed to create attempt');
-    }
+    // Mock attempt data
+    const mockAttempt = {
+      id: "mock-attempt-123",
+      user_id: user?.id,
+      session_id: "mock-session-123",
+      messages: [],
+      messages_remaining: 3,
+      total_pot: 1000,
+      score: undefined,
+      is_winner: false,
+      created_at: new Date().toISOString()
+    };
+    setAttempt(mockAttempt);
   };
 
   const sendMessage = async () => {
     if (!attempt || !message.trim()) return;
 
-    try {
-      const response = await apiService.sendMessage(attempt.id, message);
-      setAttempt(prev => prev ? {
-        ...prev,
-        messages: [...prev.messages, response],
-        messages_remaining: prev.messages_remaining - 1
-      } : null);
-      setMessage('');
-    } catch (err: unknown) {
-      const error = err as AxiosError<{detail: string}>;
-      setError(error.response?.data?.detail || 'Failed to send message');
-    }
+    // Mock message response
+    const mockResponse = {
+      id: `msg-${Date.now()}`,
+      attempt_id: attempt.id,
+      content: message,
+      ai_response: "I am Bungo, and I acknowledge your message. Keep trying to prove you're human.",
+      created_at: new Date().toISOString()
+    };
+
+    setAttempt(prev => prev ? {
+      ...prev,
+      messages: [...prev.messages, mockResponse],
+      messages_remaining: prev.messages_remaining - 1
+    } : null);
+    setMessage('');
   };
 
   const handleScore = async () => {
     if (!attempt) return;
     
-    try {
-      setIsScoring(true);
-      const result = await apiService.forceScore(attempt.id);
-      setAttempt(prev => prev ? {
-        ...prev,
-        score: result.score,
-        is_winner: result.score > 7.0
-      } : null);
-    } catch (err: unknown) {
-      const error = err as AxiosError<{detail: string}>;
-      setError(error.response?.data?.detail || 'Failed to score attempt');
-    } finally {
-      setIsScoring(false);
-    }
+    setIsScoring(true);
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Mock score result
+    const mockScore = Math.random() * 10;
+    setAttempt(prev => prev ? {
+      ...prev,
+      score: mockScore,
+      is_winner: mockScore > 7.0
+    } : null);
+    setIsScoring(false);
   };
 
   if (loading) {

@@ -35,22 +35,16 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-
-    try {
-      const session = await apiService.getCurrentSession();
-      if (!session) {
-        setError('No active game session available. Please try again later.');
-        return;
-      }
-
-      const user = await apiService.createUser(wlddId);
-      localStorage.setItem('user', JSON.stringify(user));
-      router.push('/game');
-    } catch (err: unknown) {
-      const error = err as AxiosError<{detail: string}>;
-      setError(error.response?.data?.detail || 'Failed to create user');
-    }
+    
+    // Hardcoded user object
+    const mockUser = {
+      id: "test-user-123",
+      wldd_id: "WLDD-12345678",
+      created_at: new Date().toISOString()
+    };
+    
+    localStorage.setItem('user', JSON.stringify(mockUser));
+    router.push('/game');
   };
 
   const handleWlddIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
