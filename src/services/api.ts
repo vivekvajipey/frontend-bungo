@@ -140,8 +140,8 @@ class ApiService {
         reference,
         to: recipient,
         tokens: [{
-          symbol: Tokens.WLD,
-          token_amount: tokenToDecimals(0.1, Tokens.WLD).toString(),
+          symbol: Tokens.USDCE,
+          token_amount: tokenToDecimals(parseFloat(amount), Tokens.USDCE).toString()
         }],
         description: "Bungo game attempt entry fee"
       };

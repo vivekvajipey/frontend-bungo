@@ -106,8 +106,8 @@ export default function GamePage() {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white rounded-lg shadow p-6 text-gray-900">
           <h1 className="text-2xl font-bold mb-4">Active Session</h1>
-          <p className="mb-2">Entry Fee: {session?.entry_fee} WLD</p>
-          <p className="mb-4">Total Pot: {session?.total_pot} WLD</p>
+          <p className="mb-2">Entry Fee: ${session?.entry_fee} USDC</p>
+          <p className="mb-4">Total Pot: ${session?.total_pot} USDC</p>
           
           {/* Show all attempts */}
           {session?.attempts.length > 0 && (
@@ -118,7 +118,7 @@ export default function GamePage() {
                   <div key={attempt.id} className="p-3 border rounded">
                     <p>Score: {attempt.score?.toFixed(1) ?? 'Not scored'}</p>
                     {attempt.earnings && (
-                      <p className="text-green-600">Earnings: {attempt.earnings} WLD</p>
+                      <p className="text-green-600">Earnings: ${attempt.earnings} USDC</p>
                     )}
                   </div>
                 ))}
@@ -131,7 +131,7 @@ export default function GamePage() {
             onClick={createAttempt}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
           >
-            Start New Attempt ({session.entry_fee} WLD)
+            Start New Attempt (${session.entry_fee} USDC)
           </button>
 
           {/* Current attempt interface */}
@@ -187,7 +187,7 @@ export default function GamePage() {
                   </p>
                   {currentAttempt.earnings && (
                     <p className="text-green-600">
-                      Earnings: {currentAttempt.earnings} WLD
+                      Earnings: ${currentAttempt.earnings} USDC
                     </p>
                   )}
                 </div>
