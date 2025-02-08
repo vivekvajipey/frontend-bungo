@@ -3,8 +3,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const CYCLES_PER_LETTER = 2;
-const SHUFFLE_TIME = 50;
+const CYCLES_PER_LETTER = 1;
+const SHUFFLE_TIME = 30;
 const CHARS = "!@#$%^&*():{};|,.<>/?";
 const MEAN_INTERVAL = 2000;
 const INTERVAL_STDDEV = 1000;
@@ -156,12 +156,14 @@ const ScrambleText: React.FC<MultiLineProps> = ({ children }) => {
           animate={{ opacity: index <= currentLine ? 1 : 0 }}
           className="min-h-[1.2em]"
         >
-          <SingleLineScramble
-            onComplete={index < children.length - 1 ? handleLineComplete : undefined}
-            skipInitialScramble={index !== currentLine}
-          >
-            {line}
-          </SingleLineScramble>
+          <div className="max-w-4xl mx-auto px-4">
+            <SingleLineScramble
+              onComplete={index < children.length - 1 ? handleLineComplete : undefined}
+              skipInitialScramble={index !== currentLine}
+            >
+              {line}
+            </SingleLineScramble>
+          </div>
         </motion.div>
       ))}
     </div>

@@ -19,7 +19,7 @@ const FRAMES = [
   ["many have come before you", "many will come after you"],
   ["few leave richer than they came."],
   ["to play, you must pay."],
-  ["but if you win", "you will receive what others gave"],
+  ["but if you win,", "you will receive what others gave"],
   ["ready?"],
   ["are you a real human?", "prove it"]
 ];
@@ -87,9 +87,9 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="max-w-2xl px-4 pointer-events-none"
+              className="pointer-events-none"
             >
-              <div className="text-6xl whitespace-pre-line text-center">
+              <div className="text-4xl whitespace-pre-line text-center">
                 <ScrambleText>{FRAMES[currentFrame]}</ScrambleText>
               </div>
               <motion.p
