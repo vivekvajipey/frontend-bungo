@@ -87,9 +87,9 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="max-w-2xl px-4 pointer-events-none"
+              className="w-[600px] pointer-events-none px-4"
             >
-              <div className="text-4xl whitespace-pre-line text-center">
+              <div className="text-4xl text-left">
                 <ScrambleText>{FRAMES[currentFrame]}</ScrambleText>
               </div>
               <motion.p
