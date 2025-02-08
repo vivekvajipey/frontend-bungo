@@ -13,6 +13,13 @@ interface VerifyBlockProps {
   onVerificationSuccess: () => void;
 }
 
+interface WorldIDCredentials {
+  nullifier_hash: string;
+  merkle_root: string;
+  proof: string;
+  verification_level: string;
+}
+
 export function VerifyBlock({ onVerificationSuccess }: VerifyBlockProps) {
   const [isVerified, setIsVerified] = useState(false);
   const [verifyError, setVerifyError] = useState<string | null>(null);
@@ -37,7 +44,7 @@ export function VerifyBlock({ onVerificationSuccess }: VerifyBlockProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          payload: finalPayload as ISuccessResult,
+          payload: finalPayload,
           action: verifyPayload.action,
           signal: verifyPayload.signal,
         }),
@@ -46,6 +53,15 @@ export function VerifyBlock({ onVerificationSuccess }: VerifyBlockProps) {
       const verifyResponseJson = await verifyResponse.json();
 
       if (verifyResponseJson.success) {
+        // Store the credentials
+        const credentials: WorldIDCredentials = {
+          nullifier_hash: finalPayload.nullifier_hash,
+          merkle_root: finalPayload.merkle_root,
+          proof: finalPayload.proof,
+          verification_level: finalPayload.verification_level
+        };
+        localStorage.setItem('worldid_credentials', JSON.stringify(credentials));
+        
         setIsVerified(true);
         setVerifyError(null);
         onVerificationSuccess();

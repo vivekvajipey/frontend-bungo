@@ -46,6 +46,15 @@ interface PaymentInitResponse {
 }
 
 class ApiService {
+  private getAuthHeaders() {
+    const credentials = localStorage.getItem('worldid_credentials');
+    if (!credentials) return {};
+    
+    return {
+      'X-WorldID-Credentials': credentials
+    };
+  }
+
   isInWorldApp(): boolean {
     return MiniKit.isInstalled();
   }
@@ -67,7 +76,9 @@ class ApiService {
 
   async getCurrentSession(): Promise<Session | null> {
     try {
-      const response = await axios.get(`${API_BASE_URL}/sessions/current`);
+      const response = await axios.get(`${API_BASE_URL}/sessions/current`, {
+        headers: this.getAuthHeaders()
+      });
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 404) {
@@ -79,7 +90,8 @@ class ApiService {
 
   async createAttempt(userId: string): Promise<Attempt> {
     const response = await axios.post(`${API_BASE_URL}/attempts/create`, null, {
-      params: { user_id: userId }
+      params: { user_id: userId },
+      headers: this.getAuthHeaders()
     });
     return response.data;
   }
