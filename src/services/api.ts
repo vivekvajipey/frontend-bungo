@@ -132,12 +132,14 @@ class ApiService {
 
   async processPayment(): Promise<boolean> {
     if (!MiniKit.isInstalled()) {
+      console.log('Payment failed: World App not installed');
       throw new Error('World App not installed');
     }
 
     try {
-      // Get payment details from backend
+      console.log('Initiating payment...');
       const { reference, recipient, amount } = await this.initiatePayment();
+      console.log('Payment details:', { reference, recipient, amount });
 
       const paymentPayload: PayCommandInput = {
         reference,
@@ -149,11 +151,12 @@ class ApiService {
         description: "Bungo game attempt entry fee"
       };
 
-      // Request payment through World App
+      console.log('Requesting payment through World App...');
       const payRes = await MiniKit.commandsAsync.pay(paymentPayload);
+      console.log('Payment response:', payRes);
 
       if (payRes.finalPayload.status === "success") {
-        // Verify payment with backend
+        console.log('Payment successful, confirming with backend...');
         return await this.confirmPayment(reference, payRes.finalPayload);
       }
       return false;
