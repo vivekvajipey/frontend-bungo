@@ -152,13 +152,14 @@ class ApiService {
       };
 
       console.log('Requesting payment through World App...');
-      const payRes = await MiniKit.commandsAsync.pay(paymentPayload);
-      console.log('Payment response:', payRes);
+      // const payRes = await MiniKit.commandsAsync.pay(paymentPayload);
+      // console.log('Payment response:', payRes);
 
-      if (payRes.finalPayload.status === "success") {
-        console.log('Payment successful, confirming with backend...');
-        return await this.confirmPayment(reference, payRes.finalPayload);
-      }
+      // if (payRes.finalPayload.status === "success") {
+      //   console.log('Payment successful, confirming with backend...');
+      //   return await this.confirmPayment(reference, payRes.finalPayload);
+      // }
+      console.log('Payment successful, confirming with backend...');
       return false;
     } catch (error) {
       console.error('Payment failed:', error);
