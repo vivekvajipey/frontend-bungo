@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 
 const CYCLES_PER_LETTER = 1;
@@ -16,17 +16,20 @@ type SingleLineProps = {
   children: string;
   onComplete?: () => void;
   skipInitialScramble?: boolean;
+  postScrambleContent?: React.ReactNode;
 };
 
 const SingleLineScramble: React.FC<SingleLineProps> = ({ 
   children, 
   onComplete,
-  skipInitialScramble = false 
+  skipInitialScramble = false,
+  postScrambleContent
 }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const glitchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const TARGET_TEXT = children;
   const [text, setText] = useState(TARGET_TEXT);
+  const [isScrambleComplete, setIsScrambleComplete] = useState(false);
 
   const getNormalRandom = () => {
     let u = 0, v = 0;
@@ -41,7 +44,48 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
     return Math.max(MIN_INTERVAL, interval);
   };
 
-  const fullScramble = () => {
+  const stopScramble = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    setText(TARGET_TEXT);
+    setIsScrambleComplete(true);
+  }, [TARGET_TEXT]);
+
+  const glitchScramble = useCallback(() => {
+    const textArray = TARGET_TEXT.split("");
+    const numCharsToGlitch = Math.floor(Math.random() * MAX_GLITCH_CHARS) + 1;
+    const positions = new Set<number>();
+
+    while (positions.size < numCharsToGlitch) {
+      const pos = Math.floor(Math.random() * TARGET_TEXT.length);
+      positions.add(pos);
+    }
+
+    const glitched = textArray.map((char, index) => {
+      if (positions.has(index)) {
+        const randomCharIndex = Math.floor(Math.random() * CHARS.length);
+        return CHARS[randomCharIndex];
+      }
+      return char;
+    }).join("");
+    setText(glitched);
+
+    setTimeout(() => {
+      setText(TARGET_TEXT);
+    }, GLITCH_DURATION);
+  }, [TARGET_TEXT]);
+
+  const scheduleNextGlitch = useCallback(() => {
+    const nextInterval = getNextInterval();
+    glitchTimeoutRef.current = setTimeout(() => {
+      glitchScramble();
+      scheduleNextGlitch();
+    }, nextInterval);
+  }, [glitchScramble]);
+
+  const fullScramble = useCallback(() => {
     let pos = 0;
 
     intervalRef.current = setInterval(() => {
@@ -66,47 +110,7 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
         onComplete?.();
       }
     }, SHUFFLE_TIME);
-  };
-
-  const scheduleNextGlitch = () => {
-    const nextInterval = getNextInterval();
-    glitchTimeoutRef.current = setTimeout(() => {
-      glitchScramble();
-      scheduleNextGlitch();
-    }, nextInterval);
-  };
-
-  const glitchScramble = () => {
-    const textArray = TARGET_TEXT.split("");
-    const numCharsToGlitch = Math.floor(Math.random() * MAX_GLITCH_CHARS) + 1;
-    const positions = new Set<number>();
-
-    while (positions.size < numCharsToGlitch) {
-      const pos = Math.floor(Math.random() * TARGET_TEXT.length);
-      positions.add(pos);
-    }
-
-    const glitched = textArray.map((char, index) => {
-      if (positions.has(index)) {
-        const randomCharIndex = Math.floor(Math.random() * CHARS.length);
-        return CHARS[randomCharIndex];
-      }
-      return char;
-    }).join("");
-    setText(glitched);
-
-    setTimeout(() => {
-      setText(TARGET_TEXT);
-    }, GLITCH_DURATION);
-  };
-
-  const stopScramble = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    setText(TARGET_TEXT);
-  };
+  }, [TARGET_TEXT, onComplete, stopScramble]);
 
   useEffect(() => {
     if (!skipInitialScramble) {
@@ -123,22 +127,26 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
         clearTimeout(glitchTimeoutRef.current);
       }
     };
-  }, [skipInitialScramble]);
+  }, [skipInitialScramble, fullScramble, onComplete, scheduleNextGlitch, stopScramble]);
 
   return (
-    <motion.div className="relative overflow-hidden">
-      <div className="relative z-10 flex items-center gap-2">
-        <span>{text}</span>
-      </div>
-    </motion.div>
+    <div>
+      <motion.div className="relative overflow-hidden">
+        <div className="relative z-10 flex items-center justify-center">
+          <span>{text}</span>
+        </div>
+      </motion.div>
+      {isScrambleComplete && postScrambleContent}
+    </div>
   );
 };
 
 type MultiLineProps = {
   children: string[];
+  postScrambleContent?: React.ReactNode[];
 };
 
-const ScrambleText: React.FC<MultiLineProps> = ({ children }) => {
+const ScrambleText: React.FC<MultiLineProps> = ({ children, postScrambleContent }) => {
   const [currentLine, setCurrentLine] = useState(0);
 
   const handleLineComplete = () => {
@@ -160,6 +168,7 @@ const ScrambleText: React.FC<MultiLineProps> = ({ children }) => {
             <SingleLineScramble
               onComplete={index < children.length - 1 ? handleLineComplete : undefined}
               skipInitialScramble={index !== currentLine}
+              postScrambleContent={postScrambleContent?.[index]}
             >
               {line}
             </SingleLineScramble>

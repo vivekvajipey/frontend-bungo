@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import ScrambleText from '@/src/components/ScrambleText';
+import NameInput from '@/src/components/NameInput';
+import ProveHumanityButton from '@/src/components/ProveHumanityButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tomorrow } from 'next/font/google';
 
@@ -28,6 +30,7 @@ export default function Home() {
   const [wlddId, setWlddId] = useState('');
   const [error, setError] = useState('');
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [userName, setUserName] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,12 +75,28 @@ export default function Home() {
     }
   };
 
+  const handleNameSubmit = (name: string) => {
+    setUserName(name);
+    console.log("userName: ", userName);
+    handleFrameClick();
+  };
+
+  const getPostScrambleContent = (frameIndex: number) => {
+    if (frameIndex === 1) { // "what are you called?"
+      return <NameInput onSubmit={handleNameSubmit} />;
+    }
+    if (frameIndex === 7) { // "are you a real human?"
+      return <ProveHumanityButton onClick={handleFrameClick} />;
+    }
+    return null;
+  };
+
   const isLastFrame = currentFrame === FRAMES.length;
 
   return (
     <main 
       className={`min-h-screen flex flex-col items-center justify-center bg-black text-red-600 ${tomorrow.className}`}
-      onClick={!isLastFrame ? handleFrameClick : undefined}
+      onClick={!isLastFrame && currentFrame !== 1 && currentFrame !== 7 ? handleFrameClick : undefined}
     >
       <AnimatePresence mode="wait">
         {!isLastFrame ? (
@@ -89,17 +108,25 @@ export default function Home() {
               exit={{ opacity: 0 }}
               className="pointer-events-none"
             >
-              <div className="text-4xl whitespace-pre-line text-center">
-                <ScrambleText>{FRAMES[currentFrame]}</ScrambleText>
+              <div className="text-6xl whitespace-pre-line text-center">
+                <ScrambleText 
+                  postScrambleContent={FRAMES[currentFrame].map(() => 
+                    getPostScrambleContent(currentFrame)
+                  )}
+                >
+                  {FRAMES[currentFrame]}
+                </ScrambleText>
               </div>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                className="mt-8 text-base text-red-800 text-center"
-              >
-                click to continue
-              </motion.p>
+              {currentFrame !== 1 && currentFrame !== 7 && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                  className="mt-8 text-base text-red-800 text-center"
+                >
+                  click to continue
+                </motion.p>
+              )}
             </motion.div>
           </div>
         ) : (
