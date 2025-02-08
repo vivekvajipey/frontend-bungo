@@ -89,14 +89,14 @@ export default function Home() {
               exit={{ opacity: 0 }}
               className="max-w-2xl px-4 pointer-events-none"
             >
-              <div className="text-4xl whitespace-pre-line text-center">
+              <div className="text-6xl whitespace-pre-line text-center">
                 <ScrambleText>{FRAMES[currentFrame]}</ScrambleText>
               </div>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                className="mt-8 text-sm text-red-800 text-center"
+                className="mt-8 text-base text-red-800 text-center"
               >
                 click to continue
               </motion.p>
@@ -113,7 +113,7 @@ export default function Home() {
             <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="wlddId" className="block text-sm font-medium text-red-400">
+                  <label htmlFor="wlddId" className="block text-base font-medium text-red-400">
                     WLDD ID
                   </label>
                   <input
@@ -130,7 +130,7 @@ export default function Home() {
                 </div>
 
                 {error && (
-                  <p className="text-red-500 text-sm">{error}</p>
+                  <p className="text-red-500 text-base">{error}</p>
                 )}
 
                 <button
