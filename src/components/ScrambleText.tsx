@@ -8,16 +8,21 @@ const SHUFFLE_TIME = 50;
 const CHARS = "!@#$%^&*():{};|,.<>/?";
 const MEAN_INTERVAL = 2000; // Mean time between glitches
 const INTERVAL_STDDEV = 1000; // Standard deviation for the interval
-const MIN_INTERVAL = 500; // Minimum time between glitches
+const MIN_INTERVAL = 600; // Minimum time between glitches
 const GLITCH_DURATION = 100; // How long each glitch lasts
 const MAX_GLITCH_CHARS = 3; // Maximum number of characters to glitch at once
 
 type Props = {
   children: string;
   onComplete?: () => void;
+  skipInitialScramble?: boolean;
 };
 
-const ScrambleText: React.FC<Props> = ({ children, onComplete }) => {
+const ScrambleText: React.FC<Props> = ({ 
+  children, 
+  onComplete,
+  skipInitialScramble = false 
+}) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const glitchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const TARGET_TEXT = children;
@@ -113,8 +118,13 @@ const ScrambleText: React.FC<Props> = ({ children, onComplete }) => {
   };
 
   useEffect(() => {
-    // Initial full scramble animation
-    fullScramble();
+    if (!skipInitialScramble) {
+      // Initial full scramble animation
+      fullScramble();
+    } else {
+      // Skip straight to glitch effect
+      onComplete?.();
+    }
 
     // Start irregular glitch effect
     scheduleNextGlitch();
@@ -126,7 +136,7 @@ const ScrambleText: React.FC<Props> = ({ children, onComplete }) => {
         clearTimeout(glitchTimeoutRef.current);
       }
     };
-  }, []);
+  }, [skipInitialScramble]);
 
   return (
     <motion.div

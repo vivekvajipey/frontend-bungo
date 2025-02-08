@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ScrambleText from './ScrambleText';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type Props = {
   lines: string[];
@@ -9,45 +10,45 @@ type Props = {
 
 const SequentialScrambleText: React.FC<Props> = ({ lines }) => {
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [completedLines, setCompletedLines] = useState<string[]>([]);
+  const [visibleLines, setVisibleLines] = useState<number[]>([0]); // Start with first line visible
 
   // When a line finishes unscrambling
-  const handleLineComplete = (line: string) => {
-    setCompletedLines(prev => [...prev, line]);
-    if (currentLineIndex < lines.length - 1) {
-      setCurrentLineIndex(prev => prev + 1);
+  const handleLineComplete = (lineIndex: number) => {
+    if (lineIndex < lines.length - 1) {
+      // Make next line visible
+      setVisibleLines(prev => [...prev, lineIndex + 1]);
+      setCurrentLineIndex(lineIndex + 1);
     }
   };
 
   // Reset state when lines prop changes
   useEffect(() => {
     setCurrentLineIndex(0);
-    setCompletedLines([]);
+    setVisibleLines([0]); // Only first line visible initially
   }, [lines]);
 
   return (
-    <div className="space-y-2">
-      {lines.map((line, index) => {
-        if (index < currentLineIndex) {
-          // Show completed lines as plain text
-          return (
-            <div key={index} className="text-4xl">
-              {line}
-            </div>
-          );
-        } else if (index === currentLineIndex) {
-          // Show current line with scramble effect
-          return (
-            <div key={index} className="text-4xl">
-              <ScrambleText onComplete={() => handleLineComplete(line)}>
+    <div className="space-y-2 flex flex-col items-center">
+      <AnimatePresence mode="wait">
+        {lines.map((line, index) => (
+          visibleLines.includes(index) && (
+            <motion.div
+              key={`line-${index}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-4xl min-h-[4rem] flex items-center justify-center"
+            >
+              <ScrambleText
+                skipInitialScramble={index !== currentLineIndex}
+                onComplete={() => handleLineComplete(index)}
+              >
                 {line}
               </ScrambleText>
-            </div>
-          );
-        }
-        // Don't show future lines yet
-        return null;
-      })}
+            </motion.div>
+          )
+        ))}
+      </AnimatePresence>
     </div>
   );
 };
