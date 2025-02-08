@@ -38,14 +38,7 @@ export default function GamePage() {
     try {
       setError('');
       console.log('Starting attempt creation with entry fee:', session.entry_fee);
-      
-      // Show entry fee before payment
-      if (!confirm(`Start new attempt? Entry fee: ${session.entry_fee} WLD`)) {
-        console.log('User cancelled payment confirmation');
-        return;
-      }
 
-      console.log('Processing payment...');
       const paymentReference = await apiService.processPayment();
       console.log('Got payment reference:', paymentReference);
       
