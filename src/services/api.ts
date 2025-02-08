@@ -66,9 +66,10 @@ class ApiService {
   async createUser(wlddId: string): Promise<User> {
     console.log('Creating user with WLDD ID:', wlddId);
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/create`, {
-        wldd_id: wlddId
-      });
+      const response = await axios.post(`${API_BASE_URL}/users/create`, 
+        { wldd_id: wlddId },
+        { headers: this.getAuthHeaders() }
+      );
       console.log('User created:', response.data);
       return response.data;
     } catch (error) {
@@ -100,27 +101,32 @@ class ApiService {
   }
 
   async sendMessage(attemptId: string, content: string): Promise<Message> {
-    const response = await axios.post(`${API_BASE_URL}/attempts/${attemptId}/message`, {
-      content
-    });
+    const response = await axios.post(`${API_BASE_URL}/attempts/${attemptId}/message`, 
+      { content },
+      { headers: this.getAuthHeaders() }
+    );
     return response.data;
   }
 
   async forceScore(attemptId: string): Promise<{score: number}> {
-    const response = await axios.post(`${API_BASE_URL}/attempts/${attemptId}/force-score`);
+    const response = await axios.post(`${API_BASE_URL}/attempts/${attemptId}/force-score`, null, {
+      headers: this.getAuthHeaders()
+    });
     return response.data;
   }
 
   async initiatePayment(): Promise<PaymentInitResponse> {
-    const response = await axios.post(`${API_BASE_URL}/payments/initiate`);
+    const response = await axios.post(`${API_BASE_URL}/payments/initiate`, null, {
+      headers: this.getAuthHeaders()
+    });
     return response.data;
   }
 
   async confirmPayment(reference: string, payload: MiniAppPaymentSuccessPayload): Promise<boolean> {
-    const response = await axios.post(`${API_BASE_URL}/payments/confirm`, {
-      reference,
-      payload
-    });
+    const response = await axios.post(`${API_BASE_URL}/payments/confirm`, 
+      { reference, payload },
+      { headers: this.getAuthHeaders() }
+    );
     return response.data.success;
   }
 
