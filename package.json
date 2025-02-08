@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.10",
+    "@worldcoin/minikit-js": "^1.5.0",
     "axios": "^1.7.9",
     "next": "15.1.6",
     "react": "^19.0.0",

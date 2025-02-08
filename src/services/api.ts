@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MiniKit, Tokens, PayCommandInput, ISuccessResult, MiniAppPaymentSuccessPayload } from '@worldcoin/minikit-js';
+import { MiniKit, Tokens, PayCommandInput, MiniAppPaymentSuccessPayload } from '@worldcoin/minikit-js';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
