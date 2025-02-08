@@ -36,7 +36,7 @@ export default function GamePage() {
     if (!user || !session) return;
     
     try {
-      const newAttempt = await apiService.createAttempt(user.id, user.wldd_id);
+      const newAttempt = await apiService.createAttempt(user.id);
       setAttempt(newAttempt);
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;
