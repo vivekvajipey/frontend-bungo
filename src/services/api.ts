@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+console.log('API_BASE_URL', API_BASE_URL);
 
 export interface User {
   id: string;
@@ -30,6 +31,7 @@ export interface Attempt {
   is_winner: boolean;
   messages_remaining: number;
   score?: number;
+  total_pot?: number;
 }
 
 export interface Message {
