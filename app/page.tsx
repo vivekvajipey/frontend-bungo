@@ -82,11 +82,13 @@ export default function Home() {
   };
 
   const getPostScrambleContent = (frameIndex: number) => {
-    if (frameIndex === 1) { // "what are you called?"
+    if (frameIndex === 1) {
       return <NameInput onSubmit={handleNameSubmit} />;
     }
-    if (frameIndex === 7) { // "are you a real human?"
-      return <ProveHumanityButton onClick={handleFrameClick} />;
+    if (frameIndex === 7) {
+      const content = Array(FRAMES[frameIndex].length).fill(null);
+      content[content.length - 1] = <ProveHumanityButton onClick={handleFrameClick} />;
+      return content;
     }
     return null;
   };
@@ -110,9 +112,13 @@ export default function Home() {
             >
               <div className="text-6xl whitespace-pre-line text-center">
                 <ScrambleText 
-                  postScrambleContent={FRAMES[currentFrame].map(() => 
-                    getPostScrambleContent(currentFrame)
-                  )}
+                  postScrambleContent={
+                    currentFrame === 7 
+                      ? Array(FRAMES[currentFrame].length).fill(null).map((_, i, arr) => 
+                          i === arr.length - 1 ? <ProveHumanityButton onClick={handleFrameClick} /> : null
+                        )
+                      : FRAMES[currentFrame].map(() => getPostScrambleContent(currentFrame))
+                  }
                 >
                   {FRAMES[currentFrame]}
                 </ScrambleText>
