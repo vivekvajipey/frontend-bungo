@@ -36,21 +36,28 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         return;
       }
 
+      // Format verification data for backend
+      const verificationData = {
+        merkle_root: finalPayload.merkle_root,
+        nullifier_hash: finalPayload.nullifier_hash,
+        proof: finalPayload.proof,
+        verification_level: finalPayload.verification_level,
+        action: "enter",  // Must match the action used in verify command
+        signal: ""  // Optional, can be empty string if not used
+      };
+
       const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          payload: finalPayload,
-          action: "enter",
-        }),
+        body: JSON.stringify(verificationData),
       });
 
       const verifyResponseJson = await verifyResponse.json();
 
       if (verifyResponseJson.success) {
-        // Store the credentials
+        // Store credentials for future API calls
         const credentials: WorldIDCredentials = {
           nullifier_hash: finalPayload.nullifier_hash,
           merkle_root: finalPayload.merkle_root,
@@ -63,7 +70,7 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         setVerifyError(null);
         onVerificationSuccess();
       } else {
-        setVerifyError("Verification failed. Have you already played today?");
+        setVerifyError(verifyResponseJson.detail || "Verification failed. Have you already played today?");
       }
     } catch (error) {
       setVerifyError("Verification failed. Please try again.");
