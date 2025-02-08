@@ -15,11 +15,8 @@ const tomorrow = Tomorrow({
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  const [currentAttempt, setCurrentAttempt] = useState<Attempt | null>(null);
-  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [isScoring, setIsScoring] = useState(false);
 
   useEffect(() => {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -28,7 +25,6 @@ export default function GamePage() {
       return;
     }
 
-    // Check for active session
     apiService.getCurrentSession()
       .then(setSession)
       .catch(() => router.push('/'))
@@ -48,50 +44,14 @@ export default function GamePage() {
       const paymentReference = await apiService.processPayment();
       console.log('Got payment reference:', paymentReference);
       
-      console.log('Creating attempt with payment reference...');
       const newAttempt = await apiService.createAttempt(paymentReference);
       console.log('New attempt created:', newAttempt);
       
-      setCurrentAttempt(newAttempt);
+      router.push(`/game/conversation/${newAttempt.id}`);
     } catch (err: unknown) {
       console.error('Error creating attempt:', err);
       const error = err as AxiosError<{detail: string}>;
       setError(error.response?.data?.detail || 'Failed to create attempt');
-    }
-  };
-
-  const sendMessage = async () => {
-    if (!currentAttempt || !message.trim()) return;
-
-    try {
-      const response = await apiService.sendMessage(currentAttempt.id, message);
-      setCurrentAttempt(prev => prev ? {
-        ...prev,
-        messages: [...prev.messages, response],
-        messages_remaining: prev.messages_remaining - 1
-      } : null);
-      setMessage('');
-    } catch (err: unknown) {
-      const error = err as AxiosError<{detail: string}>;
-      setError(error.response?.data?.detail || 'Failed to send message');
-    }
-  };
-
-  const handleScore = async () => {
-    if (!currentAttempt) return;
-    
-    try {
-      setIsScoring(true);
-      const result = await apiService.forceScore(currentAttempt.id);
-      setCurrentAttempt(prev => prev ? {
-        ...prev,
-        score: result.score,
-      } : null);
-    } catch (err: unknown) {
-      const error = err as AxiosError<{detail: string}>;
-      setError(error.response?.data?.detail || 'Failed to score attempt');
-    } finally {
-      setIsScoring(false);
     }
   };
 
@@ -136,7 +96,7 @@ export default function GamePage() {
             </div>
           )}
 
-          {/* Always show Start Attempt button */}
+          {/* Start Attempt button */}
           <button
             onClick={createAttempt}
             className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
@@ -147,78 +107,6 @@ export default function GamePage() {
             Start New Attempt (${session.entry_fee} USDC)
           </button>
 
-          {/* Current attempt interface */}
-          {currentAttempt && (
-            <div className="border border-red-800 rounded-lg p-4 mt-4 bg-black/30">
-              <h2 className="font-semibold mb-2 text-red-400">Current Attempt</h2>
-              <div className="space-y-2 mb-4">
-                {currentAttempt.messages.map((msg, i) => (
-                  <div key={i} className="space-y-1">
-                    <p className="font-medium text-red-500">You: {msg.content}</p>
-                    <p className="text-red-400">AI: {msg.ai_response}</p>
-                  </div>
-                ))}
-              </div>
-              
-              {currentAttempt.messages_remaining > 0 ? (
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendMessage();
-                      }
-                    }}
-                    placeholder="Type your message..."
-                    className="flex-1 mt-1 block w-full rounded-md border-red-800 bg-black/30 text-red-500 
-                      placeholder-red-900 shadow-sm focus:border-red-500 focus:ring-red-500"
-                  />
-                  <button
-                    onClick={sendMessage}
-                    className="flex-shrink-0 flex justify-center items-center py-2 px-4 border border-red-800 
-                      rounded-md shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-                      transition-colors duration-200"
-                  >
-                    Send
-                  </button>
-                </div>
-              ) : currentAttempt.score === undefined ? (
-                <div className="mt-4">
-                  <p className="text-red-400 mb-2">No messages remaining. Ready for scoring!</p>
-                  <button
-                    onClick={handleScore}
-                    disabled={isScoring}
-                    className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
-                      shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-                      transition-colors duration-200 disabled:opacity-50"
-                  >
-                    {isScoring ? 'Scoring...' : 'Score Attempt'}
-                  </button>
-                </div>
-              ) : (
-                <div className="mt-4">
-                  <p className="text-lg font-semibold text-red-400">
-                    Final Score: {currentAttempt.score.toFixed(1)}/10
-                  </p>
-                  {currentAttempt.earnings && (
-                    <p className="text-red-400">
-                      Earnings: ${currentAttempt.earnings} USDC
-                    </p>
-                  )}
-                </div>
-              )}
-              
-              <p className="mt-2 text-sm text-red-400">
-                Messages remaining: {currentAttempt.messages_remaining}
-              </p>
-            </div>
-          )}
-
           {error && (
             <p className="text-red-500 mt-4">{error}</p>
           )}
@@ -226,4 +114,4 @@ export default function GamePage() {
       </div>
     </main>
   );
-} 
+}
