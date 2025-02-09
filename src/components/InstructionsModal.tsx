@@ -33,7 +33,7 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm"
           />
           
           {/* Modal */}
@@ -43,18 +43,27 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
             exit={{ opacity: 0, y: 10 }}
             className={`relative w-full max-w-md z-10 ${tomorrow.className}`}
           >
-            <div className="bg-[var(--background)] border border-red-900/50 rounded-lg shadow-2xl">
-              {/* Header */}
-              <div className="px-8 py-6">
-                <h2 className="text-xl font-bold text-red-500">
+            <div className="relative bg-[var(--background)] border border-red-900/50 rounded-lg shadow-2xl
+              overflow-hidden">
+              {/* Animated border effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-red-950/0 via-red-900/20 to-red-950/0
+                translate-x-[-200%] animate-[shimmer_2s_infinite] pointer-events-none" />
+              
+              {/* Header with diagonal accent */}
+              <div className="relative px-8 pt-8 pb-6">
+                <div className="absolute top-0 left-0 w-32 h-1 bg-gradient-to-r from-red-500/50 to-transparent" />
+                <div className="absolute top-0 left-0 w-1 h-16 bg-gradient-to-b from-red-500/50 to-transparent" />
+                
+                <h2 className="text-xl font-bold text-red-500 tracking-wide">
                   Bungo&apos;s Bungorium How-To
                 </h2>
                 
                 {/* Close button */}
                 <button
                   onClick={onClose}
-                  className="absolute top-6 right-6 p-1 text-red-500/70 hover:text-red-500
-                    transition-colors duration-200"
+                  className="absolute top-6 right-6 p-1.5 text-red-500/70 hover:text-red-500
+                    transition-all duration-200 hover:rotate-90 rounded-full
+                    hover:bg-red-500/10"
                 >
                   <X size={20} />
                 </button>
@@ -69,23 +78,42 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     "Per attempt, you get 5 messages to shock Bungo.",
                     "At the end of the session, the conversations with the best score share the pot."
                   ].map((text, i) => (
-                    <div key={i} className="flex gap-3">
-                      <span className="text-red-500 font-bold">{i + 1}.</span>
-                      <p>{text}</p>
+                    <div key={i} className="flex gap-3 group">
+                      <span className="flex items-center justify-center w-6 h-6 rounded-sm
+                        text-red-500 font-bold text-sm border border-red-900/30
+                        group-hover:border-red-500/50 group-hover:bg-red-500/5
+                        transition-colors duration-300">
+                        {i + 1}
+                      </span>
+                      <p className="text-sm leading-relaxed opacity-90 group-hover:opacity-100
+                        transition-opacity duration-300">
+                        {text}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="px-8 py-6">
+              <div className="relative px-8 py-6">
+                <div className="absolute bottom-0 right-0 w-32 h-1 bg-gradient-to-l from-red-500/50 to-transparent" />
+                <div className="absolute bottom-0 right-0 w-1 h-16 bg-gradient-to-t from-red-500/50 to-transparent" />
+                
                 <button
                   onClick={onClose}
-                  className="w-full py-2.5 px-4 bg-red-950 hover:bg-red-900
+                  className="group relative w-full py-2.5 px-4 bg-red-950/30 
                     border border-red-900/50 rounded text-sm font-medium text-red-100
-                    transition-colors duration-200"
+                    overflow-hidden transition-all duration-300
+                    hover:bg-red-950/50"
                 >
-                  Let&apos;s Begin
+                  {/* Button highlight effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/10 to-transparent
+                    translate-x-[-200%] group-hover:translate-x-[200%]
+                    transition-transform duration-1000" />
+                  
+                  <span className="relative z-10 tracking-wider">
+                    Let&apos;s Begin
+                  </span>
                 </button>
               </div>
             </div>

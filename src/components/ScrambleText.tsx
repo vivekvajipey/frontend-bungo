@@ -131,13 +131,13 @@ const SingleLineScramble: React.FC<SingleLineProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <motion.div className="relative overflow-hidden mb-4">
+      <motion.div className="relative overflow-hidden mb-3">
         <div className="relative z-10 flex items-center justify-center">
-          <span className="text-6xl text-center">{text}</span>
+          <span className="text-4xl md:text-5xl text-center font-light tracking-wide">{text}</span>
         </div>
       </motion.div>
       {isScrambleComplete && postScrambleContent && (
-        <div className="mt-4 w-full">
+        <div className="mt-3 w-full">
           {postScrambleContent}
         </div>
       )}
