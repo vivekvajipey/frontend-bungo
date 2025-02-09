@@ -6,11 +6,14 @@ import { apiService } from '@/src/services/api';
 import { Session, AttemptResponse } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
+import { InstructionsModal } from '@/src/components/InstructionsModal';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
   weight: ['400', '700'],
 });
+
+const INSTRUCTIONS_SHOWN_KEY = 'bungo_instructions_shown';
 
 export default function GamePage() {
   const router = useRouter();
@@ -18,12 +21,19 @@ export default function GamePage() {
   const [attempts, setAttempts] = useState<AttemptResponse[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   useEffect(() => {
     const credentials = localStorage.getItem('worldid_credentials');
     if (!credentials) {
       router.push('/');
       return;
+    }
+
+    // Check if instructions have been shown before
+    const instructionsShown = localStorage.getItem(INSTRUCTIONS_SHOWN_KEY);
+    if (!instructionsShown) {
+      setShowInstructions(true);
     }
 
     Promise.all([
@@ -37,6 +47,11 @@ export default function GamePage() {
       .catch(() => router.push('/'))
       .finally(() => setLoading(false));
   }, [router]);
+
+  const handleCloseInstructions = () => {
+    setShowInstructions(false);
+    localStorage.setItem(INSTRUCTIONS_SHOWN_KEY, 'true');
+  };
 
   const createAttempt = async () => {
     if (!session) {
@@ -80,6 +95,11 @@ export default function GamePage() {
 
   return (
     <main className={`min-h-screen bg-black text-red-600 py-8 ${tomorrow.className}`}>
+      <InstructionsModal 
+        isOpen={showInstructions} 
+        onClose={handleCloseInstructions} 
+      />
+      
       <div className="max-w-3xl mx-auto px-4">
         <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
           <h1 className="text-2xl font-bold mb-4 text-red-400">Active Session</h1>
@@ -114,7 +134,7 @@ export default function GamePage() {
               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
               transition-colors duration-200"
           >
-            Start New Attempt (${session.entry_fee} USDC)
+            Start New Attempt (${session?.entry_fee} USDC)
           </button>
 
           {error && (
