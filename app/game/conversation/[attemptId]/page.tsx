@@ -63,7 +63,8 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         return {
           ...prev,
           messages: [...prev.messages, response],
-          messages_remaining: prev.messages_remaining - 1
+          messages_remaining: prev.messages_remaining - 1,
+          score: undefined
         };
       });
       setMessage('');
