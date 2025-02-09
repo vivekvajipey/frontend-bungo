@@ -109,7 +109,7 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     transition-transform duration-1000" />
                   
                   <span className="relative z-10 tracking-wide font-bold">
-                    Let's Begin
+                    Let&apos;s Begin
                   </span>
                 </button>
               </div>
