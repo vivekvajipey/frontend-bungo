@@ -91,7 +91,7 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     hover:bg-red-900/50 focus:outline-none focus:ring-2 focus:ring-offset-2 
                     focus:ring-red-500 transition-colors duration-200"
                 >
-                  Let's Begin
+                  Let&apos;s Begin
                 </button>
               </div>
             </div>
