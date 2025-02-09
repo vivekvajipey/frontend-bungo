@@ -78,12 +78,9 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     "Per attempt, you get 5 messages to shock Bungo.",
                     "At the end of the session, the conversations with the best score share the pot."
                   ].map((text, i) => (
-                    <div key={i} className="flex gap-3 group">
-                      <span className="flex items-center justify-center w-6 h-6 rounded-sm
-                        text-red-500 font-bold text-sm border border-red-900/30
-                        group-hover:border-red-500/50 group-hover:bg-red-500/5
-                        transition-colors duration-300">
-                        {i + 1}
+                    <div key={i} className="flex gap-4 group items-start">
+                      <span className="text-red-500 font-bold text-lg">
+                        {i + 1}.
                       </span>
                       <p className="text-sm leading-relaxed opacity-90 group-hover:opacity-100
                         transition-opacity duration-300">
@@ -101,17 +98,17 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                 
                 <button
                   onClick={onClose}
-                  className="group relative w-full py-2.5 px-4 bg-red-950/30 
-                    border border-red-900/50 rounded text-sm font-medium text-red-100
+                  className="group relative w-full py-3 bg-red-950/50 
+                    border-2 border-red-800/70 rounded-md text-base font-bold text-red-100
                     overflow-hidden transition-all duration-300
-                    hover:bg-red-950/50"
+                    hover:bg-red-900/50 hover:border-red-700"
                 >
                   {/* Button highlight effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/10 to-transparent
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/20 to-transparent
                     translate-x-[-200%] group-hover:translate-x-[200%]
                     transition-transform duration-1000" />
                   
-                  <span className="relative z-10 tracking-wider">
+                  <span className="relative z-10 tracking-wider uppercase">
                     Let&apos;s Begin
                   </span>
                 </button>
