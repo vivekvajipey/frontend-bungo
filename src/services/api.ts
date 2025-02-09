@@ -193,9 +193,9 @@ class ApiService {
     return response.data;
   }
 
-  async getSessionAttempts(offset = 0, limit = 10): Promise<AttemptResponse[]> {
+  async getSessionAttempts(): Promise<AttemptResponse[]> {
     const response = await axios.get(
-      `${API_BASE_URL}/sessions/active/attempts?offset=${offset}&limit=${limit}`,
+      `${API_BASE_URL}/sessions/active/attempts`,
       { headers: this.getAuthHeaders() }
     );
     return response.data;

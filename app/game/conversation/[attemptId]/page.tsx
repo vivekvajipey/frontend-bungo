@@ -24,6 +24,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [isScoring, setIsScoring] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     const loadAttempt = async () => {
@@ -49,17 +50,13 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
   }, [router, params]);
 
   const sendMessage = async () => {
-    if (!attempt || !message.trim()) return;
+    if (!attempt || !message.trim() || isSending) return;
     console.log("searchParams", searchParams)
     try {
+      setIsSending(true);
       const response = await apiService.sendMessage(attempt.id, message);
-      console.log('Before state update - current attempt:', attempt);
       setAttempt(prev => {
         if (!prev) return null;
-        console.log('Updating attempt state:', {
-          messages_remaining: prev.messages_remaining - 1,
-          score: prev.score
-        });
         return {
           ...prev,
           messages: [...prev.messages, response],
@@ -71,6 +68,8 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;
       setError(error.response?.data?.detail || 'Failed to send message');
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -139,23 +138,26 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
+                      if (e.key === 'Enter' && !e.shiftKey && !isSending) {
                         e.preventDefault();
                         sendMessage();
                       }
                     }}
-                    placeholder="Type your message..."
+                    disabled={isSending}
+                    placeholder={isSending ? "Theorizing..." : "Type your message..."}
                     className="flex-1 mt-1 block w-full rounded-md border-red-800 bg-black/30 text-red-500 
-                      placeholder-red-900 shadow-sm focus:border-red-500 focus:ring-red-500"
+                      placeholder-red-900 shadow-sm focus:border-red-500 focus:ring-red-500
+                      disabled:opacity-50"
                   />
                   <button
                     onClick={sendMessage}
+                    disabled={isSending}
                     className="flex-shrink-0 flex justify-center items-center py-2 px-4 border border-red-800 
                       rounded-md shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-                      transition-colors duration-200"
+                      transition-colors duration-200 disabled:opacity-50"
                   >
-                    Send
+                    {isSending ? 'Theorizing...' : 'Send'}
                   </button>
                 </div>
               ) : attempt.score === undefined ? (
