@@ -21,7 +21,7 @@ export default function GamePage() {
   const [attempts, setAttempts] = useState<AttemptResponse[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [showInstructions, setShowInstructions] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(true);
 
   useEffect(() => {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -32,8 +32,8 @@ export default function GamePage() {
 
     // Check if instructions have been shown before
     const instructionsShown = localStorage.getItem(INSTRUCTIONS_SHOWN_KEY);
-    if (!instructionsShown) {
-      setShowInstructions(true);
+    if (instructionsShown) {
+      setShowInstructions(false);
     }
 
     Promise.all([
