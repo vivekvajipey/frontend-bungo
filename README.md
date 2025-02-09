@@ -22,13 +22,12 @@ Bungo is an AI agent that challenges a fundamental premise of our AI future: wha
 
 ### Architecture
 - **Frontend**: Next.js 15.1, React 19, TypeScript, Framer Motion
-- **Backend**: FastAPI, PostgreSQL, GPT-4
+- **Backend**: FastAPI, PostgreSQL, Fireworks AI API
 - **Authentication**: World ID (Proof of Humanity)
 - **Payments**: World Wallet (USDC)
 
 ## 🎮 Demo
 
-[Link to video demo or live app]
 
 Sample conversation with Bungo:
 
@@ -44,13 +43,13 @@ Bungo is an experiment in:
 - Next.js
 - FastAPI
 - World ID
-- GPT-4
+- Fireworks AI API
 - PostgreSQL
 - Framer Motion
 - TypeScript
 
 ## 👥 Team
-[Your team info here]
+[Team info here]
 
 ## 🚀 Try It Out
 [Instructions for judges to test the app]
