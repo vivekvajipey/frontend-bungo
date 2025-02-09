@@ -82,24 +82,34 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
 
   return (
     <div className="flex flex-col items-center gap-4 p-4">
-      <h2 className="text-xl font-bold">World ID Verification</h2>
+      <h2 className="text-xl font-bold text-red-500">World ID Verification</h2>
       {!isVerified ? (
         <>
-          <p className="text-center text-gray-600">
+          <p className="text-center text-red-400/70">
             Verify your humanity to play Bungo
           </p>
           <button
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+            className="group relative px-8 py-3 bg-red-950/30 border border-red-800/50 text-red-500 rounded
+              overflow-hidden transition-all duration-300 font-bold tracking-[0.2em] text-sm hover:bg-red-900/30"
             onClick={handleVerify}
           >
-            Verify with World ID
+            {/* Animated background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-red-950/0 via-red-900/20 to-red-950/0
+              translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+            
+            {/* Border glow effect */}
+            <div className="absolute inset-0 border border-red-800/50 rounded opacity-0
+              group-hover:opacity-100 transition-opacity duration-300
+              animate-pulse" />
+            
+            <span className="relative z-10">VERIFY WITH WORLD ID</span>
           </button>
           {verifyError && (
             <p className="text-red-500 text-sm">{verifyError}</p>
           )}
         </>
       ) : (
-        <div className="text-center text-green-500">
+        <div className="text-center text-red-500">
           ✓ Verified - You can now play
         </div>
       )}
