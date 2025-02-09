@@ -55,7 +55,7 @@ Bungo is an experiment in:
 [Shan Reddy](https://www.linkedin.com/in/shan-reddy/) builds internal tools at True Ventures, a seed-stage investor in San Francisco. He previously built data product at Flipside Crypto and was an early hire at Cometeer in Boston. He studied Symbolic Systems at Stanford with research focusing on human-AI interaction.
 
 ## 🚀 Try It Out
-![QR Code](qrcode.jpg =50x50)
+<img src="qrcode.jpg" width="200" height="200" />
 
 ---
 
