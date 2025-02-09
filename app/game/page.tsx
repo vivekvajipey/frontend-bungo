@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
-import { Session, Attempt } from '@/src/services/api';
+import { Session } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
 

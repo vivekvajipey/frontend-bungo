@@ -12,7 +12,12 @@ const tomorrow = Tomorrow({
   weight: ['400', '700'],
 });
 
-export default function ConversationPage({ params }: { params: { attemptId: string } }) {
+interface PageProps {
+  params: Promise<{ attemptId: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default function ConversationPage({ params, searchParams }: PageProps) {
   const router = useRouter();
   const [attempt, setAttempt] = useState<Attempt | null>(null);
   const [message, setMessage] = useState('');
@@ -21,21 +26,31 @@ export default function ConversationPage({ params }: { params: { attemptId: stri
   const [isScoring, setIsScoring] = useState(false);
 
   useEffect(() => {
-    const credentials = localStorage.getItem('worldid_credentials');
-    if (!credentials) {
-      router.push('/');
-      return;
-    }
+    const loadAttempt = async () => {
+      const credentials = localStorage.getItem('worldid_credentials');
+      if (!credentials) {
+        router.push('/');
+        return;
+      }
 
-    // Fetch attempt data
-    apiService.getAttempt(params.attemptId)
-      .then(setAttempt)
-      .catch(() => router.push('/game'))
-      .finally(() => setLoading(false));
-  }, [router, params.attemptId]);
+      try {
+        const { attemptId } = await params;
+        const attemptData = await apiService.getAttempt(attemptId);
+        setAttempt(attemptData);
+      } catch (error) {
+        console.error('Error fetching attempt:', error);
+        router.push('/game');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAttempt();
+  }, [router, params]);
 
   const sendMessage = async () => {
     if (!attempt || !message.trim()) return;
+    console.log("searchParams", searchParams)
 
     try {
       const response = await apiService.sendMessage(attempt.id, message);
@@ -61,9 +76,6 @@ export default function ConversationPage({ params }: { params: { attemptId: stri
         ...prev,
         score: result.score,
       } : null);
-      
-      // After scoring, redirect back to game page
-      setTimeout(() => router.push('/game'), 3000);
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;
       setError(error.response?.data?.detail || 'Failed to score attempt');
