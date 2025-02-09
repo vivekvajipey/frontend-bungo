@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
-import { Session } from '@/src/services/api';
+import { Session, AttemptResponse } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
 
@@ -15,6 +15,7 @@ const tomorrow = Tomorrow({
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
+  const [attempts, setAttempts] = useState<AttemptResponse[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -25,8 +26,14 @@ export default function GamePage() {
       return;
     }
 
-    apiService.getCurrentSession()
-      .then(setSession)
+    Promise.all([
+      apiService.getCurrentSession(),
+      apiService.getSessionAttempts()
+    ])
+      .then(([sessionData, attemptsData]) => {
+        setSession(sessionData);
+        setAttempts(attemptsData);
+      })
       .catch(() => router.push('/'))
       .finally(() => setLoading(false));
   }, [router]);
@@ -80,12 +87,16 @@ export default function GamePage() {
           <p className="mb-4">Total Pot: ${session?.total_pot} USDC</p>
           
           {/* Show all attempts */}
-          {session?.attempts.length > 0 && (
+          {attempts.length > 0 && (
             <div className="mb-6">
               <h2 className="text-xl font-bold mb-2 text-red-400">Your Attempts</h2>
               <div className="space-y-2">
-                {session.attempts.map(attempt => (
-                  <div key={attempt.id} className="p-3 border border-red-800 rounded bg-black/30">
+                {attempts.map(attempt => (
+                  <div 
+                    key={attempt.id} 
+                    onClick={() => router.push(`/game/conversation/${attempt.id}`)}
+                    className="p-3 border border-red-800 rounded bg-black/30 cursor-pointer hover:bg-black/50"
+                  >
                     <p className="text-red-500">Score: {attempt.score?.toFixed(1) ?? 'Not scored'}</p>
                     {attempt.earnings && (
                       <p className="text-red-400">Earnings: ${attempt.earnings} USDC</p>

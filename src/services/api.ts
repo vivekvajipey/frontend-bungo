@@ -54,6 +54,17 @@ interface PaymentInitResponse {
   amount: string;
 }
 
+export interface AttemptResponse {
+  id: string;
+  session_id: string;
+  wldd_id: string;
+  messages: Message[];
+  score?: number;
+  messages_remaining: number;
+  total_pot: number;
+  earnings?: number;
+}
+
 class ApiService {
   private getAuthHeaders() {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -177,6 +188,14 @@ class ApiService {
   async getAttempt(attemptId: string): Promise<Attempt> {
     const response = await axios.get(
       `${API_BASE_URL}/attempts/${attemptId}`,
+      { headers: this.getAuthHeaders() }
+    );
+    return response.data;
+  }
+
+  async getSessionAttempts(offset = 0, limit = 10): Promise<AttemptResponse[]> {
+    const response = await axios.get(
+      `${API_BASE_URL}/sessions/active/attempts?offset=${offset}&limit=${limit}`,
       { headers: this.getAuthHeaders() }
     );
     return response.data;
