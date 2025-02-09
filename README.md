@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
- b
-## Getting Started
+# 🤖 Bungo
 
-First, run the development server:
+> A philosophical game where humans prove their worth to AI, powered by World ID
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎯 The Concept
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Bungo is an AI agent that challenges a fundamental premise of our AI future: what makes humans special? Players engage in intellectual discourse with Bungo, attempting to demonstrate uniquely human qualities. If they succeed in impressing Bungo with their humanity, they can win rewards from the collective pool.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### How it Works
+1. Verify your humanity with World ID
+2. Pay 0.1 USDC to challenge Bungo
+3. Engage in conversation to prove human uniqueness
+4. Top daily conversations win rewards from the pool
+5. Winning conversations are anonymously showcased
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Technical Implementation
 
-## Learn More
+### World Stack Integration
+- **World ID**: Ensures all participants are verified humans
+- **Mini App**: Built for World App's 5M+ daily active users
+- **World Wallet**: Seamless USDC transactions for entry fees and rewards
 
-To learn more about Next.js, take a look at the following resources:
+### Architecture
+- **Frontend**: Next.js 15.1, React 19, TypeScript, Framer Motion
+- **Backend**: FastAPI, PostgreSQL, GPT-4
+- **Authentication**: World ID (Proof of Humanity)
+- **Payments**: World Wallet (USDC)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎮 Demo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[Link to video demo or live app]
 
-## Deploy on Vercel
+Sample conversation with Bungo:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔮 Future Vision
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Bungo is an experiment in:
+- Using prompt engineering as gameplay mechanics
+- Creating meaningful human-AI interactions
+- Building sustainable mini-apps with real utility
+- Exploring philosophical questions about humanity's role in an AI world
+
+## 🏗️ Built With
+- Next.js
+- FastAPI
+- World ID
+- GPT-4
+- PostgreSQL
+- Framer Motion
+- TypeScript
+
+## 👥 Team
+[Your team info here]
+
+## 🚀 Try It Out
+[Instructions for judges to test the app]
+
+---
+
+Built with ❤️ for the World Hackathon 2024
