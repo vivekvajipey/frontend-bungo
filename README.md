@@ -57,6 +57,8 @@ Bungo is an experiment in:
 ## 🚀 Try It Out
 <img src="qrcode.jpg" width="200" height="200" />
 
+[Link to the Bungo Mini App](https://worldcoin.org/mini-app?app_id=app_fa0cfa8c9f657dc60db5c48ef18b7790&draft_id=meta_bd88ae0707b3e2dc6d7bcb5ba28953df)
+
 ---
 
 Built with ❤️ for the [FWB x World Hackathon 2025](https://worldbuild.fwb.help/)
