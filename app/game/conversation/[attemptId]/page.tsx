@@ -71,12 +71,20 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
     
     try {
       setIsScoring(true);
+      console.log('Sending score request for attempt:', attempt.id);
       const result = await apiService.forceScore(attempt.id);
-      setAttempt(prev => prev ? {
-        ...prev,
-        score: result.score,
-      } : null);
+      console.log('Received score result:', result);
+      setAttempt(prev => {
+        console.log('Previous attempt state:', prev);
+        const newState = prev ? {
+          ...prev,
+          score: result.score,
+        } : null;
+        console.log('New attempt state:', newState);
+        return newState;
+      });
     } catch (err: unknown) {
+      console.error('Scoring error:', err);
       const error = err as AxiosError<{detail: string}>;
       setError(error.response?.data?.detail || 'Failed to score attempt');
     } finally {
