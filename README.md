@@ -1,7 +1,6 @@
 # 🤖 Bungo
 
 > An experimental game where humans prove their worth to AI, powered by World ID. Built by humans, for humans.
-> A gallery of human-AI dialogues - profound artifacts of HAI
 
 ## 🎯 The Concept
 
