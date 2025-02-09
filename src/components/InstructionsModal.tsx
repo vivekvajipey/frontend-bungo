@@ -45,24 +45,28 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-              w-full max-w-lg p-6 z-50 ${tomorrow.className}`}
+              w-full max-w-lg z-50 ${tomorrow.className}`}
           >
-            {/* Animated border effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-800/20 rounded-lg animate-pulse" />
-            
-            <div className="relative bg-black/95 border border-red-800/50 rounded-lg p-6
+            {/* Outer frame with diagonal cuts */}
+            <div className="absolute -inset-3 bg-gradient-to-r from-red-500/20 via-red-800/20 to-red-500/20 
+              [clip-path:polygon(0_10px,10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px))]">
+              <div className="absolute inset-0 animate-pulse opacity-50"></div>
+            </div>
+
+            {/* Main content container */}
+            <div className="relative bg-black/95 
+              [clip-path:polygon(0_10px,10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px))]
               shadow-[0_0_30px_rgba(220,38,38,0.15),inset_0_0_30px_rgba(220,38,38,0.15)] 
-              backdrop-blur-sm overflow-hidden
-              before:content-[''] before:absolute before:inset-0 
-              before:border before:border-red-500/20 before:rounded-lg before:animate-pulse">
+              overflow-hidden">
               
-              {/* Glitch line effect */}
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute inset-0 opacity-[0.03]">
-                  {[...Array(10)].map((_, i) => (
+              {/* Diagonal header section */}
+              <div className="relative h-24 bg-gradient-to-r from-red-900/40 to-red-800/40
+                [clip-path:polygon(0_0,100%_0,100%_70%,0_100%)]">
+                <div className="absolute inset-0 overflow-hidden opacity-20">
+                  {[...Array(5)].map((_, i) => (
                     <div
                       key={i}
-                      className="h-[2px] w-full bg-red-500 absolute"
+                      className="h-px w-full bg-red-500 absolute"
                       style={{
                         top: `${Math.random() * 100}%`,
                         left: 0,
@@ -72,25 +76,27 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     />
                   ))}
                 </div>
+                
+                <h2 className="relative text-3xl font-bold text-red-500 pt-6 px-8
+                  tracking-wider animate-pulse shadow-[0_0_20px_rgba(220,38,38,0.3)]
+                  after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px
+                  after:bg-gradient-to-r after:from-red-500/0 after:via-red-500/50 after:to-red-500/0">
+                  Bungo&apos;s Bungorium How-To
+                </h2>
               </div>
-              
-              {/* Close button with glow */}
+
+              {/* Close button with enhanced glow */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 text-red-500 hover:text-red-400
-                  transition-colors duration-200 hover:shadow-[0_0_10px_rgba(220,38,38,0.5)]
-                  rounded-full p-1"
+                className="absolute top-6 right-6 text-red-500 hover:text-red-400
+                  transition-all duration-200 hover:shadow-[0_0_15px_rgba(220,38,38,0.5)]
+                  rounded-full p-1 z-10 hover:rotate-90 hover:scale-110"
               >
                 <X size={24} className="hover:animate-pulse" />
               </button>
 
-              {/* Content */}
-              <div className="space-y-6 relative">
-                <h2 className="text-3xl font-bold text-red-500 mb-4 tracking-wider
-                  animate-pulse shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-                  Bungo&apos;s Bungorium How-To
-                </h2>
-                
+              {/* Content section */}
+              <div className="px-8 py-6 space-y-6">
                 <div className="space-y-4 text-red-400/90">
                   {[
                     "Every hour, a new Bungo competition session begins.",
@@ -98,30 +104,41 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     "Per attempt, you get 5 messages to shock Bungo.",
                     "At the end of the session, the conversations with the best score share the pot."
                   ].map((text, i) => (
-                    <div key={i} className="flex items-start gap-3 group hover:bg-red-500/5 p-2 rounded-lg transition-colors duration-200">
-                      <span className="text-red-500 font-bold text-xl group-hover:animate-pulse">{i + 1}.</span>
-                      <p className="group-hover:text-red-300 transition-colors duration-200">{text}</p>
+                    <div key={i} 
+                      className="flex items-start gap-4 group p-3 rounded 
+                        hover:bg-gradient-to-r hover:from-red-500/5 hover:to-transparent
+                        transition-all duration-300 transform hover:translate-x-2"
+                    >
+                      <span className="flex items-center justify-center w-8 h-8 text-red-500 font-bold text-xl
+                        border border-red-800/30 rounded group-hover:bg-red-500/10 group-hover:border-red-500/50
+                        transition-all duration-300 group-hover:shadow-[0_0_10px_rgba(220,38,38,0.2)]">
+                        {i + 1}
+                      </span>
+                      <p className="pt-1 group-hover:text-red-300 transition-colors duration-300">{text}</p>
                     </div>
                   ))}
                 </div>
 
+                {/* Enhanced button */}
                 <button
                   onClick={onClose}
-                  className="mt-6 w-full flex justify-center py-3 px-4 
+                  className="relative w-full flex justify-center py-3 px-4 mt-8
                     bg-gradient-to-r from-red-900/30 to-red-800/30
                     hover:from-red-800/40 hover:to-red-700/40
-                    border border-red-800/50 rounded-md shadow-sm text-base font-medium 
-                    text-red-100 hover:text-red-50
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-                    transition-all duration-200 relative overflow-hidden
-                    before:absolute before:inset-0 before:bg-gradient-to-r 
-                    before:from-transparent before:via-red-500/10 before:to-transparent
-                    before:translate-x-[-200%] hover:before:translate-x-[200%]
-                    before:transition-transform before:duration-[1.5s]
+                    border border-red-800/50 
+                    [clip-path:polygon(0_5px,5px_0,calc(100%-5px)_0,100%_5px,100%_calc(100%-5px),calc(100%-5px)_100%,5px_100%,0_calc(100%-5px))]
+                    text-base font-medium text-red-100 hover:text-red-50
+                    transition-all duration-300 
                     hover:shadow-[0_0_20px_rgba(220,38,38,0.3)]
-                    group"
+                    group overflow-hidden"
                 >
-                  <span className="relative z-10 group-hover:scale-105 transition-transform duration-200">
+                  {/* Button highlight effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/10 to-transparent
+                    translate-x-[-200%] group-hover:translate-x-[200%]
+                    transition-transform duration-[1.5s]" />
+                  
+                  <span className="relative z-10 group-hover:scale-105 transition-transform duration-300
+                    tracking-wider">
                     Let&apos;s Begin
                   </span>
                 </button>
