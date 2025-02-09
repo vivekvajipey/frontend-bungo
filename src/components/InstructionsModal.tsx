@@ -14,6 +14,11 @@ interface InstructionsModalProps {
 }
 
 export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
+  // Debug log for props
+  useEffect(() => {
+    console.log('InstructionsModal mounted, isOpen:', isOpen);
+  }, [isOpen]);
+
   // Close on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -23,29 +28,19 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
     return () => window.removeEventListener('keydown', handleEscape);
   }, [onClose]);
 
+  // If not open, don't render anything
+  if (!isOpen) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop with animated grain effect */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/90 backdrop-blur-[2px] z-50 
-              before:content-[''] before:fixed before:inset-0 
-              before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+')] 
-              before:opacity-50 before:mix-blend-overlay"
-          />
-          
-          {/* Modal */}
+    <div className="fixed inset-0 z-[100] overflow-y-auto">
+      <div className="fixed inset-0 backdrop-blur-sm bg-black/90 z-[100]" />
+      <div className="relative min-h-screen flex items-center justify-center p-4">
+        <AnimatePresence mode="wait">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-              w-full max-w-lg z-50 ${tomorrow.className}`}
+            className={`relative w-full max-w-lg z-[101] ${tomorrow.className}`}
           >
             {/* Outer frame with diagonal cuts */}
             <div className="absolute -inset-3 bg-gradient-to-r from-red-500/20 via-red-800/20 to-red-500/20 
@@ -145,9 +140,9 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
               </div>
             </div>
           </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
