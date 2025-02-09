@@ -6,7 +6,6 @@ import { apiService } from '@/src/services/api';
 import { Session } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
-import { Trophy, CreditCard, History, Terminal } from 'lucide-react';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -73,75 +72,46 @@ export default function GamePage() {
   }
 
   return (
-    <>
-      <style>{scrollbarStyles}</style>
-      <div className="min-h-screen bg-black text-red-500 p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="w-full bg-black border border-red-800 rounded-lg overflow-hidden">
-            {/* Header - same as before */}
-            <div className="border-b border-red-800 bg-black/50 p-4 flex items-center justify-between">
-              {/* ... existing header code ... */}
-            </div>
-
-            {/* Main Content */}
-            <div className="p-6 space-y-6">
-              {/* Game Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-black/30 border border-red-800 rounded-lg p-4">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Trophy className="text-red-500" size={20} />
-                    <span className="font-mono text-red-400">CURRENT_POT</span>
+    <main className={`min-h-screen bg-black text-red-600 py-8 ${tomorrow.className}`}>
+      <div className="max-w-3xl mx-auto px-4">
+        <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
+          <h1 className="text-2xl font-bold mb-4 text-red-400">Active Session</h1>
+          <p className="mb-2">Entry Fee: ${session?.entry_fee} USDC</p>
+          <p className="mb-4">Total Pot: ${session?.total_pot} USDC</p>
+          
+          {/* Show all attempts */}
+          {session?.attempts.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-xl font-bold mb-2 text-red-400">Your Attempts</h2>
+              <div className="space-y-2">
+                {session.attempts.map(attempt => (
+                  <div key={attempt.id} className="p-3 border border-red-800 rounded bg-black/30">
+                    <p className="text-red-500">Score: {attempt.score?.toFixed(1) ?? 'Not scored'}</p>
+                    {attempt.earnings && (
+                      <p className="text-red-400">Earnings: ${attempt.earnings} USDC</p>
+                    )}
                   </div>
-                  <div className="text-2xl font-mono text-green-500">
-                    ${session.total_pot} USDC
-                  </div>
-                </div>
-
-                <div className="bg-black/30 border border-red-800 rounded-lg p-4">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <CreditCard className="text-red-500" size={20} />
-                    <span className="font-mono text-red-400">ENTRY_FEE</span>
-                  </div>
-                  <div className="text-2xl font-mono text-green-500">
-                    ${session.entry_fee} USDC
-                  </div>
-                </div>
-
-                <div className="bg-black/30 border border-red-800 rounded-lg p-4">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <History className="text-red-500" size={20} />
-                    <span className="font-mono text-red-400">TIME_REMAINING</span>
-                  </div>
-                  <div className="text-2xl font-mono text-red-500">
-                    {/* You can add time calculation here if needed */}
-                    ACTIVE
-                  </div>
-                </div>
+                ))}
               </div>
-
-              {/* Create Attempt Button */}
-              <div className="flex justify-center">
-                <button
-                  onClick={createAttempt}
-                  className="bg-red-950/50 hover:bg-red-900/50 text-red-400 px-8 py-4 rounded-lg 
-                    border border-red-800 transition-colors duration-200 flex items-center space-x-3
-                    font-mono focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-black"
-                >
-                  <Terminal size={20} />
-                  <span>INITIALIZE_NEW_ATTEMPT</span>
-                </button>
-              </div>
-
-              {/* Error Display */}
-              {error && (
-                <div className="mt-4 p-4 border border-red-800 rounded-lg bg-black/30">
-                  <p className="text-red-500 font-mono">{error}</p>
-                </div>
-              )}
             </div>
-          </div>
+          )}
+
+          {/* Start Attempt button */}
+          <button
+            onClick={createAttempt}
+            className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
+              shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+              transition-colors duration-200"
+          >
+            Start New Attempt (${session.entry_fee} USDC)
+          </button>
+
+          {error && (
+            <p className="text-red-500 mt-4">{error}</p>
+          )}
         </div>
       </div>
-    </>
+    </main>
   );
 }
