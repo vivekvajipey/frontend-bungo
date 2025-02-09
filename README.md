@@ -48,11 +48,11 @@ Bungo is an experiment in:
 - TypeScript
 
 ## 👥 Team
-Vivek Vajipey is a masters student in computer science at the Stanford Artificial Intelligence Laboratory. His research focuses on reasoning in large language models and he is a co-creator of the CriticAL language model verification framework alongside Professor Noah Goodman.
+[Vivek Vajipey](https://www.linkedin.com/in/vivek-vajipey/) is a masters student in computer science at the Stanford Artificial Intelligence Laboratory. His research focuses on reasoning in large language models and he is a co-creator of the CriticAL language model verification framework alongside Professor Noah Goodman.
 
-Jaiden Reddy is a senior studying computer science at Stanford focusing on cryptography and cybersecurity. He was previously an AI Research Fellow at identity verification startup Prove and built high-frequency on-chain algorithmic trading infrastructure at Convex Labs.
+[Jaiden Reddy](https://www.linkedin.com/in/jaiden-reddy-883095203/) is a senior studying computer science at Stanford focusing on cryptography and cybersecurity. He was previously an AI Research Fellow at identity verification startup Prove and built high-frequency on-chain algorithmic trading infrastructure at Convex Labs.
 
-Shan Reddy builds internal tools at True Ventures, a seed-stage investor in San Francisco. He previously built data product at Flipside Crypto and was an early hire at Cometeer in Boston. He studied Symbolic Systems at Stanford with research focusing on human-AI interaction.
+[Shan Reddy](https://www.linkedin.com/in/shan-reddy/) builds internal tools at True Ventures, a seed-stage investor in San Francisco. He previously built data product at Flipside Crypto and was an early hire at Cometeer in Boston. He studied Symbolic Systems at Stanford with research focusing on human-AI interaction.
 
 ## 🚀 Try It Out
 [Instructions for judges to test the app]
