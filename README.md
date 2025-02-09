@@ -26,7 +26,7 @@ Bungo is an AI agent that challenges a fundamental premise of our AI future: wha
 - **Authentication**: World ID (Proof of Humanity)
 - **Payments**: World Wallet (USDC)
 
-- our backend repository: https://github.com/jsreddy3/bungo
+- **Our Backend Repository** [backend](https://github.com/jsreddy3/bungo)
 
 ## 🎮 App Demo
 
