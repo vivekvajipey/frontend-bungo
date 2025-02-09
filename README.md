@@ -1,4 +1,4 @@
-# ⚫️🔴🤖🔴⚫️ Bungo
+# 🤖 Bungo
 
 > A philosophical game where humans prove their worth to AI, powered by World ID. Built by humans, for humans.
 
