@@ -55,7 +55,8 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
 
       const verifyResponseJson = await verifyResponse.json();
 
-      if (verifyResponseJson.success) {
+      // Handle both success and max_verifications_reached as success cases
+      if (verifyResponseJson.success || verifyResponseJson.code === 'max_verifications_reached') {
         // Store credentials for future API calls
         const credentials: WorldIDCredentials = {
           nullifier_hash: finalPayload.nullifier_hash,
@@ -69,11 +70,11 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         setVerifyError(null);
         onVerificationSuccess();
       } else {
-        setVerifyError(verifyResponseJson.detail || "Verification failed. Have you already played today?");
+        setVerifyError(verifyResponseJson.detail || "Verification failed");
       }
     } catch (error) {
+      console.error('Verification error:', error);
       setVerifyError("Verification failed. Please try again.");
-      console.error(error);
     }
   }, [onVerificationSuccess]);
 
