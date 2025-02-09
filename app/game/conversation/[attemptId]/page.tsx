@@ -71,20 +71,12 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
     
     try {
       setIsScoring(true);
-      console.log('Sending score request for attempt:', attempt.id);
       const result = await apiService.forceScore(attempt.id);
-      console.log('Received score result:', result);
-      setAttempt(prev => {
-        console.log('Previous attempt state:', prev);
-        const newState = prev ? {
-          ...prev,
-          score: result.score,
-        } : null;
-        console.log('New attempt state:', newState);
-        return newState;
-      });
+      setAttempt(prev => prev ? {
+        ...prev,
+        score: result.score,
+      } : null);
     } catch (err: unknown) {
-      console.error('Scoring error:', err);
       const error = err as AxiosError<{detail: string}>;
       setError(error.response?.data?.detail || 'Failed to score attempt');
     } finally {
@@ -181,25 +173,25 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                 Messages remaining: {attempt.messages_remaining}
               </p>
             </div>
-            
-            {attempt.score !== undefined && (
-              <div className="mt-6">
-                <button
-                  onClick={() => router.push('/game')}
-                  className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
-                    shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-                    transition-colors duration-200"
-                >
-                  Back to Game
-                </button>
-              </div>
-            )}
-
-            {error && (
-              <p className="text-red-500 mt-4">{error}</p>
-            )}
           </div>
+
+          {attempt.score !== undefined && (
+            <div className="mt-6">
+              <button
+                onClick={() => router.push('/game')}
+                className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
+                  shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+                  transition-colors duration-200"
+              >
+                Back to Game
+              </button>
+            </div>
+          )}
+
+          {error && (
+            <p className="text-red-500 mt-4">{error}</p>
+          )}
         </div>
       </div>
     </main>
