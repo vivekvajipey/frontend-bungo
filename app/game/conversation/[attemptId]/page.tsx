@@ -50,7 +50,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
 
   const sendMessage = async () => {
     if (!attempt || !message.trim()) return;
-    
+    console.log("searchParams", searchParams)
     try {
       const response = await apiService.sendMessage(attempt.id, message);
       console.log('Before state update - current attempt:', attempt);
