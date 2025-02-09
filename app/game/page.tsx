@@ -4,35 +4,18 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
 import { Session } from '@/src/services/api';
-// import { AxiosError } from 'axios';
-import { Terminal, Loader, Power } from 'lucide-react';
-// import { Tomorrow } from 'next/font/google';
+import { AxiosError } from 'axios';
+import { Tomorrow } from 'next/font/google';
 
-// const tomorrow = Tomorrow({ 
-//   subsets: ['latin'],
-//   weight: ['400', '700'],
-// });
-
-const scrollbarStyles = `
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #000000;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #7f1d1d;
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #991b1b;
-  }
-`;
+const tomorrow = Tomorrow({ 
+  subsets: ['latin'],
+  weight: ['400', '700'],
+});
 
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  // const [error, setError] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -48,75 +31,87 @@ export default function GamePage() {
       .finally(() => setLoading(false));
   }, [router]);
 
-  // const createAttempt = async () => {
-  //   if (!session) {
-  //     console.log('No session available');
-  //     return;
-  //   }
+  const createAttempt = async () => {
+    if (!session) {
+      console.log('No session available');
+      return;
+    }
     
-  //   try {
-  //     setError('');
-  //     console.log('Starting attempt creation with entry fee:', session.entry_fee);
+    try {
+      setError('');
+      console.log('Starting attempt creation with entry fee:', session.entry_fee);
 
-  //     const paymentReference = await apiService.processPayment();
-  //     console.log('Got payment reference:', paymentReference);
+      const paymentReference = await apiService.processPayment();
+      console.log('Got payment reference:', paymentReference);
       
-  //     const newAttempt = await apiService.createAttempt(paymentReference);
-  //     console.log('New attempt created:', newAttempt);
+      const newAttempt = await apiService.createAttempt(paymentReference);
+      console.log('New attempt created:', newAttempt);
       
-  //     router.push(`/game/conversation/${newAttempt.id}`);
-  //   } catch (err: unknown) {
-  //     console.error('Error creating attempt:', err);
-  //     const error = err as AxiosError<{detail: string}>;
-  //     setError(error.response?.data?.detail || 'Failed to create attempt');
-  //   }
-  // };
+      router.push(`/game/conversation/${newAttempt.id}`);
+    } catch (err: unknown) {
+      console.error('Error creating attempt:', err);
+      const error = err as AxiosError<{detail: string}>;
+      setError(error.response?.data?.detail || 'Failed to create attempt');
+    }
+  };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-red-500 flex items-center justify-center">
-        <Loader className="animate-spin" size={24} />
-        <span className="ml-2">INITIALIZING SESSION...</span>
+      <div className={`flex items-center justify-center min-h-screen bg-black text-red-600 ${tomorrow.className}`}>
+        Loading...
       </div>
     );
   }
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-black text-red-500 flex items-center justify-center">
-        <Terminal size={24} />
-        <span className="ml-2">NO ACTIVE SESSION. REBOOTING...</span>
+      <div className={`flex items-center justify-center min-h-screen bg-black text-red-600 ${tomorrow.className}`}>
+        No active session available. Please try again later.
       </div>
     );
   }
 
   return (
-    <>
-      <style>{scrollbarStyles}</style>
-      <div className="min-h-screen bg-black text-red-500 flex items-center justify-center p-4">
-        <div className="w-full max-w-4xl bg-black border border-red-800 rounded-lg overflow-hidden relative">
-          {/* Header */}
-          <div className="border-b border-red-800 bg-black/50 p-4 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Terminal className="text-red-500" size={24} />
-              <span className="text-xl font-mono text-red-400">GAME_TERMINAL_v1.0</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-sm font-mono">
-                <span className="text-red-400">POT: </span>
-                <span className="text-green-500">${session.total_pot} USDC</span>
+    <main className={`min-h-screen bg-black text-red-600 py-8 ${tomorrow.className}`}>
+      <div className="max-w-3xl mx-auto px-4">
+        <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
+          <h1 className="text-2xl font-bold mb-4 text-red-400">Active Session</h1>
+          <p className="mb-2">Entry Fee: ${session?.entry_fee} USDC</p>
+          <p className="mb-4">Total Pot: ${session?.total_pot} USDC</p>
+          
+          {/* Show all attempts */}
+          {session?.attempts.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-xl font-bold mb-2 text-red-400">Your Attempts</h2>
+              <div className="space-y-2">
+                {session.attempts.map(attempt => (
+                  <div key={attempt.id} className="p-3 border border-red-800 rounded bg-black/30">
+                    <p className="text-red-500">Score: {attempt.score?.toFixed(1) ?? 'Not scored'}</p>
+                    {attempt.earnings && (
+                      <p className="text-red-400">Earnings: ${attempt.earnings} USDC</p>
+                    )}
+                  </div>
+                ))}
               </div>
-              <Power 
-                onClick={() => router.push('/')} 
-                className="text-red-500 hover:text-red-400 cursor-pointer" 
-                size={20} 
-              />
             </div>
-          </div>
+          )}
 
-          {/* Content coming in next step... */}
+          {/* Start Attempt button */}
+          <button
+            onClick={createAttempt}
+            className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
+              shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+              transition-colors duration-200"
+          >
+            Start New Attempt (${session.entry_fee} USDC)
+          </button>
+
+          {error && (
+            <p className="text-red-500 mt-4">{error}</p>
+          )}
         </div>
       </div>
-    </>
+    </main>
   );
 }
