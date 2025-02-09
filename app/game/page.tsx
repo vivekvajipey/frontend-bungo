@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
 import { Session } from '@/src/services/api';
-import { AxiosError } from 'axios';
-import { Terminal, Loader, Power, CreditCard, Trophy, History } from 'lucide-react';
-import { Tomorrow } from 'next/font/google';
+// import { AxiosError } from 'axios';
+import { Terminal, Loader, Power } from 'lucide-react';
+// import { Tomorrow } from 'next/font/google';
 
-const tomorrow = Tomorrow({ 
-  subsets: ['latin'],
-  weight: ['400', '700'],
-});
+// const tomorrow = Tomorrow({ 
+//   subsets: ['latin'],
+//   weight: ['400', '700'],
+// });
 
 const scrollbarStyles = `
   ::-webkit-scrollbar {
@@ -32,7 +32,7 @@ const scrollbarStyles = `
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -48,29 +48,29 @@ export default function GamePage() {
       .finally(() => setLoading(false));
   }, [router]);
 
-  const createAttempt = async () => {
-    if (!session) {
-      console.log('No session available');
-      return;
-    }
+  // const createAttempt = async () => {
+  //   if (!session) {
+  //     console.log('No session available');
+  //     return;
+  //   }
     
-    try {
-      setError('');
-      console.log('Starting attempt creation with entry fee:', session.entry_fee);
+  //   try {
+  //     setError('');
+  //     console.log('Starting attempt creation with entry fee:', session.entry_fee);
 
-      const paymentReference = await apiService.processPayment();
-      console.log('Got payment reference:', paymentReference);
+  //     const paymentReference = await apiService.processPayment();
+  //     console.log('Got payment reference:', paymentReference);
       
-      const newAttempt = await apiService.createAttempt(paymentReference);
-      console.log('New attempt created:', newAttempt);
+  //     const newAttempt = await apiService.createAttempt(paymentReference);
+  //     console.log('New attempt created:', newAttempt);
       
-      router.push(`/game/conversation/${newAttempt.id}`);
-    } catch (err: unknown) {
-      console.error('Error creating attempt:', err);
-      const error = err as AxiosError<{detail: string}>;
-      setError(error.response?.data?.detail || 'Failed to create attempt');
-    }
-  };
+  //     router.push(`/game/conversation/${newAttempt.id}`);
+  //   } catch (err: unknown) {
+  //     console.error('Error creating attempt:', err);
+  //     const error = err as AxiosError<{detail: string}>;
+  //     setError(error.response?.data?.detail || 'Failed to create attempt');
+  //   }
+  // };
 
   if (loading) {
     return (
