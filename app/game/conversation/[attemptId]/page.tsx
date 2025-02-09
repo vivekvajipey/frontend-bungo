@@ -173,11 +173,25 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                 Messages remaining: {attempt.messages_remaining}
               </p>
             </div>
-          </div>
+            
+            {attempt.score !== undefined && (
+              <div className="mt-6">
+                <button
+                  onClick={() => router.push('/game')}
+                  className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
+                    shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+                    transition-colors duration-200"
+                >
+                  Back to Game
+                </button>
+              </div>
+            )}
 
-          {error && (
-            <p className="text-red-500 mt-4">{error}</p>
-          )}
+            {error && (
+              <p className="text-red-500 mt-4">{error}</p>
+            )}
+          </div>
         </div>
       </div>
     </main>
