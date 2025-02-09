@@ -100,11 +100,13 @@ class ApiService {
   }
 
   async forceScore(attemptId: string): Promise<{score: number}> {
+    console.log('Calling force-score API for attempt:', attemptId);
     const response = await axios.post(
       `${API_BASE_URL}/attempts/${attemptId}/force-score`,
       null,
       { headers: this.getAuthHeaders() }
     );
+    console.log('Force-score API response:', response.data);
     return response.data;
   }
 
