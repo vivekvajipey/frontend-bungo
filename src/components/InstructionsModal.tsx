@@ -33,63 +33,59 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/90 z-50"
           />
           
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
             className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-              w-full max-w-lg p-6 z-50 ${tomorrow.className}`}
+              w-[min(calc(100%-2rem),480px)] z-50 ${tomorrow.className}`}
           >
-            <div className="relative bg-black/90 border border-red-800 rounded-lg p-6
-              shadow-[0_0_15px_rgba(220,38,38,0.2)] backdrop-blur-sm">
-              
-              {/* Close button */}
-              <button
-                onClick={onClose}
-                className="absolute top-4 right-4 text-red-500 hover:text-red-400
-                  transition-colors duration-200"
-              >
-                <X size={24} />
-              </button>
-
-              {/* Content */}
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-red-500 mb-4">
+            <div className="relative bg-zinc-950 border border-red-900/50 rounded-lg 
+              shadow-lg overflow-hidden">
+              {/* Header */}
+              <div className="px-6 pt-6 pb-4 border-b border-red-900/20">
+                <h2 className="text-2xl font-bold text-red-500">
                   Bungo&apos;s Bungorium How-To
                 </h2>
                 
-                <div className="space-y-4 text-red-400">
-                  <div className="flex items-start gap-3">
-                    <span className="text-red-500 font-bold">1.</span>
-                    <p>Every hour, a new Bungo competition session begins.</p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <span className="text-red-500 font-bold">2.</span>
-                    <p>For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.</p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <span className="text-red-500 font-bold">3.</span>
-                    <p>Per attempt, you get 5 messages to shock Bungo.</p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <span className="text-red-500 font-bold">4.</span>
-                    <p>At the end of the session, the conversations with the best score share the pot.</p>
-                  </div>
-                </div>
-
+                {/* Close button */}
                 <button
                   onClick={onClose}
-                  className="mt-6 w-full flex justify-center py-2 px-4 border border-red-800 
-                    rounded-md shadow-sm text-sm font-medium text-red-100 bg-red-900/30 
-                    hover:bg-red-900/50 focus:outline-none focus:ring-2 focus:ring-offset-2 
-                    focus:ring-red-500 transition-colors duration-200"
+                  className="absolute top-4 right-4 text-red-500/70 hover:text-red-500
+                    transition-colors duration-200"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="px-6 py-5 space-y-4">
+                <div className="space-y-4 text-red-300/90">
+                  {[
+                    "Every hour, a new Bungo competition session begins.",
+                    "For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.",
+                    "Per attempt, you get 5 messages to shock Bungo.",
+                    "At the end of the session, the conversations with the best score share the pot."
+                  ].map((text, i) => (
+                    <div key={i} className="flex gap-3 items-baseline">
+                      <span className="text-red-500/90 font-bold text-sm">{i + 1}.</span>
+                      <p className="text-sm leading-relaxed">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 bg-zinc-950/50 border-t border-red-900/20">
+                <button
+                  onClick={onClose}
+                  className="w-full py-2.5 px-4 bg-red-950/30 hover:bg-red-950/50
+                    border border-red-900/50 rounded-md text-sm font-medium text-red-100
+                    transition-colors duration-200"
                 >
                   Let&apos;s Begin
                 </button>
