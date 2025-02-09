@@ -89,31 +89,20 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
             Verify your humanity to play Bungo
           </p>
           <button
-            className="group relative px-10 py-4 bg-red-950/40 border-2 border-red-800/70 text-red-400 rounded-md
-              overflow-hidden transition-all duration-300 font-bold tracking-[0.2em] text-base hover:bg-red-900/40
-              hover:border-red-700 hover:text-red-300 hover:scale-[1.02] transform"
+            className="group relative px-8 py-3 bg-red-950/30 border border-red-800/50 text-red-500 rounded
+              overflow-hidden transition-all duration-300 font-bold tracking-[0.2em] text-sm hover:bg-red-900/30"
             onClick={handleVerify}
           >
             {/* Animated background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-red-950/0 via-red-900/30 to-red-950/0
+            <div className="absolute inset-0 bg-gradient-to-r from-red-950/0 via-red-900/20 to-red-950/0
               translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
             
             {/* Border glow effect */}
-            <div className="absolute inset-0 border-2 border-red-800/50 rounded-md opacity-0
+            <div className="absolute inset-0 border border-red-800/50 rounded opacity-0
               group-hover:opacity-100 transition-opacity duration-300
               animate-pulse" />
             
-            {/* Corner accents */}
-            <div className="absolute top-0 left-0 w-8 h-8">
-              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-red-500/80 to-transparent" />
-              <div className="absolute top-0 left-0 w-0.5 h-full bg-gradient-to-b from-red-500/80 to-transparent" />
-            </div>
-            <div className="absolute bottom-0 right-0 w-8 h-8">
-              <div className="absolute bottom-0 right-0 w-full h-0.5 bg-gradient-to-l from-red-500/80 to-transparent" />
-              <div className="absolute bottom-0 right-0 w-0.5 h-full bg-gradient-to-t from-red-500/80 to-transparent" />
-            </div>
-            
-            <span className="relative z-10">PROVE HUMANITY</span>
+            <span className="relative z-10">VERIFY WITH WORLD ID</span>
           </button>
           {verifyError && (
             <p className="text-red-500 text-sm">{verifyError}</p>

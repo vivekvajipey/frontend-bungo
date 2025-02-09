@@ -78,8 +78,8 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     "Per attempt, you get 5 messages to shock Bungo.",
                     "At the end of the session, the conversations with the best score share the pot."
                   ].map((text, i) => (
-                    <div key={i} className="flex gap-4 group items-start">
-                      <span className="text-red-500 font-bold text-lg">
+                    <div key={i} className="flex gap-3 group">
+                      <span className="flex-shrink-0 text-red-500 font-bold text-lg">
                         {i + 1}.
                       </span>
                       <p className="text-sm leading-relaxed opacity-90 group-hover:opacity-100
@@ -98,18 +98,18 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                 
                 <button
                   onClick={onClose}
-                  className="group relative w-full py-3 bg-red-950/50 
-                    border-2 border-red-800/70 rounded-md text-base font-bold text-red-100
+                  className="group relative w-full py-3 px-4 bg-red-950/40 
+                    border border-red-800/70 rounded text-base font-medium text-red-100
                     overflow-hidden transition-all duration-300
-                    hover:bg-red-900/50 hover:border-red-700"
+                    hover:bg-red-900/40 hover:border-red-700/70"
                 >
                   {/* Button highlight effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/20 to-transparent
                     translate-x-[-200%] group-hover:translate-x-[200%]
                     transition-transform duration-1000" />
                   
-                  <span className="relative z-10 tracking-wider uppercase">
-                    Let&apos;s Begin
+                  <span className="relative z-10 tracking-wide font-bold">
+                    Let's Begin
                   </span>
                 </button>
               </div>
