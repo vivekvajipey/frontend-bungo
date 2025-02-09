@@ -59,4 +59,4 @@ Bungo is an experiment in:
 
 ---
 
-Built with ❤️ for the World Hackathon 2024
+Built with ❤️ for the FWB x World Hackathon 2025
