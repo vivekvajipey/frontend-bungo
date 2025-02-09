@@ -98,9 +98,8 @@ export default function GamePage() {
                     className="p-3 border border-red-800 rounded bg-black/30 cursor-pointer hover:bg-black/50"
                   >
                     <p className="text-red-500">Score: {attempt.score?.toFixed(1) ?? 'Not scored'}</p>
-                    {attempt.earnings && (
-                      <p className="text-red-400">Earnings: ${attempt.earnings} USDC</p>
-                    )}
+                    <p className="text-red-400">Pot Size: ${attempt.total_pot} USDC</p>
+                    <p className="text-red-400">Earnings: Pending</p>
                   </div>
                 ))}
               </div>
