@@ -50,15 +50,22 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
 
   const sendMessage = async () => {
     if (!attempt || !message.trim()) return;
-    console.log("searchParams", searchParams)
-
+    
     try {
       const response = await apiService.sendMessage(attempt.id, message);
-      setAttempt(prev => prev ? {
-        ...prev,
-        messages: [...prev.messages, response],
-        messages_remaining: prev.messages_remaining - 1
-      } : null);
+      console.log('Before state update - current attempt:', attempt);
+      setAttempt(prev => {
+        if (!prev) return null;
+        console.log('Updating attempt state:', {
+          messages_remaining: prev.messages_remaining - 1,
+          score: prev.score
+        });
+        return {
+          ...prev,
+          messages: [...prev.messages, response],
+          messages_remaining: prev.messages_remaining - 1
+        };
+      });
       setMessage('');
     } catch (err: unknown) {
       const error = err as AxiosError<{detail: string}>;
