@@ -43,9 +43,9 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
             exit={{ opacity: 0, y: 10 }}
             className={`relative w-full max-w-md z-10 ${tomorrow.className}`}
           >
-            <div className="bg-black border border-red-900/50 rounded-lg shadow-2xl">
+            <div className="bg-[var(--background)] border border-red-900/50 rounded-lg shadow-2xl">
               {/* Header */}
-              <div className="px-6 pt-6 pb-4">
+              <div className="px-8 py-6">
                 <h2 className="text-xl font-bold text-red-500">
                   Bungo&apos;s Bungorium How-To
                 </h2>
@@ -53,7 +53,7 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                 {/* Close button */}
                 <button
                   onClick={onClose}
-                  className="absolute top-4 right-4 p-1 text-red-500/70 hover:text-red-500
+                  className="absolute top-6 right-6 p-1 text-red-500/70 hover:text-red-500
                     transition-colors duration-200"
                 >
                   <X size={20} />
@@ -61,8 +61,8 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
               </div>
 
               {/* Content */}
-              <div className="px-6 py-4">
-                <div className="space-y-4">
+              <div className="px-8 py-6">
+                <div className="space-y-4 text-[var(--foreground)]">
                   {[
                     "Every hour, a new Bungo competition session begins.",
                     "For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.",
@@ -71,17 +71,17 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                   ].map((text, i) => (
                     <div key={i} className="flex gap-3">
                       <span className="text-red-500 font-bold">{i + 1}.</span>
-                      <p className="text-red-200/90">{text}</p>
+                      <p>{text}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="px-6 py-4">
+              <div className="px-8 py-6">
                 <button
                   onClick={onClose}
-                  className="w-full py-2 px-4 bg-red-950 hover:bg-red-900
+                  className="w-full py-2.5 px-4 bg-red-950 hover:bg-red-900
                     border border-red-900/50 rounded text-sm font-medium text-red-100
                     transition-colors duration-200"
                 >
