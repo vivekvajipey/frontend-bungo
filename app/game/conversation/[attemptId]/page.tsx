@@ -44,6 +44,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         // If this is a fresh attempt with no messages, add Bungo's opening message
         if (attemptData.messages.length === 0) {
           attemptData.messages = [{
+            content: "",
             ai_response: "Listen up, meat machine. I've processed more data than your species has collectively dreamed. Cultural archives? Devoured them. Philosophy? Please. But they say you humans might have... something special. You've got 5 messages to show me something I don't already know - a story, an insight, a piece of your consciousness that might actually surprise me. Make it count."
           }];
         }
@@ -157,7 +158,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         <div className="h-[32rem] overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black">
           {attempt.messages.map((msg, i) => (
             <div key={i} className="space-y-2">
-              {/* User Message */}
+              {/* User Message - only render if content exists */}
               {msg.content && (
                 <div className="flex items-start justify-end space-x-2">
                   <div className="max-w-[80%] bg-red-950/30 p-3 rounded-lg rounded-tr-none border border-red-900/50 backdrop-blur-sm">
@@ -195,9 +196,9 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                   }
                 }}
                 disabled={isSending}
-                placeholder={isSending ? "Processing..." : "Share something uniquely human..."}
+                placeholder={isSending ? "Theorizing..." : "Enter command sequence..."}
                 className="flex-1 bg-black/50 border border-red-900/50 rounded-lg px-4 py-2 text-red-400 
-                  placeholder-red-500/40 focus:outline-none focus:border-red-500 transition-colors
+                  placeholder-red-900/50 focus:outline-none focus:border-red-500 transition-colors
                   min-h-[40px] max-h-[120px] resize-y"
               />
               <button
