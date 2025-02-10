@@ -197,9 +197,9 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                   }
                 }}
                 disabled={isSending}
-                placeholder={isSending ? "Theorizing..." : "Enter command sequence..."}
+                placeholder={isSending ? "Processing..." : "Share something uniquely human..."}
                 className="flex-1 bg-black/50 border border-red-900/50 rounded-lg px-4 py-2 text-red-400 
-                  placeholder-red-900/50 focus:outline-none focus:border-red-500 transition-colors
+                  placeholder-red-500/40 focus:outline-none focus:border-red-500 transition-colors
                   min-h-[40px] max-h-[120px] resize-y"
               />
               <button
