@@ -10,7 +10,7 @@ export const TypewriterText = ({ text }: TypewriterTextProps) => {
   
   useEffect(() => {
     if (currentIndex < text.length) {
-      const randomDelay = Math.random() * 30 + 20; // Random delay between 20-50ms
+      const randomDelay = Math.random() * 15 + 10; // Random delay between 10-25ms (previously 20-50ms)
       const timer = setTimeout(() => {
         setDisplayedText(prev => prev + text[currentIndex]);
         setCurrentIndex(prev => prev + 1);
