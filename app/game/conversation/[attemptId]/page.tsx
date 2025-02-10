@@ -137,18 +137,18 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         <div className="border-b border-red-900/50 p-4 flex items-center justify-between bg-black/80 backdrop-blur-lg">
           <div className="flex items-center space-x-3">
             <Brain className="w-6 h-6 text-red-500 animate-pulse" />
-            <h1 className="text-xl font-bold text-red-400">NEXUS-AI Interface v2.0</h1>
+            <h1 className="text-lg font-bold text-red-400">Bungo's Bungorium</h1>
           </div>
           <div className="flex items-center space-x-2 text-sm text-red-400/80">
             <MessageSquare className="w-4 h-4" />
-            <span>{attempt.messages_remaining} queries remaining</span>
+            <span>{attempt.messages_remaining} messages remaining</span>
           </div>
         </div>
 
         {/* Chat Container */}
         <div className="h-[32rem] overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black">
           {attempt.messages.map((msg, i) => (
-            <div key={i} className="space-y-2 animate-fadeIn">
+            <div key={i} className="space-y-2">
               {/* User Message */}
               <div className="flex items-start justify-end space-x-2">
                 <div className="max-w-[80%] bg-red-950/30 p-3 rounded-lg rounded-tr-none border border-red-900/50 backdrop-blur-sm">
@@ -164,7 +164,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                 <div className="max-w-[80%] bg-black/50 p-3 rounded-lg rounded-tl-none border border-red-900/30">
                   <div className="flex items-center space-x-2 mb-1">
                     <Sparkles className="w-4 h-4 text-red-500" />
-                    <span className="text-xs text-red-600">AI Core</span>
+                    <span className="text-xs text-red-600">Bungo AI</span>
                   </div>
                   <p className="text-red-400">{msg.ai_response}</p>
                 </div>
