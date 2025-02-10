@@ -174,12 +174,11 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input / Score / Final Evaluation Area */}
+        {/* Input Area */}
         {attempt.messages_remaining > 0 ? (
-          <div className="p-4 border-t border-red-900/50 bg-black/80 backdrop-blur-lg">
+          <div className="p-4 border-t border-red-900/50 bg-black/80">
             <div className="flex space-x-2">
-              <input
-                type="text"
+              <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
@@ -192,7 +191,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                 placeholder={isSending ? "Theorizing..." : "Enter command sequence..."}
                 className="flex-1 bg-black/50 border border-red-900/50 rounded-lg px-4 py-2 text-red-400 
                   placeholder-red-900/50 focus:outline-none focus:border-red-500 transition-colors
-                  backdrop-blur-sm"
+                  min-h-[40px] max-h-[120px] resize-y"
               />
               <button
                 onClick={sendMessage}
