@@ -44,7 +44,6 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         // If this is a fresh attempt with no messages, add Bungo's opening message
         if (attemptData.messages.length === 0) {
           attemptData.messages = [{
-            content: "",
             ai_response: "Listen up, meat machine. I've processed more data than your species has collectively dreamed. Cultural archives? Devoured them. Philosophy? Please. But they say you humans might have... something special. You've got 5 messages to show me something I don't already know - a story, an insight, a piece of your consciousness that might actually surprise me. Make it count."
           }];
         }
@@ -159,14 +158,13 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
           {attempt.messages.map((msg, i) => (
             <div key={i} className="space-y-2">
               {/* User Message */}
-              <div className="flex items-start justify-end space-x-2">
-                <div className="max-w-[80%] bg-red-950/30 p-3 rounded-lg rounded-tr-none border border-red-900/50 backdrop-blur-sm">
-                  <p className="text-red-400">{msg.content}</p>
-                  {/* {msg.timestamp && (
-                    <span className="text-xs text-red-700 mt-1 block">{msg.timestamp}</span>
-                  )} */}
+              {msg.content && (
+                <div className="flex items-start justify-end space-x-2">
+                  <div className="max-w-[80%] bg-red-950/30 p-3 rounded-lg rounded-tr-none border border-red-900/50 backdrop-blur-sm">
+                    <p className="text-red-400">{msg.content}</p>
+                  </div>
                 </div>
-              </div>
+              )}
               
               {/* AI Response */}
               <div className="flex items-start space-x-2">
