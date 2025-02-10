@@ -127,7 +127,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-black text-red-500 flex items-center justify-center p-4">
+    <main className={`min-h-screen bg-black text-red-500 flex items-center justify-center p-4 ${tomorrow.className}`}>
       <div className="w-full max-w-4xl bg-black rounded-lg overflow-hidden relative">
         {/* Decorative Elements */}
         <div className="absolute inset-0 bg-gradient-to-br from-red-900/10 to-black pointer-events-none" />
