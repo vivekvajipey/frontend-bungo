@@ -7,6 +7,7 @@ import { Attempt } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { MessageSquare, Send, Award, Brain, Sparkles } from 'lucide-react';
 import { Tomorrow } from 'next/font/google';
+import { TypewriterText } from '@/src/components/ui/TypewriterText';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -130,7 +131,6 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
     <main className={`min-h-screen bg-black text-red-500 flex items-center justify-center p-4 ${tomorrow.className}`}>
       <div className="w-full max-w-4xl bg-black rounded-lg overflow-hidden relative">
         {/* Decorative Elements */}
-        {/* <div className="absolute inset-0 bg-gradient-to-br from-red-900/10 to-black pointer-events-none" /> */}
         <div className="absolute top-0 left-0 w-full h-1 bg-red-600/50 animate-pulse" />
         
         {/* Header */}
@@ -164,9 +164,9 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                 <div className="max-w-[80%] bg-black/50 p-3 rounded-lg rounded-tl-none border border-red-900/30">
                   <div className="flex items-center space-x-2 mb-1">
                     <Sparkles className="w-4 h-4 text-red-500" />
-                    <span className="text-xs text-red-600">Bungo AI</span>
+                    <span className="text-xs text-red-600">AI Core</span>
                   </div>
-                  <p className="text-red-400">{msg.ai_response}</p>
+                  <TypewriterText text={msg.ai_response} />
                 </div>
               </div>
             </div>
