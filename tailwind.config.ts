@@ -14,6 +14,15 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
     },
+    keyframes: {
+      scan: {
+        '0%, 100%': { transform: 'translateX(-100%)' },
+        '50%': { transform: 'translateX(100%)' },
+      }
+    },
+    animation: {
+      scan: 'scan 2s linear infinite',
+    }
   },
   plugins: [
     require('@tailwindcss/forms'),
