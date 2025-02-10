@@ -56,7 +56,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
     if (attempt) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [attempt?.messages]);
+  }, [attempt, attempt?.messages]);
 
   const sendMessage = async () => {
     if (!attempt || !message.trim() || isSending) return;
@@ -137,7 +137,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         <div className="border-b border-red-900/50 p-4 flex items-center justify-between bg-black/80 backdrop-blur-lg">
           <div className="flex items-center space-x-3">
             <Brain className="w-6 h-6 text-red-500 animate-pulse" />
-            <h1 className="text-lg font-bold text-red-400">Bungo's Bungorium</h1>
+            <h1 className="text-lg font-bold text-red-400">Bungo&apos;s Bungorium</h1>
           </div>
           <div className="flex items-center space-x-2 text-sm text-red-400/80">
             <MessageSquare className="w-4 h-4" />
