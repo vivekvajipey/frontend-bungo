@@ -130,8 +130,8 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
     <main className={`min-h-screen bg-black text-red-500 flex items-center justify-center p-4 ${tomorrow.className}`}>
       <div className="w-full max-w-4xl bg-black rounded-lg overflow-hidden relative">
         {/* Decorative Elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-red-900/10 to-black pointer-events-none" />
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse" />
+        {/* <div className="absolute inset-0 bg-gradient-to-br from-red-900/10 to-black pointer-events-none" /> */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-red-600/50 animate-pulse" />
         
         {/* Header */}
         <div className="border-b border-red-900/50 p-4 flex items-center justify-between bg-black/80 backdrop-blur-lg">
