@@ -40,6 +40,15 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
       try {
         const { attemptId } = await params;
         const attemptData = await apiService.getAttempt(attemptId);
+        
+        // If this is a fresh attempt with no messages, add Bungo's opening message
+        if (attemptData.messages.length === 0) {
+          attemptData.messages = [{
+            content: "",
+            ai_response: "Listen up, meat machine. I've processed more data than your species has collectively dreamed. Cultural archives? Devoured them. Philosophy? Please. But they say you humans might have... something special. You've got 5 messages to show me something I don't already know - a story, an insight, a piece of your consciousness that might actually surprise me. Make it count."
+          }];
+        }
+        
         setAttempt(attemptData);
       } catch (error) {
         console.error('Error fetching attempt:', error);
@@ -134,12 +143,12 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         <div className="absolute top-0 left-0 w-full h-1 bg-red-600/50 animate-pulse" />
         
         {/* Header */}
-        <div className="border-b border-red-900/50 p-4 flex items-center justify-between bg-black/80 backdrop-blur-lg">
-          <div className="flex items-center space-x-3">
+        <div className="border-b border-red-900/50 p-4 bg-black/80 backdrop-blur-lg">
+          <div className="flex items-center justify-center space-x-3 mb-2">
             <Brain className="w-6 h-6 text-red-500 animate-pulse" />
             <h1 className="text-lg font-bold text-red-400">Bungo&apos;s Bungorium</h1>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-red-400/80">
+          <div className="flex items-center justify-center space-x-2 text-sm text-red-400/80 animate-pulse">
             <MessageSquare className="w-4 h-4" />
             <span>{attempt.messages_remaining} messages remaining</span>
           </div>
@@ -164,7 +173,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                 <div className="max-w-[80%] bg-black/50 p-3 rounded-lg rounded-tl-none border border-red-900/30">
                   <div className="flex items-center space-x-2 mb-1">
                     <Sparkles className="w-4 h-4 text-red-500" />
-                    <span className="text-xs text-red-600">AI Core</span>
+                    <span className="text-xs text-red-600">Bungo</span>
                   </div>
                   <TypewriterText text={msg.ai_response} />
                 </div>
