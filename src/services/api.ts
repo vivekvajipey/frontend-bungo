@@ -209,15 +209,15 @@ class ApiService {
 
   // Admin endpoints
   async getUnpaidAttempts() {
-    return this.get('/admin/unpaid_attempts');
+    return this.get('/api/admin/unpaid_attempts');
   }
 
   async markAttemptPaid(attemptId: string) {
-    return this.post(`/admin/attempts/${attemptId}/mark_paid`, {});
+    return this.post(`/api/admin/attempts/${attemptId}/mark_paid`, {});
   }
 
   async confirmAdminPayment(reference: string, payload: PaymentConfirmationPayload) {
-    return this.post(`/payments/${reference}/confirm`, { payload });
+    return this.post(`/api/payments/${reference}/confirm`, { payload });
   }
 
   private async get(url: string) {
