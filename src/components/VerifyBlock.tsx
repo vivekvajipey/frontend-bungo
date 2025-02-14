@@ -2,7 +2,7 @@
 
 import { MiniKit, VerificationLevel } from "@worldcoin/minikit-js";
 import { useCallback, useState } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface VerifyBlockProps {
   onVerificationSuccess: () => void;
