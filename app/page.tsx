@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { apiService } from '@/src/services/api';
 import { VerifyBlock } from '@/src/components/VerifyBlock';
 import { MiniKit } from '@worldcoin/minikit-js';
 import ScrambleText from '@/src/components/ScrambleText';
@@ -31,7 +29,6 @@ export default function Home() {
   const [showVerification, setShowVerification] = useState(false);
   const [currentFrame, setCurrentFrame] = useState(0);
   const [userName, setUserName] = useState('');
-  const router = useRouter();
 
   const handleEnter = () => {
     if (!MiniKit.isInstalled()) {
