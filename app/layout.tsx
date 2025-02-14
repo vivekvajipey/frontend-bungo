@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MiniKitProvider from "@/src/components/MiniKitProvider";
 import { ErudaDebug } from "@/src/components/ErudaDebug";
+import AdminLayout from "@/src/components/RootLayout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Bungo",
-  description: "A World ID mini app game",
+  description: "Bungo game",
 };
 
 export default function RootLayout({
@@ -21,8 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <MiniKitProvider>{children}</MiniKitProvider>
-        <ErudaDebug />
+        <AdminLayout>
+          <MiniKitProvider>{children}</MiniKitProvider>
+          <ErudaDebug />
+        </AdminLayout>
       </body>
     </html>
   );
