@@ -41,15 +41,9 @@ export default function Home() {
     setShowVerification(true);
   };
 
-  const handleVerificationSuccess = async () => {
-    try {
-      const session = await apiService.getCurrentSession();
-      if (session) {
-        router.push('/game');
-      }
-    } catch (error) {
-      console.error('Failed to start game:', error);
-    }
+  const handleVerificationSuccess = () => {
+    // Success is now handled in VerifyBlock component
+    console.log("Verification successful");
   };
 
   const handleFrameClick = () => {

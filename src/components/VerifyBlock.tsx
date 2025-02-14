@@ -3,6 +3,7 @@
 import { MiniKit, VerificationLevel } from "@worldcoin/minikit-js";
 import { useCallback, useState } from "react";
 import { useRouter } from 'next/navigation';
+import { apiService } from '@/src/services/api';
 
 interface VerifyBlockProps {
   onVerificationSuccess: () => void;
@@ -76,9 +77,19 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         onVerificationSuccess();
         
         // Redirect based on admin status
-        if (verifyResponseJson.redirect_url) {
-          console.log("Redirecting to:", verifyResponseJson.redirect_url);
+        if (verifyResponseJson.is_admin) {
+          console.log("Admin user detected, redirecting to:", verifyResponseJson.redirect_url);
           router.push(verifyResponseJson.redirect_url);
+        } else {
+          // For regular users, check current session and redirect to game
+          try {
+            const session = await apiService.getCurrentSession();
+            if (session) {
+              router.push('/game');
+            }
+          } catch (error) {
+            console.error('Failed to start game:', error);
+          }
         }
       } else {
         setVerifyError(verifyResponseJson.detail || "Verification failed");
