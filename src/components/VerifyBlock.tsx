@@ -42,7 +42,8 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         nullifier_hash: finalPayload.nullifier_hash,
         proof: finalPayload.proof,
         verification_level: finalPayload.verification_level,
-        action: "enter"
+        action: "enter",
+        name: localStorage.getItem('user_name') || 'Anonymous User'
       };
 
       const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {

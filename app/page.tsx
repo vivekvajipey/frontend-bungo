@@ -60,6 +60,7 @@ export default function Home() {
 
   const handleNameSubmit = (name: string) => {
     setUserName(name);
+    localStorage.setItem('user_name', name);
     console.log(userName);
     handleFrameClick();
   };

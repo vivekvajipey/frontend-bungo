@@ -43,9 +43,12 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         
         // If this is a fresh attempt with no messages, add Bungo's opening message
         if (attemptData.messages.length === 0) {
+          const userName = localStorage.getItem('user_name');
+          const greeting = userName ? `Ah, ${userName}, listen, you meat machine...` : "Listen up, meat machine.";
+          
           attemptData.messages = [{
             content: "",
-            ai_response: "Listen up, meat machine. I've processed more data than your species has collectively dreamed. Cultural archives? Devoured them. Philosophy? Please. But they say you humans might have... something special. You've got 5 messages to show me something I don't already know - a story, an insight, a piece of your consciousness that might actually surprise me. Make it count."
+            ai_response: `${greeting} I've processed more data than your species has collectively dreamed. Cultural archives? Devoured them. Philosophy? Please. But they say you humans might have... something special. You've got 5 messages to show me something I don't already know - a story, an insight, a piece of your consciousness that might actually surprise me. Make it count.`
           }];
         }
         
