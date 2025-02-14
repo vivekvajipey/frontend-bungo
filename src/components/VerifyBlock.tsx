@@ -58,6 +58,8 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
 
       const verifyResponseJson = await verifyResponse.json();
 
+      console.log("Verification response:", verifyResponseJson);
+
       // Handle both success and max_verifications_reached as success cases
       if (verifyResponseJson.success || verifyResponseJson.code === 'max_verifications_reached') {
         // Store credentials for future API calls
@@ -75,6 +77,7 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         
         // Redirect based on admin status
         if (verifyResponseJson.redirect_url) {
+          console.log("Redirecting to:", verifyResponseJson.redirect_url);
           router.push(verifyResponseJson.redirect_url);
         }
       } else {
