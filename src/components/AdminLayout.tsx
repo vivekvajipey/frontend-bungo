@@ -6,16 +6,20 @@ import AdminNav from './AdminNav';
 // Check if user is admin based on verify response
 const checkAdminStatus = async () => {
   if (typeof window === 'undefined') return false;
-  const credentials = localStorage.getItem('worldid_credentials');
-  if (!credentials) return false;
+  const credentialsStr = localStorage.getItem('worldid_credentials');
+  if (!credentialsStr) return false;
   
   try {
+    const credentials = JSON.parse(credentialsStr);
     const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: credentials,
+      body: JSON.stringify({
+        ...credentials,
+        action: "enter",
+      }),
     });
 
     const data = await verifyResponse.json();
