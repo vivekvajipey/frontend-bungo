@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { apiService } from '@/src/services/api';
-import { MiniKit, PayCommandInput, Tokens } from '@worldcoin/minikit-js';
+import { MiniKit, PayCommandInput, Tokens, tokenToDecimals } from '@worldcoin/minikit-js';
 
 interface UnpaidAttempt {
   attempt_id: string;
@@ -34,30 +34,43 @@ export default function AdminPayments() {
   };
 
   const handlePay = async (attempt: UnpaidAttempt) => {
+    if (!MiniKit.isInstalled()) {
+      console.error('World App not installed');
+      return;
+    }
+
     setProcessing(prev => ({ ...prev, [attempt.attempt_id]: true }));
     try {
+      console.log('Processing payment for attempt:', attempt.attempt_id);
+      
       // Generate payment reference
       const reference = `admin_payment_${attempt.attempt_id}`;
+      const amount = (attempt.earnings_raw / 1_000_000).toString();
+      
+      console.log('Payment details:', { reference, to: attempt.wallet_address, amount });
       
       const paymentPayload: PayCommandInput = {
         reference,
         to: attempt.wallet_address,
         tokens: [{
           symbol: Tokens.USDCE,
-          token_amount: (attempt.earnings_raw / 1_000_000).toString()
+          token_amount: tokenToDecimals(parseFloat(amount), Tokens.USDCE).toString()
         }],
         description: "Bungo game winnings payout"
       };
 
       console.log('Payment payload:', paymentPayload);
       const payRes = await MiniKit.commandsAsync.pay(paymentPayload);
+      console.log('Payment response:', payRes);
 
-      // Only mark as paid if payment succeeded
-      if (payRes.finalPayload.status !== 'error') {
+      if (payRes.finalPayload.status === "success") {
+        console.log('Payment successful, confirming with backend...');
         await apiService.confirmAdminPayment(reference, payRes.finalPayload);
         await apiService.markAttemptPaid(attempt.attempt_id);
+        
         // Remove from list
         setAttempts(prev => prev.filter(a => a.attempt_id !== attempt.attempt_id));
+        console.log('Payment completed and marked as paid');
       } else {
         console.error('Payment failed:', payRes.finalPayload);
       }
@@ -69,11 +82,15 @@ export default function AdminPayments() {
   };
 
   if (loading) {
-    return <div className="p-4">Loading...</div>;
+    return (
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-4">Loading payments...</h1>
+      </div>
+    );
   }
 
   return (
-    <div className="p-4">
+    <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Admin Payment Dashboard</h1>
       
       <div className="space-y-4">
