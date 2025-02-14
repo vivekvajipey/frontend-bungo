@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MiniKitProvider from "@/src/components/MiniKitProvider";
 import { ErudaDebug } from "@/src/components/ErudaDebug";
-import AdminLayout from "@/src/components/RootLayout";
+import AdminLayout from "@/src/components/AdminLayout";
 
 const inter = Inter({
   subsets: ["latin"],
