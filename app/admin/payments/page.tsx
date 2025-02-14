@@ -47,7 +47,12 @@ export default function AdminPayments() {
       const reference = Math.random().toString(36).substring(2, 15);
       const amount = (attempt.earnings_raw / 1_000_000).toString();
       
-      console.log('Payment details:', { reference, to: attempt.wallet_address, amount });
+      console.log('Payment details:', { 
+        reference,
+        to: attempt.wallet_address,
+        toUpperCase: attempt.wallet_address.toUpperCase(),
+        amount 
+      });
       
       const paymentPayload: PayCommandInput = {
         reference,
