@@ -43,8 +43,8 @@ export default function AdminPayments() {
     try {
       console.log('Processing payment for attempt:', attempt.attempt_id);
       
-      // Generate payment reference
-      const reference = `admin_payment_${attempt.attempt_id}`;
+      // Generate payment reference (max 36 chars)
+      const reference = `adm_${attempt.attempt_id}`;
       const amount = (attempt.earnings_raw / 1_000_000).toString();
       
       console.log('Payment details:', { reference, to: attempt.wallet_address, amount });
