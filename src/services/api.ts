@@ -65,6 +65,12 @@ export interface AttemptResponse {
   earnings?: number;
 }
 
+interface PaymentConfirmationPayload {
+  status: string;
+  transaction_id?: string;
+  [key: string]: unknown;
+}
+
 class ApiService {
   private getAuthHeaders() {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -210,7 +216,7 @@ class ApiService {
     return this.post(`/admin/attempts/${attemptId}/mark_paid`, {});
   }
 
-  async confirmAdminPayment(reference: string, payload: any) {
+  async confirmAdminPayment(reference: string, payload: PaymentConfirmationPayload) {
     return this.post(`/payments/${reference}/confirm`, { payload });
   }
 
@@ -221,7 +227,7 @@ class ApiService {
     return response.data;
   }
 
-  private async post(url: string, data: any) {
+  private async post(url: string, data: Record<string, unknown>) {
     const response = await axios.post(`${API_BASE_URL}${url}`, data, {
       headers: this.getAuthHeaders()
     });
