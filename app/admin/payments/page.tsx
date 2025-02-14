@@ -44,7 +44,7 @@ export default function AdminPayments() {
         to: attempt.wallet_address,
         tokens: [{
           symbol: Tokens.USDCE,
-          token_amount: attempt.earnings_raw.toString()
+          token_amount: (attempt.earnings_raw / 1_000_000).toString()
         }],
         description: "Bungo game winnings payout"
       };
@@ -88,7 +88,7 @@ export default function AdminPayments() {
               <div>
                 <p><strong>User ID:</strong> {attempt.wldd_id}</p>
                 <p><strong>Wallet:</strong> {attempt.wallet_address}</p>
-                <p><strong>Amount:</strong> {attempt.earnings_raw}</p>
+                <p><strong>Amount:</strong> {(attempt.earnings_raw / 1_000_000).toFixed(6)} WLDD (raw: {attempt.earnings_raw})</p>
                 <p><strong>Created:</strong> {new Date(attempt.created_at).toLocaleString()}</p>
               </div>
               <button
