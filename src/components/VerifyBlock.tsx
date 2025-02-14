@@ -2,6 +2,7 @@
 
 import { MiniKit, VerificationLevel } from "@worldcoin/minikit-js";
 import { useCallback, useState } from "react";
+import { useRouter } from 'next/router';
 
 interface VerifyBlockProps {
   onVerificationSuccess: () => void;
@@ -18,6 +19,7 @@ interface WorldIDCredentials {
 export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
   const [isVerified, setIsVerified] = useState(false);
   const [verifyError, setVerifyError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleVerify = useCallback(async () => {
     if (!MiniKit.isInstalled()) {
@@ -70,6 +72,11 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         setIsVerified(true);
         setVerifyError(null);
         onVerificationSuccess();
+        
+        // Redirect based on admin status
+        if (verifyResponseJson.redirect_url) {
+          router.push(verifyResponseJson.redirect_url);
+        }
       } else {
         setVerifyError(verifyResponseJson.detail || "Verification failed");
       }
@@ -77,7 +84,7 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
       console.error('Verification error:', error);
       setVerifyError("Verification failed. Please try again.");
     }
-  }, [onVerificationSuccess]);
+  }, [onVerificationSuccess, router]);
 
   if (!show) return null;
 

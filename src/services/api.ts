@@ -200,6 +200,33 @@ class ApiService {
     );
     return response.data;
   }
+
+  // Admin endpoints
+  async getUnpaidAttempts() {
+    return this.get('/admin/unpaid_attempts');
+  }
+
+  async markAttemptPaid(attemptId: string) {
+    return this.post(`/admin/attempts/${attemptId}/mark_paid`, {});
+  }
+
+  async confirmAdminPayment(reference: string, payload: any) {
+    return this.post(`/payments/${reference}/confirm`, { payload });
+  }
+
+  private async get(url: string) {
+    const response = await axios.get(`${API_BASE_URL}${url}`, {
+      headers: this.getAuthHeaders()
+    });
+    return response.data;
+  }
+
+  private async post(url: string, data: any) {
+    const response = await axios.post(`${API_BASE_URL}${url}`, data, {
+      headers: this.getAuthHeaders()
+    });
+    return response.data;
+  }
 }
 
 // comment for vercel
