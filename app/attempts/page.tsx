@@ -1,129 +1,131 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { apiService } from '@/src/services/api';
-import { AttemptResponse } from '@/src/services/api';
-import { Tomorrow } from 'next/font/google';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { apiService, AttemptResponse } from '@/src/services/api';
 
-const tomorrow = Tomorrow({ 
-  subsets: ['latin'],
-  weight: ['400', '700'],
-});
+const glowingBorder = {
+  boxShadow: '0 0 10px rgba(239, 68, 68, 0.5), inset 0 0 5px rgba(239, 68, 68, 0.2)',
+};
 
-export default function AttemptsPage() {
+const AttemptCard = ({ attempt, index }: { attempt: AttemptResponse; index: number }) => {
   const router = useRouter();
-  const [attempts, setAttempts] = useState<AttemptResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const credentials = localStorage.getItem('worldid_credentials');
-    if (!credentials) {
-      router.push('/');
-      return;
-    }
-
-    apiService.getSessionAttempts()
-      .then(setAttempts)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [router]);
-
-  const createNewAttempt = () => {
-    router.push('/game');
-  };
-
-  if (loading) {
-    return (
-      <div className={`flex items-center justify-center min-h-screen bg-black text-red-600 ${tomorrow.className}`}>
-        Loading...
-      </div>
-    );
-  }
 
   return (
-    <main className={`min-h-screen bg-black text-red-600 pb-20 ${tomorrow.className}`}>
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm"
-        >
-          <h1 className="text-3xl font-bold mb-6">Your Attempts</h1>
-          
-          {attempts.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-xl text-red-400 mb-6">No attempts yet. Ready to challenge Bungo?</p>
-              <button
-                onClick={createNewAttempt}
-                className="group relative py-4 px-8 bg-red-950/30 border border-red-800/50 text-red-500 rounded-lg
-                  overflow-hidden transition-all duration-300 font-bold tracking-wider text-lg hover:bg-red-900/30"
-              >
-                {/* Animated background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-red-950/0 via-red-900/20 to-red-950/0
-                  translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                
-                {/* Border glow effect */}
-                <div className="absolute inset-0 border border-red-800/50 rounded-lg opacity-0
-                  group-hover:opacity-100 transition-opacity duration-300
-                  animate-pulse" />
-                
-                <span className="relative z-10">Challenge Bungo</span>
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {attempts.map((attempt, index) => (
-                <motion.div
-                  key={attempt.id}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  onClick={() => router.push(`/game/conversation/${attempt.id}`)}
-                  className="group p-4 border border-red-800 rounded-lg bg-black/30 cursor-pointer 
-                    hover:bg-black/50 transition-all duration-200"
-                >
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-1">
-                        Attempt #{attempts.length - index}
-                      </h3>
-                      <p className="text-red-400">
-                        Score: {attempt.score?.toFixed(1) ?? 'In Progress'}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-red-800">Pot: ${attempt.total_pot}</p>
-                      <p className="text-sm text-red-800">
-                        {attempt.earnings ? `Won: $${attempt.earnings}` : 'Pending'}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Arrow indicator */}
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <span className="material-icons-outlined text-red-600">arrow_forward</span>
-                  </div>
-                </motion.div>
-              ))}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+      onClick={() => router.push(`/game/conversation/${attempt.id}`)}
+      className="relative cursor-pointer group"
+    >
+      <div 
+        className="bg-black border border-red-500 rounded-lg p-6 mb-4 transform transition-all duration-300 hover:scale-105 hover:border-red-400"
+        style={glowingBorder}
+      >
+        {/* Glitch effect overlay */}
+        <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="h-full w-full bg-gradient-to-r from-transparent via-red-500/10 to-transparent animate-glitch" />
+        </div>
 
-              <div className="mt-8 text-center">
-                <button
-                  onClick={createNewAttempt}
-                  className="inline-flex items-center justify-center py-2 px-4 border border-red-800 rounded-md
-                    text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
-                    transition-colors duration-200"
-                >
-                  <span className="material-icons-outlined mr-2">add</span>
-                  New Attempt
-                </button>
-              </div>
+        <div className="relative z-10">
+          <div className="flex justify-between items-center mb-2">
+            <div className="text-red-500 font-mono text-sm">
+              ID: {attempt.id.slice(0, 8)}...
             </div>
-          )}
-        </motion.div>
+            <div className="text-red-400 font-mono text-sm animate-pulse">
+              Messages Left: {attempt.messages_remaining}
+            </div>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <div className="text-red-500 font-bold">
+              Score: <span className={attempt.score ? 'text-green-500' : 'text-yellow-500'}>
+                {attempt.score?.toFixed(1) ?? 'In Progress'}
+              </span>
+            </div>
+            <div className="text-red-500 font-mono">
+              {attempt.earnings ? `Won: $${attempt.earnings}` : `Pot: $${attempt.total_pot}`}
+            </div>
+          </div>
+
+          {/* Cyberpunk decorative elements */}
+          <div className="absolute top-0 right-0 w-16 h-16 opacity-10">
+            <div className="absolute top-0 right-0 w-8 h-1 bg-red-500 transform rotate-45" />
+            <div className="absolute top-0 right-0 w-1 h-8 bg-red-500" />
+          </div>
+        </div>
       </div>
-    </main>
+    </motion.div>
+  );
+};
+
+export default function AttemptsPage() {
+  const [attempts, setAttempts] = useState<AttemptResponse[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchAttempts = async () => {
+      try {
+        const response = await apiService.getSessionAttempts();
+        setAttempts(response);
+      } catch (error) {
+        console.error('Error fetching attempts:', error);
+      }
+    };
+
+    fetchAttempts();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-black text-white p-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="max-w-3xl mx-auto"
+      >
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-800 bg-clip-text text-transparent">
+            Your Attempts
+          </h1>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => router.push('/game')}
+            className="px-6 py-2 bg-red-500 text-white rounded-md font-medium transition-colors hover:bg-red-600"
+            style={glowingBorder}
+          >
+            New Attempt
+          </motion.button>
+        </div>
+
+        {attempts.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-12"
+          >
+            <div className="text-red-500 mb-4 text-6xl">🎮</div>
+            <p className="text-red-400 text-lg mb-4">No attempts yet. Ready to play?</p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/game')}
+              className="px-8 py-3 bg-red-500 text-white rounded-md font-medium transition-colors hover:bg-red-600"
+              style={glowingBorder}
+            >
+              Start Your First Game
+            </motion.button>
+          </motion.div>
+        ) : (
+          <div className="space-y-4">
+            {attempts.map((attempt, index) => (
+              <AttemptCard key={attempt.id} attempt={attempt} index={index} />
+            ))}
+          </div>
+        )}
+      </motion.div>
+    </div>
   );
 }
