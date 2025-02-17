@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
-import { Session, AttemptResponse } from '@/src/services/api';
+import { Session } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
 import { InstructionsModal } from '@/src/components/InstructionsModal';
+import { motion } from 'framer-motion';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -15,10 +16,67 @@ const tomorrow = Tomorrow({
 
 const INSTRUCTIONS_SHOWN_KEY = 'bungo_instructions_shown';
 
+// ASCII art for different pot sizes
+const potArt = {
+  small: `
+    _____
+   /     \\
+  /  $    \\
+  |       |
+  \\  °  ° /
+   \\_____/
+  `,
+  medium: `
+    _____
+   /     \\
+  / $ $   \\
+  | $   $ |
+  \\ ° ° ° /
+   \\_____/
+  `,
+  large: `
+    _______
+   /       \\
+  / $ $ $   \\
+  | $ $ $ $ |
+  | $ $ $ $ |
+  \\ ° ° ° ° /
+   \\_______/
+  `,
+  huge: `
+     _______
+    /       \\
+   / $ $ $ $ \\
+  /$ $ $ $ $ $\\
+  |$ $ $ $ $ $|
+  |$ $ $ $ $ $|
+  \\ ° ° ° ° °/
+   \\_______/
+  `,
+  massive: `
+      _________
+     /         \\
+    /$ $ $ $ $ $\\
+   /$ $ $ $ $ $ $\\
+  |$ $ $ $ $ $ $ $|
+  |$ $ $ $ $ $ $ $|
+  |$ $ $ $ $ $ $ $|
+  \\ ° ° ° ° ° ° /
+   \\_________/
+  `
+};
+
+const getPotSize = (totalPot: number) => {
+  if (totalPot < 0.2) return 'small';
+  if (totalPot < 0.5) return 'medium';
+  if (totalPot < 1.0) return 'large';
+  if (totalPot < 5.0) return 'huge';
+  return 'massive';
+};
+
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  const [attempts, setAttempts] = useState<AttemptResponse[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [showInstructions, setShowInstructions] = useState(true);
@@ -36,16 +94,21 @@ export default function GamePage() {
       setShowInstructions(false);
     }
 
-    Promise.all([
-      apiService.getCurrentSession(),
-      apiService.getSessionAttempts()
-    ])
-      .then(([sessionData, attemptsData]) => {
+    const fetchSession = async () => {
+      try {
+        const sessionData = await apiService.getCurrentSession();
         setSession(sessionData);
-        setAttempts(attemptsData);
-      })
-      .catch(() => router.push('/'))
-      .finally(() => setLoading(false));
+      } catch (error) {
+        console.error('Error fetching session:', error);
+        router.push('/');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSession();
+    const interval = setInterval(fetchSession, 30000); // Refresh every 30 seconds
+    return () => clearInterval(interval);
   }, [router]);
 
   const handleCloseInstructions = () => {
@@ -93,6 +156,8 @@ export default function GamePage() {
     );
   }
 
+  const potSize = getPotSize(session.total_pot);
+
   return (
     <>
       <InstructionsModal 
@@ -100,49 +165,52 @@ export default function GamePage() {
         onClose={handleCloseInstructions} 
       />
       
-      <main className={`min-h-screen bg-black text-red-600 py-8 ${tomorrow.className}`}>
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
-            <h1 className="text-2xl font-bold mb-4 text-red-400">Active Session</h1>
-            <p className="mb-2">Entry Fee: ${session?.entry_fee} USDC</p>
-            <p className="mb-4">Total Pot: ${session?.total_pot} USDC</p>
-            
-            {/* Show all attempts */}
-            {attempts.length > 0 && (
-              <div className="mb-6">
-                <h2 className="text-xl font-bold mb-2 text-red-400">Your Attempts</h2>
-                <div className="space-y-2">
-                  {attempts.map(attempt => (
-                    <div 
-                      key={attempt.id} 
-                      onClick={() => router.push(`/game/conversation/${attempt.id}`)}
-                      className="p-3 border border-red-800 rounded bg-black/30 cursor-pointer hover:bg-black/50"
-                    >
-                      <p className="text-red-500">Score: {attempt.score?.toFixed(1) ?? 'Not scored'}</p>
-                      <p className="text-red-400">Pot Size: ${attempt.total_pot} USDC</p>
-                      <p className="text-red-400">Earnings: Pending</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+      <main className={`min-h-screen bg-black text-red-600 pb-20 ${tomorrow.className}`}>
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="max-w-3xl mx-auto px-4 py-8 text-center"
+        >
+          <pre className="font-mono text-yellow-500 whitespace-pre mb-8">
+            {potArt[potSize]}
+          </pre>
 
-            {/* Start Attempt button */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm"
+          >
+            <h1 className="text-3xl mb-4">Current Session</h1>
+            <p className="text-5xl font-bold mb-2">${session.total_pot.toFixed(2)}</p>
+            <p className="text-sm text-red-800 mb-8">Entry Fee: ${session.entry_fee} USDC</p>
+            
             <button
               onClick={createAttempt}
-              className="w-full flex justify-center py-2 px-4 border border-red-800 rounded-md
-                shadow-sm text-sm font-medium text-red-100 bg-red-900/30 hover:bg-red-900/50
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-                transition-colors duration-200"
+              className="group relative w-full py-4 px-6 bg-red-950/30 border border-red-800/50 text-red-500 rounded-lg
+                overflow-hidden transition-all duration-300 font-bold tracking-wider text-lg hover:bg-red-900/30"
             >
-              Start New Attempt (${session.entry_fee} USDC)
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-red-950/0 via-red-900/20 to-red-950/0
+                translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+              
+              {/* Border glow effect */}
+              <div className="absolute inset-0 border border-red-800/50 rounded-lg opacity-0
+                group-hover:opacity-100 transition-opacity duration-300
+                animate-pulse" />
+              
+              <span className="relative z-10">Challenge Bungo</span>
             </button>
 
             {error && (
               <p className="text-red-500 mt-4">{error}</p>
             )}
-          </div>
-        </div>
+            
+            <p className="mt-6 text-sm text-red-800">
+              Session ends: {new Date(session.end_time).toLocaleTimeString()}
+            </p>
+          </motion.div>
+        </motion.div>
       </main>
     </>
   );
