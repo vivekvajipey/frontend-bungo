@@ -251,15 +251,6 @@ export default function GamePage() {
           animate={{ scale: 1, opacity: 1 }}
           className="max-w-3xl mx-auto px-4 py-8 text-center"
         >
-          <pre 
-            className="font-mono text-yellow-500 whitespace-pre mb-8 animate-pulse-slow"
-            style={{
-              textShadow: '0 0 5px rgba(234, 179, 8, 0.5)',
-              animation: 'pulse 4s ease-in-out infinite'
-            }}
-          >
-            {potArt[potSize]}
-          </pre>
 
           <motion.div
             initial={{ y: 20, opacity: 0 }}
