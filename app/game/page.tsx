@@ -78,9 +78,7 @@ const potArt = {
 const getPotSize = (totalPot: number) => {
   if (totalPot < 0.2) return 'small';
   if (totalPot < 0.5) return 'medium';
-  if (totalPot < 1.0) return 'large';
-  if (totalPot < 5.0) return 'huge';
-  return 'massive';
+  return 'large';
 };
 
 export default function GamePage() {
