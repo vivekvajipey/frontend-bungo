@@ -4,7 +4,7 @@ import "./globals.css";
 import MiniKitProvider from "@/src/components/MiniKitProvider";
 import { ErudaDebug } from "@/src/components/ErudaDebug";
 import AdminLayout from "@/src/components/AdminLayout";
-import BottomNav from "@/src/components/BottomNav";
+import ClientLayout from "@/src/components/ClientLayout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,8 +25,9 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <AdminLayout>
           <MiniKitProvider>
-            {children}
-            <BottomNav />
+            <ClientLayout>
+              {children}
+            </ClientLayout>
           </MiniKitProvider>
           <ErudaDebug />
         </AdminLayout>

@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { VerifyBlock } from '@/src/components/VerifyBlock';
-import { MiniKit } from '@worldcoin/minikit-js';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { Tomorrow } from 'next/font/google';
 import ScrambleText from '@/src/components/ScrambleText';
 import NameInput from '@/src/components/NameInput';
 import ProveHumanityButton from '@/src/components/ProveHumanityButton';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Tomorrow } from 'next/font/google';
+import { VerifyBlock } from '@/src/components/VerifyBlock';
+import { MiniKit } from '@worldcoin/minikit-js';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -26,9 +27,18 @@ const FRAMES = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [showVerification, setShowVerification] = useState(false);
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    // Check if user is already verified
+    const credentials = localStorage.getItem('worldid_credentials');
+    if (credentials) {
+      // If verified, redirect to game page
+      router.replace('/game');
+    }
+  }, [router]);
 
   const handleEnter = () => {
     if (!MiniKit.isInstalled()) {
@@ -50,9 +60,7 @@ export default function Home() {
   };
 
   const handleNameSubmit = (name: string) => {
-    setUserName(name);
     localStorage.setItem('user_name', name);
-    console.log(userName);
     handleFrameClick();
   };
 
@@ -70,64 +78,62 @@ export default function Home() {
 
   return (
     <main className={`min-h-screen flex flex-col items-center justify-center bg-black text-red-600 ${tomorrow.className}`}>
-      <AnimatePresence mode="wait">
-        {!showVerification ? (
-          <div 
-            className="relative w-full h-screen flex flex-col items-center justify-center"
-            onClick={currentFrame !== 1 && currentFrame !== 7 ? handleFrameClick : undefined}
-          >
-            <motion.div
-              key={`frame-${currentFrame}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className={currentFrame === 1 || currentFrame === 7 ? "" : "pointer-events-none"}
-            >
-              <div className="text-4xl whitespace-pre-line text-center">
-                <ScrambleText 
-                  postScrambleContent={
-                    currentFrame === 7 
-                      ? FRAMES[currentFrame].map((_, i) => 
-                          i === FRAMES[currentFrame].length - 1 ? <ProveHumanityButton key={i} onClick={handleEnter} /> : null
-                        )
-                      : FRAMES[currentFrame].map((_, i) => {
-                          const content = getPostScrambleContent(currentFrame);
-                          return content ? <div key={i}>{content}</div> : null;
-                        })
-                  }
-                >
-                  {FRAMES[currentFrame]}
-                </ScrambleText>
-              </div>
-              {currentFrame !== 1 && currentFrame !== 7 && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                  className="mt-8 text-base text-red-800 text-center"
-                >
-                  click to continue
-                </motion.p>
-              )}
-            </motion.div>
-          </div>
-        ) : (
+      {!showVerification ? (
+        <div 
+          className="relative w-full h-screen flex flex-col items-center justify-center"
+          onClick={currentFrame !== 1 && currentFrame !== 7 ? handleFrameClick : undefined}
+        >
           <motion.div
-            key="verification"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-md px-4"
+            key={`frame-${currentFrame}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className={currentFrame === 1 || currentFrame === 7 ? "" : "pointer-events-none"}
           >
-            <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
-              <VerifyBlock 
-                onVerificationSuccess={handleVerificationSuccess}
-                show={showVerification}
-              />
+            <div className="text-4xl whitespace-pre-line text-center">
+              <ScrambleText 
+                postScrambleContent={
+                  currentFrame === 7 
+                    ? FRAMES[currentFrame].map((_, i) => 
+                        i === FRAMES[currentFrame].length - 1 ? <ProveHumanityButton key={i} onClick={handleEnter} /> : null
+                      )
+                    : FRAMES[currentFrame].map((_, i) => {
+                        const content = getPostScrambleContent(currentFrame);
+                        return content ? <div key={i}>{content}</div> : null;
+                      })
+                }
+              >
+                {FRAMES[currentFrame]}
+              </ScrambleText>
             </div>
+            {currentFrame !== 1 && currentFrame !== 7 && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                className="mt-8 text-base text-red-800 text-center"
+              >
+                click to continue
+              </motion.p>
+            )}
           </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      ) : (
+        <motion.div
+          key="verification"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="w-full max-w-md px-4"
+        >
+          <div className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm">
+            <VerifyBlock 
+              onVerificationSuccess={handleVerificationSuccess}
+              show={showVerification}
+            />
+          </div>
+        </motion.div>
+      )}
     </main>
   );
 }
