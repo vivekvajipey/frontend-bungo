@@ -13,11 +13,18 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
     },
     keyframes: {
       scan: {
         '0%, 100%': { transform: 'translateX(-100%)' },
         '50%': { transform: 'translateX(100%)' },
+      },
+      pulse: {
+        '0%, 100%': { opacity: '1' },
+        '50%': { opacity: '.7' },
       }
     },
     animation: {
