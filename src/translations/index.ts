@@ -33,6 +33,21 @@ interface Translation {
     sessionEnds: string;
     totalPot: string;
   };
+  conversation: {
+    title: string;
+    messagesRemaining: string;
+    loading: string;
+    notFound: string;
+    inputPlaceholder: string;
+    inputPlaceholderSending: string;
+    sendButton: string;
+    sendingButton: string;
+    evaluateButton: string;
+    evaluatingButton: string;
+    finalEvaluation: string;
+    reward: string;
+    backToGame: string;
+  };
 }
 
 interface Translations {
@@ -95,6 +110,21 @@ export const translations: Translations = {
       challengeButton: "Challenge Bungo",
       sessionEnds: "Session ends",
       totalPot: "Total Pot"
+    },
+    conversation: {
+      title: "Bungo&apos;s Bungorium",
+      messagesRemaining: "messages remaining",
+      loading: "Loading...",
+      notFound: "Attempt not found. Redirecting...",
+      inputPlaceholder: "Say something human...",
+      inputPlaceholderSending: "Theorizing...",
+      sendButton: "Send",
+      sendingButton: "Theorizing...",
+      evaluateButton: "Evaluate Performance",
+      evaluatingButton: "Computing Score...",
+      finalEvaluation: "Final Evaluation",
+      reward: "Reward",
+      backToGame: "Back to Game"
     }
   },
   es: {
@@ -146,6 +176,21 @@ export const translations: Translations = {
       challengeButton: "Desafiar a Bungo",
       sessionEnds: "La sesión termina",
       totalPot: "Bote Total"
+    },
+    conversation: {
+      title: "Bungorium de Bungo",
+      messagesRemaining: "mensajes restantes",
+      loading: "Cargando...",
+      notFound: "Intento no encontrado. Redirigiendo...",
+      inputPlaceholder: "Di algo humano...",
+      inputPlaceholderSending: "Teorizando...",
+      sendButton: "Enviar",
+      sendingButton: "Teorizando...",
+      evaluateButton: "Evaluar Desempeño",
+      evaluatingButton: "Calculando Puntuación...",
+      finalEvaluation: "Evaluación Final",
+      reward: "Recompensa",
+      backToGame: "Volver al Juego"
     }
   },
   pt: {
@@ -197,6 +242,21 @@ export const translations: Translations = {
       challengeButton: "Desafiar o Bungo",
       sessionEnds: "A sessão termina",
       totalPot: "Prêmio Total"
+    },
+    conversation: {
+      title: "Bungorium do Bungo",
+      messagesRemaining: "mensagens restantes",
+      loading: "Carregando...",
+      notFound: "Tentativa não encontrada. Redirecionando...",
+      inputPlaceholder: "Diga algo humano...",
+      inputPlaceholderSending: "Teorizando...",
+      sendButton: "Enviar",
+      sendingButton: "Teorizando...",
+      evaluateButton: "Avaliar Desempenho",
+      evaluatingButton: "Calculando Pontuação...",
+      finalEvaluation: "Avaliação Final",
+      reward: "Recompensa",
+      backToGame: "Voltar ao Jogo"
     }
   }
 };

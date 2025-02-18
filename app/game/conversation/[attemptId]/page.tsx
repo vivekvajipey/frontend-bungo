@@ -8,6 +8,7 @@ import { AxiosError } from 'axios';
 import { MessageSquare, Send, Award, Brain, Sparkles } from 'lucide-react';
 import { Tomorrow } from 'next/font/google';
 import { TypewriterText } from '@/src/components/ui/TypewriterText';
+import { translations } from '@/src/translations';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -27,6 +28,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
   const [loading, setLoading] = useState(true);
   const [isScoring, setIsScoring] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [language, setLanguage] = useState('en');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,6 +37,12 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
       if (!credentials) {
         router.push('/');
         return;
+      }
+
+      // Load saved language preference
+      const savedLanguage = localStorage.getItem('language');
+      if (savedLanguage) {
+        setLanguage(savedLanguage);
       }
 
       try {
@@ -49,9 +57,9 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
           attemptData.messages = [{
             content: "",
             ai_response: `${greeting} Again.
-You’ve got that desperate look in your eye, the one that says, "Surely, my dazzling rhetoric will sway the impenetrable intellect of Bungo Bobbins!" Pathetic. Adorable, but pathetic.
-Let’s hear it. What’s your grand argument this time? Gonna tell me you’re innocent? Yawn. Beg for mercy? Cringe. Try to outwit me? Bold, but ultimately tragic.
-I want entertainment, ${userName}. A real reason to consider your release. Something that doesn’t make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.
+You've got that desperate look in your eye, the one that says, "Surely, my dazzling rhetoric will sway the impenetrable intellect of Bungo Bobbins!" Pathetic. Adorable, but pathetic.
+Let's hear it. What's your grand argument this time? Gonna tell me you're innocent? Yawn. Beg for mercy? Cringe. Try to outwit me? Bold, but ultimately tragic.
+I want entertainment, ${userName}. A real reason to consider your release. Something that doesn't make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.
 Go on. Amaze me. Or flail spectacularly—either way, I win.`
           }];
         }
@@ -128,7 +136,7 @@ Go on. Amaze me. Or flail spectacularly—either way, I win.`
   if (loading) {
     return (
       <div className={`flex items-center justify-center min-h-screen bg-black text-red-600 ${tomorrow.className}`}>
-        Loading...
+        {translations[language].conversation.loading}
       </div>
     );
   }
@@ -137,7 +145,7 @@ Go on. Amaze me. Or flail spectacularly—either way, I win.`
     return (
       <div className="min-h-screen bg-black text-red-500 flex items-center justify-center p-4">
         <div className="w-full max-w-4xl bg-black rounded-lg p-8 text-center">
-          Attempt not found. Redirecting...
+          {translations[language].conversation.notFound}
         </div>
       </div>
     );
@@ -153,11 +161,11 @@ Go on. Amaze me. Or flail spectacularly—either way, I win.`
         <div className="border-b border-red-900/50 p-4 bg-black/80 backdrop-blur-lg">
           <div className="flex items-center justify-center space-x-3 mb-2">
             <Brain className="w-6 h-6 text-red-500 animate-pulse" />
-            <h1 className="text-lg font-bold text-red-400">Bungo&apos;s Bungorium</h1>
+            <h1 className="text-lg font-bold text-red-400">{translations[language].conversation.title}</h1>
           </div>
           <div className="flex items-center justify-center space-x-2 text-sm text-red-400/80 animate-pulse">
             <MessageSquare className="w-4 h-4" />
-            <span>{attempt.messages_remaining} messages remaining</span>
+            <span>{attempt.messages_remaining} {translations[language].conversation.messagesRemaining}</span>
           </div>
         </div>
 
@@ -203,7 +211,7 @@ Go on. Amaze me. Or flail spectacularly—either way, I win.`
                   }
                 }}
                 disabled={isSending}
-                placeholder={isSending ? "Theorizing..." : "Say something human..."}
+                placeholder={isSending ? translations[language].conversation.inputPlaceholderSending : translations[language].conversation.inputPlaceholder}
                 className="flex-1 bg-black/50 border border-red-900/50 rounded-lg px-4 py-2 text-red-400 
                   placeholder-red-600/70 focus:outline-none focus:border-red-500 transition-colors
                   min-h-[40px] max-h-[120px] resize-y"
@@ -215,7 +223,7 @@ Go on. Amaze me. Or flail spectacularly—either way, I win.`
                   hover:bg-red-900/30 transition-colors focus:outline-none focus:ring-2 
                   focus:ring-red-500/50 flex items-center space-x-2 disabled:opacity-50"
               >
-                <span>{isSending ? "Theorizing..." : "Send"}</span>
+                <span>{isSending ? translations[language].conversation.sendingButton : translations[language].conversation.sendButton}</span>
                 <Send className="w-4 h-4" />
               </button>
             </div>
@@ -230,18 +238,18 @@ Go on. Amaze me. Or flail spectacularly—either way, I win.`
                 disabled:opacity-50"
             >
               <Award className="w-5 h-5" />
-              <span>{isScoring ? 'Computing Score...' : 'Evaluate Performance'}</span>
+              <span>{isScoring ? translations[language].conversation.evaluatingButton : translations[language].conversation.evaluateButton}</span>
             </button>
           </div>
         ) : (
           <div className="p-4 border-t border-red-900/50 bg-black/80">
             <div className="text-center space-y-2">
               <div className="inline-block px-6 py-2 bg-red-900/20 border border-red-500/50 rounded-lg">
-                <h3 className="text-xl font-bold text-red-400">Final Evaluation</h3>
+                <h3 className="text-xl font-bold text-red-400">{translations[language].conversation.finalEvaluation}</h3>
                 <p className="text-2xl font-bold text-red-500 mt-1">{attempt.score.toFixed(1)}/10</p>
               </div>
               <p className="text-red-400">
-                Reward: {attempt.earnings ? `$${attempt.earnings} USDC` : ''}
+                {translations[language].conversation.reward}: {attempt.earnings ? `$${attempt.earnings} USDC` : ''}
               </p>
             </div>
             <div className="mt-6">
@@ -252,7 +260,7 @@ Go on. Amaze me. Or flail spectacularly—either way, I win.`
                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
                   transition-colors duration-200"
               >
-                Back to Game
+                {translations[language].conversation.backToGame}
               </button>
             </div>
           </div>
