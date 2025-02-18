@@ -98,6 +98,34 @@ class ApiService {
     }
   }
 
+  async getCurrentUser(): Promise<User | null> {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users/me`, {
+        headers: this.getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return null;
+      }
+      throw error;
+    }
+  }
+
+  async getCurrentLanguage(): Promise<string | null> {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users/me/language`, {
+        headers: this.getAuthHeaders()
+      });
+      return response.data.language;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return null;
+      }
+      throw error;
+    }
+  }
+
   async createAttempt(paymentReference: string): Promise<Attempt> {
     const response = await axios.post(
       `${API_BASE_URL}/attempts/create`,
