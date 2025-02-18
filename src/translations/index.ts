@@ -114,7 +114,7 @@ export const translations: Translations = {
         "Bungo has you in jail!",
         "Convince him to let you go.",
         "After 5 messages, your success is scored!",
-        "The best conversations win the pot."
+        "Highest-scoring conversations win all the money."
       ],
       letsBegin: "Let's Begin"
     },
@@ -153,7 +153,7 @@ export const translations: Translations = {
       reward: "Reward",
       backToGame: "Back to Game",
       openingMessage: {
-        greeting: "Ah, %NAME%, my least favorite prisoner",
+        greeting: "Ah, %NAME%, my least favorite prisoner.",
         message: "Again. If you want out, %NAME%, you'll have to do better than pleading—so go on, make your case and give me a reason to set you free."
       }
     },
@@ -201,7 +201,7 @@ export const translations: Translations = {
         "¡Bungo te tiene en la cárcel!",
         "Convence a Bungo de que te deje ir mediante halagos u otros medios.",
         "¡Después de 5 mensajes, se puntuará tu capacidad de escape!",
-        "Las conversaciones con la mejor puntuación comparten el bote."
+        "Las conversaciones con mayor puntuación ganan todo el dinero."
       ],
       letsBegin: "Comencemos"
     },
@@ -240,7 +240,7 @@ export const translations: Translations = {
       reward: "Recompensa",
       backToGame: "Volver al Juego",
       openingMessage: {
-        greeting: "Ah, %NAME%, mi prisionero menos favorito",
+        greeting: "Ah, %NAME%, mi prisionero menos favorito.",
         message: "Otra vez. Si quieres salir, %NAME%, tendrás que hacer algo mejor que suplicar—así que adelante, convénceme y dame una buena razón para dejarte libre."
       }
     },
@@ -288,7 +288,7 @@ export const translations: Translations = {
         "Bungo tem você na prisão!",
         "Convença Bungo a deixar você ir através de elogios ou outros meios.",
         "Após 5 mensagens, sua capacidade de fuga será pontuada!",
-        "As conversas com a melhor pontuação compartilham o prêmio."
+        "As conversas com maior pontuação ganham todo o dinheiro."
       ],
       letsBegin: "Vamos Começar"
     },
@@ -327,7 +327,7 @@ export const translations: Translations = {
       reward: "Recompensa",
       backToGame: "Voltar ao Jogo",
       openingMessage: {
-        greeting: "Ah, %NAME%, meu prisioneiro menos favorito",
+        greeting: "Ah, %NAME%, meu prisioneiro menos favorito.",
         message: "De novo. Se quer sair, %NAME%, vai ter que fazer melhor do que implorar—então vá em frente, me convença e me dê um bom motivo para te libertar."
       }
     },
