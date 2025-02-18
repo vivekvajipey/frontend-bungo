@@ -8,6 +8,7 @@ import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
 import { InstructionsModal } from '@/src/components/InstructionsModal';
 import { motion } from 'framer-motion';
+import { translations } from '@/src/translations';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -92,7 +93,7 @@ export default function GamePage() {
   if (loading) {
     return (
       <div className={`flex items-center justify-center min-h-screen bg-black text-red-600 ${tomorrow.className}`}>
-        Loading...
+        {translations[language].game.loading}
       </div>
     );
   }
@@ -100,7 +101,7 @@ export default function GamePage() {
   if (!session) {
     return (
       <div className={`flex items-center justify-center min-h-screen bg-black text-red-600 ${tomorrow.className}`}>
-        No active session available. Please try again later.
+        {translations[language].game.noSession}
       </div>
     );
   }
@@ -119,16 +120,20 @@ export default function GamePage() {
           animate={{ scale: 1, opacity: 1 }}
           className="max-w-3xl mx-auto px-4 py-8 text-center"
         >
-
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
             className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm"
           >
-            <h1 className="text-3xl mb-4">Current Session</h1>
-            <p className="text-5xl font-bold mb-2">${session.total_pot.toFixed(2)}</p>
-            <p className="text-sm text-red-800 mb-8">Entry Fee: ${session.entry_fee} USDC</p>
+            <h1 className="text-3xl mb-4">{translations[language].game.currentSession}</h1>
+            <div className="mb-2">
+              <span className="text-sm text-red-800">{translations[language].game.totalPot}:</span>
+              <p className="text-5xl font-bold">${session.total_pot.toFixed(2)}</p>
+            </div>
+            <p className="text-sm text-red-800 mb-8">
+              {translations[language].game.entryFee}: ${session.entry_fee} USDC
+            </p>
             
             <button
               onClick={createAttempt}
@@ -144,7 +149,7 @@ export default function GamePage() {
                 group-hover:opacity-100 transition-opacity duration-300
                 animate-pulse" />
               
-              <span className="relative z-10">Challenge Bungo</span>
+              <span className="relative z-10">{translations[language].game.challengeButton}</span>
             </button>
 
             {error && (
@@ -152,7 +157,7 @@ export default function GamePage() {
             )}
             
             <p className="mt-6 text-sm text-red-800">
-              Session ends: {new Date(session.end_time).toLocaleTimeString()}
+              {translations[language].game.sessionEnds}: {new Date(session.end_time).toLocaleTimeString()}
             </p>
           </motion.div>
         </motion.div>
