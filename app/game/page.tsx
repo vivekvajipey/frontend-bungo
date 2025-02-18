@@ -38,18 +38,11 @@ export default function GamePage() {
       setShowInstructions(false);
     }
 
-    // Load saved language preference from backend
-    const fetchLanguage = async () => {
-      try {
-        const userLanguage = await apiService.getCurrentLanguage();
-        if (userLanguage) {
-          setLanguage(userLanguage);
-        }
-      } catch (error) {
-        console.error('Error fetching language:', error);
-      }
-    };
-    fetchLanguage();
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
 
     const fetchSession = async () => {
       try {
