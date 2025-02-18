@@ -51,16 +51,19 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         
         // If this is a fresh attempt with no messages, add Bungo's opening message
         if (attemptData.messages.length === 0) {
-          const userName = localStorage.getItem('user_name');
-          const greeting = userName ? `Ah, ${userName}, my least favorite prisoner.` : "Ah, my least favorite prisoner.";
+          const userName = localStorage.getItem('user_name') || 'prisoner';
+          const openingMessage = translations[savedLanguage || 'en'].conversation.openingMessage;
+          const greeting = openingMessage.greeting.replace('%NAME%', userName);
           
           attemptData.messages = [{
             content: "",
-            ai_response: `${greeting} Again.
-You've got that desperate look in your eye, the one that says, "Surely, my dazzling rhetoric will sway the impenetrable intellect of Bungo Bobbins!" Pathetic. Adorable, but pathetic.
-Let's hear it. What's your grand argument this time? Gonna tell me you're innocent? Yawn. Beg for mercy? Cringe. Try to outwit me? Bold, but ultimately tragic.
-I want entertainment, ${userName}. A real reason to consider your release. Something that doesn't make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.
-Go on. Amaze me. Or flail spectacularly—either way, I win.`
+            ai_response: [
+              `${greeting}. ${openingMessage.again}.`,
+              openingMessage.desperate,
+              openingMessage.argument,
+              openingMessage.entertainment.replace('%NAME%', userName),
+              openingMessage.finale
+            ].join('\n\n')
           }];
         }
         

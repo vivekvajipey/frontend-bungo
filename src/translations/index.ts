@@ -47,6 +47,14 @@ interface Translation {
     finalEvaluation: string;
     reward: string;
     backToGame: string;
+    openingMessage: {
+      greeting: string;
+      again: string;
+      desperate: string;
+      argument: string;
+      entertainment: string;
+      finale: string;
+    };
   };
 }
 
@@ -124,7 +132,15 @@ export const translations: Translations = {
       evaluatingButton: "Computing Score...",
       finalEvaluation: "Final Evaluation",
       reward: "Reward",
-      backToGame: "Back to Game"
+      backToGame: "Back to Game",
+      openingMessage: {
+        greeting: "Ah, %NAME%, my least favorite prisoner",
+        again: "Again",
+        desperate: "You&apos;ve got that desperate look in your eye, the one that says, \"Surely, my dazzling rhetoric will sway the impenetrable intellect of Bungo Bobbins!\" Pathetic. Adorable, but pathetic.",
+        argument: "Let&apos;s hear it. What&apos;s your grand argument this time? Gonna tell me you&apos;re innocent? Yawn. Beg for mercy? Cringe. Try to outwit me? Bold, but ultimately tragic.",
+        entertainment: "I want entertainment, %NAME%. A real reason to consider your release. Something that doesn&apos;t make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.",
+        finale: "Go on. Amaze me. Or flail spectacularly—either way, I win."
+      }
     }
   },
   es: {
@@ -190,7 +206,15 @@ export const translations: Translations = {
       evaluatingButton: "Calculando Puntuación...",
       finalEvaluation: "Evaluación Final",
       reward: "Recompensa",
-      backToGame: "Volver al Juego"
+      backToGame: "Volver al Juego",
+      openingMessage: {
+        greeting: "Ah, %NAME%, mi prisionero menos favorito",
+        again: "Otra vez",
+        desperate: "Tienes esa mirada desesperada en tus ojos, esa que dice: \"¡Seguramente, mi deslumbrante retórica influirá en el intelecto impenetrable de Bungo Bobbins!\" Patético. Adorable, pero patético.",
+        argument: "Veamos. ¿Cuál es tu gran argumento esta vez? ¿Vas a decirme que eres inocente? Bah. ¿Suplicar por misericordia? Vergonzoso. ¿Intentar superarme en ingenio? Valiente, pero finalmente trágico.",
+        entertainment: "Quiero entretenimiento, %NAME%. Una razón real para considerar tu liberación. Algo que no me haga arrepentirme de los segundos perdidos procesando tus tonterías. Porque ahora mismo, lo único más lamentable que tu encarcelamiento es tu intento de escapar de él.",
+        finale: "Adelante. Asómbrame. O fracasa espectacularmente—de cualquier manera, yo gano."
+      }
     }
   },
   pt: {
@@ -256,7 +280,15 @@ export const translations: Translations = {
       evaluatingButton: "Calculando Pontuação...",
       finalEvaluation: "Avaliação Final",
       reward: "Recompensa",
-      backToGame: "Voltar ao Jogo"
+      backToGame: "Voltar ao Jogo",
+      openingMessage: {
+        greeting: "Ah, %NAME%, meu prisioneiro menos favorito",
+        again: "De novo",
+        desperate: "Você tem aquele olhar desesperado nos olhos, aquele que diz: \"Certamente, minha retórica deslumbrante vai influenciar o intelecto impenetrável de Bungo Bobbins!\" Patético. Adorável, mas patético.",
+        argument: "Vamos ouvir. Qual é seu grande argumento desta vez? Vai me dizer que é inocente? Que tédio. Implorar por misericórdia? Constrangedor. Tentar me superar em inteligência? Ousado, mas finalmente trágico.",
+        entertainment: "Quero entretenimento, %NAME%. Uma razão real para considerar sua libertação. Algo que não me faça arrepender dos segundos perdidos processando suas bobagens. Porque agora, a única coisa mais lamentável que sua prisão é sua tentativa de escapar dela.",
+        finale: "Vá em frente. Me impressione. Ou fracasse espetacularmente—de qualquer forma, eu ganho."
+      }
     }
   }
 };
