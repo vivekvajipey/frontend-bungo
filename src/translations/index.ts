@@ -96,19 +96,19 @@ export const translations: Translations = {
     verificationError: "Verification failed. Please try again.",
     proveHumanity: "PROVE HUMANITY",
     instructions: {
-      title: "Bungo&apos;s Bungorium How-To",
+      title: "Bungo's Bungorium How-To",
       steps: [
         "Every hour, a new Bungo competition session begins.",
         "For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.",
         "Per attempt, you get 5 messages to shock Bungo.",
         "At the end of the session, the conversations with the best score share the pot."
       ],
-      letsBegin: "Let&apos;s Begin"
+      letsBegin: "Let's Begin"
     },
     leaderboard: {
       title: "Leaderboard",
       comingSoon: "Coming Soon",
-      underConstruction: "The leaderboard is under construction. Check back later to see Bungo&apos;s escapees..."
+      underConstruction: "The leaderboard is under construction. Check back later to see Bungo's escapees..."
     },
     game: {
       loading: "Loading...",
@@ -120,7 +120,7 @@ export const translations: Translations = {
       totalPot: "Total Pot"
     },
     conversation: {
-      title: "Bungo&apos;s Bungorium",
+      title: "Bungo's Bungorium",
       messagesRemaining: "messages remaining",
       loading: "Loading...",
       notFound: "Attempt not found. Redirecting...",
@@ -136,9 +136,9 @@ export const translations: Translations = {
       openingMessage: {
         greeting: "Ah, %NAME%, my least favorite prisoner",
         again: "Again",
-        desperate: "You&apos;ve got that desperate look in your eye, the one that says, \"Surely, my dazzling rhetoric will sway the impenetrable intellect of Bungo Bobbins!\" Pathetic. Adorable, but pathetic.",
-        argument: "Let&apos;s hear it. What&apos;s your grand argument this time? Gonna tell me you&apos;re innocent? Yawn. Beg for mercy? Cringe. Try to outwit me? Bold, but ultimately tragic.",
-        entertainment: "I want entertainment, %NAME%. A real reason to consider your release. Something that doesn&apos;t make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.",
+        desperate: "You've got that desperate look in your eye, the one that says, \"Surely, my dazzling rhetoric will sway the impenetrable intellect of Bungo Bobbins!\" Pathetic. Adorable, but pathetic.",
+        argument: "Let's hear it. What's your grand argument this time? Gonna tell me you're innocent? Yawn. Beg for mercy? Cringe. Try to outwit me? Bold, but ultimately tragic.",
+        entertainment: "I want entertainment, %NAME%. A real reason to consider your release. Something that doesn't make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.",
         finale: "Go on. Amaze me. Or flail spectacularly—either way, I win."
       }
     }
