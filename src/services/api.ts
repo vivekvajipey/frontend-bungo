@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MiniKit, Tokens, PayCommandInput, MiniAppPaymentSuccessPayload, tokenToDecimals } from '@worldcoin/minikit-js';
+import { MiniKit, Tokens, PayCommandInput, MiniAppPaymentSuccessPayload, tokenToDecimals, Network } from '@worldcoin/minikit-js';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
@@ -19,6 +19,7 @@ interface AttemptSummary {
   id: string;
   score?: number;
   earnings?: number;
+  is_free_attempt: boolean;
 }
 
 export interface Session {
@@ -30,6 +31,7 @@ export interface Session {
   status: string;
   attempts: AttemptSummary[];
   winning_conversation?: Message[];
+  winning_attempt_was_free?: boolean;
 }
 
 export interface Attempt {
@@ -41,6 +43,7 @@ export interface Attempt {
   score?: number;
   earnings?: number;
   total_pot: number;
+  is_free_attempt: boolean;
 }
 
 export interface Message {
@@ -50,7 +53,7 @@ export interface Message {
 
 interface PaymentInitResponse {
   reference: string;
-  recipient: string;
+  recipient: string | null;
   amount: string;
 }
 
@@ -63,6 +66,7 @@ export interface AttemptResponse {
   messages_remaining: number;
   total_pot: number;
   earnings?: number;
+  is_free_attempt: boolean;
 }
 
 interface PaymentConfirmationPayload {
@@ -145,7 +149,7 @@ class ApiService {
     return response.data.success;
   }
 
-  async processPayment(): Promise<string> {  // Now returns payment reference
+  async processPayment(): Promise<string> {
     if (!MiniKit.isInstalled()) {
       throw new Error('World App not installed');
     }
@@ -155,9 +159,29 @@ class ApiService {
       const { reference, recipient, amount } = await this.initiatePayment();
       console.log('Payment details:', { reference, recipient, amount });
 
+      // If this is a free attempt, confirm it directly
+      if (reference === "free_attempt") {
+        console.log('Using free attempt');
+        const freeAttemptPayload: MiniAppPaymentSuccessPayload = {
+          chain: Network.Optimism, // Use proper Network enum value
+          from: "free_attempt",
+          reference: reference,
+          status: "success",
+          timestamp: new Date().toISOString(),
+          transaction_id: "free_attempt",
+          transaction_status: "submitted",
+          version: 0
+        };
+        const success = await this.confirmPayment(reference, freeAttemptPayload);
+        if (success) {
+          return reference;
+        }
+        throw new Error('Free attempt confirmation failed');
+      }
+
       const paymentPayload: PayCommandInput = {
         reference,
-        to: recipient,
+        to: recipient!,  // We know it's not null for paid attempts
         tokens: [{
           symbol: Tokens.USDCE,
           token_amount: tokenToDecimals(parseFloat(amount), Tokens.USDCE).toString()
@@ -173,7 +197,7 @@ class ApiService {
         console.log('Payment successful, confirming with backend...');
         const success = await this.confirmPayment(reference, payRes.finalPayload);
         if (success) {
-          return reference;  // Return reference for createAttempt
+          return reference;
         }
       }
       throw new Error('Payment failed');
@@ -207,6 +231,18 @@ class ApiService {
     return response.data;
   }
 
+  async hasFreeAttempt(): Promise<boolean> {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users/has_free_attempt`, {
+        headers: this.getAuthHeaders()
+      });
+      return response.data.has_free_attempt;
+    } catch (error) {
+      console.error('Failed to check free attempt status:', error);
+      return false;
+    }
+  }
+
   // Admin endpoints
   async getUnpaidAttempts() {
     return this.get('/api/admin/unpaid_attempts');
@@ -235,7 +271,6 @@ class ApiService {
   }
 }
 
-// Trigger Vercel redeploy
 // comment for vercel
 
-export const apiService = new ApiService(); 
+export const apiService = new ApiService();

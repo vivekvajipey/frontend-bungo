@@ -7,6 +7,7 @@ import { Session } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
 import { InstructionsModal } from '@/src/components/InstructionsModal';
+import { FreeAttemptBadge } from '@/src/components/ui/FreeAttemptBadge';
 import { motion } from 'framer-motion';
 import { translations } from '@/src/translations';
 
@@ -20,10 +21,11 @@ const INSTRUCTIONS_SHOWN_KEY = 'bungo_instructions_shown';
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showInstructions, setShowInstructions] = useState(true);
   const [language, setLanguage] = useState('en');
+  const [hasFreeAttempt, setHasFreeAttempt] = useState(false);
 
   useEffect(() => {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -43,6 +45,17 @@ export default function GamePage() {
     if (savedLanguage) {
       setLanguage(savedLanguage);
     }
+
+    // Check for free attempt
+    const checkFreeAttempt = async () => {
+      try {
+        const hasFree = await apiService.hasFreeAttempt();
+        setHasFreeAttempt(hasFree);
+      } catch (error) {
+        console.error('Failed to check free attempt:', error);
+      }
+    };
+    checkFreeAttempt();
 
     const fetchSession = async () => {
       try {
@@ -161,6 +174,14 @@ export default function GamePage() {
                 animate-pulse" />
               
               <span className="relative z-10">{translations[language].game.challengeButton}</span>
+              
+              {/* Free attempt badge */}
+              {hasFreeAttempt && (
+                <FreeAttemptBadge 
+                  language={language}
+                  className="absolute -top-3 -right-3 transform rotate-12 z-20"
+                />
+              )}
             </button>
 
             {error && (

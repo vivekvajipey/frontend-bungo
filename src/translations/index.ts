@@ -69,6 +69,10 @@ interface Translation {
     won: string;
     pot: string;
   };
+  freeAttempt: {
+    badge: string;
+    tooltip: string;
+  };
 }
 
 interface Translations {
@@ -167,6 +171,10 @@ export const translations: Translations = {
       inProgress: "In Progress",
       won: "Won",
       pot: "Pot"
+    },
+    freeAttempt: {
+      badge: "First Attempt Free!",
+      tooltip: "Try Bungo for free - no payment needed for your first attempt!"
     }
   },
   es: {
@@ -254,6 +262,10 @@ export const translations: Translations = {
       inProgress: "En Progreso",
       won: "Ganado",
       pot: "Bote"
+    },
+    freeAttempt: {
+      badge: "¡Primer Intento Gratis!",
+      tooltip: "Prueba Bungo gratis - ¡no se necesita pago para tu primer intento!"
     }
   },
   pt: {
@@ -341,6 +353,10 @@ export const translations: Translations = {
       inProgress: "Em Andamento",
       won: "Ganhou",
       pot: "Prêmio"
+    },
+    freeAttempt: {
+      badge: "Primeira Tentativa Grátis!",
+      tooltip: "Experimente Bungo gratuitamente - sem pagamento necessário para sua primeira tentativa!"
     }
   }
 };
