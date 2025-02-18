@@ -1,12 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { translations } from '@/src/translations';
 
 type Props = {
   onClick: () => void;
+  language: string;
 };
 
-const ProveHumanityButton: React.FC<Props> = ({ onClick }) => {
+const ProveHumanityButton: React.FC<Props> = ({ onClick, language }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -40,7 +42,7 @@ const ProveHumanityButton: React.FC<Props> = ({ onClick }) => {
           <div className="absolute bottom-0 right-0 w-0.5 h-full bg-gradient-to-t from-red-500/80 to-transparent" />
         </div>
         
-        <span className="relative z-10">PROVE HUMANITY</span>
+        <span className="relative z-10">{translations[language].proveHumanity}</span>
       </motion.button>
     </motion.div>
   );

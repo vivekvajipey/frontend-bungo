@@ -13,6 +13,12 @@ interface Translation {
   };
   worldAppError: string;
   verificationError: string;
+  proveHumanity: string;
+  instructions: {
+    title: string;
+    steps: string[];
+    letsBegin: string;
+  };
 }
 
 interface Translations {
@@ -50,7 +56,18 @@ export const translations: Translations = {
       continue: "CONTINUE"
     },
     worldAppError: "Please open this app in World App",
-    verificationError: "Verification failed. Please try again."
+    verificationError: "Verification failed. Please try again.",
+    proveHumanity: "PROVE HUMANITY",
+    instructions: {
+      title: "Bungo's Bungorium How-To",
+      steps: [
+        "Every hour, a new Bungo competition session begins.",
+        "For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.",
+        "Per attempt, you get 5 messages to shock Bungo.",
+        "At the end of the session, the conversations with the best score share the pot."
+      ],
+      letsBegin: "Let's Begin"
+    }
   },
   es: {
     frames: [
@@ -76,7 +93,18 @@ export const translations: Translations = {
       continue: "CONTINUAR"
     },
     worldAppError: "Por favor, abre esta aplicación en World App",
-    verificationError: "Verificación fallida. Por favor, intenta de nuevo."
+    verificationError: "Verificación fallida. Por favor, intenta de nuevo.",
+    proveHumanity: "PROBAR HUMANIDAD",
+    instructions: {
+      title: "Cómo Jugar en el Bungorium de Bungo",
+      steps: [
+        "Cada hora comienza una nueva sesión de competencia Bungo.",
+        "Por $0.1 USDC, puedes intentar enseñarle algo nuevo a Bungo, sorprenderlo o demostrarle algo sobre la humanidad que... quizás no espere.",
+        "Por cada intento, tienes 5 mensajes para sorprender a Bungo.",
+        "Al final de la sesión, las conversaciones con la mejor puntuación comparten el bote."
+      ],
+      letsBegin: "Comencemos"
+    }
   },
   pt: {
     frames: [
@@ -102,6 +130,17 @@ export const translations: Translations = {
       continue: "CONTINUAR"
     },
     worldAppError: "Por favor, abra este aplicativo no World App",
-    verificationError: "Verificação falhou. Por favor, tente novamente."
+    verificationError: "Verificação falhou. Por favor, tente novamente.",
+    proveHumanity: "PROVAR HUMANIDADE",
+    instructions: {
+      title: "Como Jogar no Bungorium do Bungo",
+      steps: [
+        "A cada hora, uma nova sessão de competição Bungo começa.",
+        "Por $0.1 USDC, você pode tentar ensinar algo novo ao Bungo, surpreendê-lo ou demonstrar algo sobre a humanidade que ele... talvez não espere.",
+        "Por tentativa, você tem 5 mensagens para surpreender o Bungo.",
+        "No final da sessão, as conversas com a melhor pontuação compartilham o prêmio."
+      ],
+      letsBegin: "Vamos Começar"
+    }
   }
 }; 

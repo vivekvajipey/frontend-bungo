@@ -77,7 +77,7 @@ export default function Home() {
     }
     if (frameIndex === 8) {
       const content = Array(translations[selectedLanguage].frames[frameIndex].length).fill(null);
-      content[content.length - 1] = <ProveHumanityButton onClick={handleEnter} />;
+      content[content.length - 1] = <ProveHumanityButton onClick={handleEnter} language={selectedLanguage} />;
       return content;
     }
     return null;
@@ -102,7 +102,9 @@ export default function Home() {
                 postScrambleContent={
                   currentFrame === 8 
                     ? translations[selectedLanguage].frames[currentFrame].map((_, i) => 
-                        i === translations[selectedLanguage].frames[currentFrame].length - 1 ? <ProveHumanityButton key={i} onClick={handleEnter} /> : null
+                        i === translations[selectedLanguage].frames[currentFrame].length - 1 
+                          ? <ProveHumanityButton key={i} onClick={handleEnter} language={selectedLanguage} /> 
+                          : null
                       )
                     : translations[selectedLanguage].frames[currentFrame].map((_, i) => {
                         const content = getPostScrambleContent(currentFrame);

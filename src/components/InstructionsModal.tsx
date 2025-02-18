@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Tomorrow } from 'next/font/google';
+import { translations } from '@/src/translations';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -11,9 +12,10 @@ const tomorrow = Tomorrow({
 interface InstructionsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  language: string;
 }
 
-export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
+export function InstructionsModal({ isOpen, onClose, language }: InstructionsModalProps) {
   // Close on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -55,7 +57,7 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                 <div className="absolute top-0 left-0 w-1 h-16 bg-gradient-to-b from-red-500/50 to-transparent" />
                 
                 <h2 className="text-xl font-bold text-red-500 tracking-wide">
-                  Bungo&apos;s Bungorium How-To
+                  {translations[language].instructions.title}
                 </h2>
                 
                 {/* Close button */}
@@ -72,12 +74,7 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
               {/* Content */}
               <div className="px-8 py-6">
                 <div className="space-y-4 text-[var(--foreground)]">
-                  {[
-                    "Every hour, a new Bungo competition session begins.",
-                    "For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.",
-                    "Per attempt, you get 5 messages to shock Bungo.",
-                    "At the end of the session, the conversations with the best score share the pot."
-                  ].map((text, i) => (
+                  {translations[language].instructions.steps.map((text, i) => (
                     <div key={i} className="flex gap-3 group">
                       <span className="flex-shrink-0 text-red-500 font-bold text-lg">
                         {i + 1}.
@@ -109,7 +106,7 @@ export function InstructionsModal({ isOpen, onClose }: InstructionsModalProps) {
                     transition-transform duration-1000" />
                   
                   <span className="relative z-10 tracking-wide font-bold">
-                    Let&apos;s Begin
+                    {translations[language].instructions.letsBegin}
                   </span>
                 </button>
               </div>
