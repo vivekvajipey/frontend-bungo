@@ -110,10 +110,10 @@ export const translations: Translations = {
     instructions: {
       title: "Bungo's Bungorium How-To",
       steps: [
-        "Every hour, a new Bungo competition session begins.",
-        "For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.",
-        "Per attempt, you get 5 messages to shock Bungo.",
-        "At the end of the session, the conversations with the best score share the pot."
+        "Bungo has you in jail!",
+        "Convince Bungo to let you go through flattery or other means.",
+        "After 5 messages, your ability to escape is scored!",
+        "Conversations with the best score share the pot."
       ],
       letsBegin: "Let's Begin"
     },
@@ -194,12 +194,12 @@ export const translations: Translations = {
     verificationError: "Verificación fallida. Por favor, intenta de nuevo.",
     proveHumanity: "PROBAR HUMANIDAD",
     instructions: {
-      title: "Cómo Jugar en el Bungorium de Bungo",
+      title: "Cómo usar el Bungorium de Bungo",
       steps: [
-        "Cada hora comienza una nueva sesión de competencia Bungo.",
-        "Por $0.1 USDC, puedes intentar enseñarle algo nuevo a Bungo, sorprenderlo o demostrarle algo sobre la humanidad que... quizás no espere.",
-        "Por cada intento, tienes 5 mensajes para sorprender a Bungo.",
-        "Al final de la sesión, las conversaciones con la mejor puntuación comparten el bote."
+        "¡Bungo te tiene en la cárcel!",
+        "Convence a Bungo de que te deje ir mediante halagos u otros medios.",
+        "¡Después de 5 mensajes, se puntuará tu capacidad de escape!",
+        "Las conversaciones con la mejor puntuación comparten el bote."
       ],
       letsBegin: "Comencemos"
     },
@@ -280,12 +280,12 @@ export const translations: Translations = {
     verificationError: "Verificação falhou. Por favor, tente novamente.",
     proveHumanity: "PROVAR HUMANIDADE",
     instructions: {
-      title: "Como Jogar no Bungorium do Bungo",
+      title: "Como Usar o Bungorium do Bungo",
       steps: [
-        "A cada hora, uma nova sessão de competição Bungo começa.",
-        "Por $0.1 USDC, você pode tentar ensinar algo novo ao Bungo, surpreendê-lo ou demonstrar algo sobre a humanidade que ele... talvez não espere.",
-        "Por tentativa, você tem 5 mensagens para surpreender o Bungo.",
-        "No final da sessão, as conversas com a melhor pontuação compartilham o prêmio."
+        "Bungo tem você na prisão!",
+        "Convença Bungo a deixar você ir através de elogios ou outros meios.",
+        "Após 5 mensagens, sua capacidade de fuga será pontuada!",
+        "As conversas com a melhor pontuação compartilham o prêmio."
       ],
       letsBegin: "Vamos Começar"
     },
