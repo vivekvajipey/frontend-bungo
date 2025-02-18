@@ -56,6 +56,17 @@ interface Translation {
       finale: string;
     };
   };
+  attempts: {
+    title: string;
+    newAttempt: string;
+    noAttempts: string;
+    startFirst: string;
+    messagesLeft: string;
+    score: string;
+    inProgress: string;
+    won: string;
+    pot: string;
+  };
 }
 
 interface Translations {
@@ -141,6 +152,17 @@ export const translations: Translations = {
         entertainment: "I want entertainment, %NAME%. A real reason to consider your release. Something that doesn't make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.",
         finale: "Go on. Amaze me. Or flail spectacularly—either way, I win."
       }
+    },
+    attempts: {
+      title: "Your Attempts",
+      newAttempt: "New Attempt",
+      noAttempts: "No attempts yet. Ready to play?",
+      startFirst: "Start Your First Game",
+      messagesLeft: "Messages Left",
+      score: "Score",
+      inProgress: "In Progress",
+      won: "Won",
+      pot: "Pot"
     }
   },
   es: {
@@ -215,6 +237,17 @@ export const translations: Translations = {
         entertainment: "Quiero entretenimiento, %NAME%. Una razón real para considerar tu liberación. Algo que no me haga arrepentirme de los segundos perdidos procesando tus tonterías. Porque ahora mismo, lo único más lamentable que tu encarcelamiento es tu intento de escapar de él.",
         finale: "Adelante. Asómbrame. O fracasa espectacularmente—de cualquier manera, yo gano."
       }
+    },
+    attempts: {
+      title: "Tus Intentos",
+      newAttempt: "Nuevo Intento",
+      noAttempts: "Aún no hay intentos. ¿Listo para jugar?",
+      startFirst: "Comienza Tu Primer Juego",
+      messagesLeft: "Mensajes Restantes",
+      score: "Puntuación",
+      inProgress: "En Progreso",
+      won: "Ganado",
+      pot: "Bote"
     }
   },
   pt: {
@@ -289,6 +322,17 @@ export const translations: Translations = {
         entertainment: "Quero entretenimento, %NAME%. Uma razão real para considerar sua libertação. Algo que não me faça arrepender dos segundos perdidos processando suas bobagens. Porque agora, a única coisa mais lamentável que sua prisão é sua tentativa de escapar dela.",
         finale: "Vá em frente. Me impressione. Ou fracasse espetacularmente—de qualquer forma, eu ganho."
       }
+    },
+    attempts: {
+      title: "Suas Tentativas",
+      newAttempt: "Nova Tentativa",
+      noAttempts: "Ainda não há tentativas. Pronto para jogar?",
+      startFirst: "Comece Seu Primeiro Jogo",
+      messagesLeft: "Mensagens Restantes",
+      score: "Pontuação",
+      inProgress: "Em Andamento",
+      won: "Ganhou",
+      pot: "Prêmio"
     }
   }
 };

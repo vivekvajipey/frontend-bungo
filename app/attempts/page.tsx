@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { apiService, AttemptResponse } from '@/src/services/api';
+import { translations } from '@/src/translations';
 
 const glowingBorder = {
   boxShadow: '0 0 10px rgba(239, 68, 68, 0.5), inset 0 0 5px rgba(239, 68, 68, 0.2)',
 };
 
-const AttemptCard = ({ attempt, index }: { attempt: AttemptResponse; index: number }) => {
+const AttemptCard = ({ attempt, index, language }: { attempt: AttemptResponse; index: number; language: string }) => {
   const router = useRouter();
 
   return (
@@ -35,18 +36,20 @@ const AttemptCard = ({ attempt, index }: { attempt: AttemptResponse; index: numb
               ID: {attempt.id.slice(0, 8)}...
             </div>
             <div className="text-red-400 font-mono text-sm animate-pulse">
-              Messages Left: {attempt.messages_remaining}
+              {translations[language].attempts.messagesLeft}: {attempt.messages_remaining}
             </div>
           </div>
           
           <div className="flex justify-between items-center">
             <div className="text-red-500 font-bold">
-              Score: <span className={attempt.score ? 'text-green-500' : 'text-yellow-500'}>
-                {attempt.score?.toFixed(1) ?? 'In Progress'}
+              {translations[language].attempts.score}: <span className={attempt.score ? 'text-green-500' : 'text-yellow-500'}>
+                {attempt.score?.toFixed(1) ?? translations[language].attempts.inProgress}
               </span>
             </div>
             <div className="text-red-500 font-mono">
-              {attempt.earnings ? `Won: $${attempt.earnings}` : `Pot: $${attempt.total_pot}`}
+              {attempt.earnings 
+                ? `${translations[language].attempts.won}: $${attempt.earnings}` 
+                : `${translations[language].attempts.pot}: $${attempt.total_pot}`}
             </div>
           </div>
 
@@ -63,9 +66,16 @@ const AttemptCard = ({ attempt, index }: { attempt: AttemptResponse; index: numb
 
 export default function AttemptsPage() {
   const [attempts, setAttempts] = useState<AttemptResponse[]>([]);
+  const [language, setLanguage] = useState('en');
   const router = useRouter();
 
   useEffect(() => {
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
+
     const fetchAttempts = async () => {
       try {
         const response = await apiService.getSessionAttempts();
@@ -87,7 +97,7 @@ export default function AttemptsPage() {
       >
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-800 bg-clip-text text-transparent">
-            Your Attempts
+            {translations[language].attempts.title}
           </h1>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -96,7 +106,7 @@ export default function AttemptsPage() {
             className="px-6 py-2 bg-red-500 text-white rounded-md font-medium transition-colors hover:bg-red-600"
             style={glowingBorder}
           >
-            New Attempt
+            {translations[language].attempts.newAttempt}
           </motion.button>
         </div>
 
@@ -107,7 +117,7 @@ export default function AttemptsPage() {
             className="text-center py-12"
           >
             <div className="text-red-500 mb-4 text-6xl">🎮</div>
-            <p className="text-red-400 text-lg mb-4">No attempts yet. Ready to play?</p>
+            <p className="text-red-400 text-lg mb-4">{translations[language].attempts.noAttempts}</p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -115,13 +125,13 @@ export default function AttemptsPage() {
               className="px-8 py-3 bg-red-500 text-white rounded-md font-medium transition-colors hover:bg-red-600"
               style={glowingBorder}
             >
-              Start Your First Game
+              {translations[language].attempts.startFirst}
             </motion.button>
           </motion.div>
         ) : (
           <div className="space-y-4">
             {attempts.map((attempt, index) => (
-              <AttemptCard key={attempt.id} attempt={attempt} index={index} />
+              <AttemptCard key={attempt.id} attempt={attempt} index={index} language={language} />
             ))}
           </div>
         )}
