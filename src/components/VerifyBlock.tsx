@@ -49,7 +49,7 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
         verification_level: finalPayload.verification_level,
         action: "enter",
         name: localStorage.getItem('user_name') || 'Anonymous User',
-        language: localStorage.getItem('language') || languageCodeToName[language] || 'english'
+        language: languageCodeToName[language]
       };
 
       const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
