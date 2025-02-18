@@ -11,7 +11,6 @@ const checkAdminStatus = async () => {
   
   try {
     const credentials = JSON.parse(credentialsStr);
-    const language = localStorage.getItem('language') || 'english';
     const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
       method: "POST",
       headers: {
@@ -19,8 +18,7 @@ const checkAdminStatus = async () => {
       },
       body: JSON.stringify({
         ...credentials,
-        action: "enter",
-        language
+        action: "enter"
       }),
     });
 

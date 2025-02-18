@@ -17,6 +17,7 @@ interface WorldIDCredentials {
   merkle_root: string;
   proof: string;
   verification_level: string;
+  language: string;
 }
 
 export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlockProps) {
@@ -71,7 +72,8 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
           nullifier_hash: finalPayload.nullifier_hash,
           merkle_root: finalPayload.merkle_root,
           proof: finalPayload.proof,
-          verification_level: finalPayload.verification_level
+          verification_level: finalPayload.verification_level,
+          language: languageCodeToName[language]
         };
         localStorage.setItem('worldid_credentials', JSON.stringify(credentials));
         
