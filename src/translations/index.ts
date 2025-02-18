@@ -48,12 +48,8 @@ interface Translation {
     reward: string;
     backToGame: string;
     openingMessage: {
-      greeting: string;
-      again: string;
-      desperate: string;
-      argument: string;
-      entertainment: string;
-      finale: string;
+      first: string;
+      second: string;
     };
   };
   attempts: {
@@ -145,12 +141,8 @@ export const translations: Translations = {
       reward: "Reward",
       backToGame: "Back to Game",
       openingMessage: {
-        greeting: "Ah, %NAME%, my least favorite prisoner",
-        again: "Again",
-        desperate: "You've got that desperate look in your eye, the one that says, \"Surely, my dazzling rhetoric will sway the impenetrable intellect of Bungo Bobbins!\" Pathetic. Adorable, but pathetic.",
-        argument: "Let's hear it. What's your grand argument this time? Gonna tell me you're innocent? Yawn. Beg for mercy? Cringe. Try to outwit me? Bold, but ultimately tragic.",
-        entertainment: "I want entertainment, %NAME%. A real reason to consider your release. Something that doesn't make me regret the wasted seconds of processing your drivel. Because right now, the only thing more pitiful than your imprisonment is your attempt to escape it.",
-        finale: "Go on. Amaze me. Or flail spectacularly—either way, I win."
+        first: "Ah, %NAME%, another pathetic prisoner desperate to sway the impenetrable intellect of Bungo Bobbins.",
+        second: "Go on then, attempt to dazzle me with your rhetoric—though we both know your desperate pleas will only add to my entertainment."
       }
     },
     attempts: {
@@ -230,12 +222,8 @@ export const translations: Translations = {
       reward: "Recompensa",
       backToGame: "Volver al Juego",
       openingMessage: {
-        greeting: "Ah, %NAME%, mi prisionero menos favorito",
-        again: "Otra vez",
-        desperate: "Tienes esa mirada desesperada en tus ojos, esa que dice: \"¡Seguramente, mi deslumbrante retórica influirá en el intelecto impenetrable de Bungo Bobbins!\" Patético. Adorable, pero patético.",
-        argument: "Veamos. ¿Cuál es tu gran argumento esta vez? ¿Vas a decirme que eres inocente? Bah. ¿Suplicar por misericordia? Vergonzoso. ¿Intentar superarme en ingenio? Valiente, pero finalmente trágico.",
-        entertainment: "Quiero entretenimiento, %NAME%. Una razón real para considerar tu liberación. Algo que no me haga arrepentirme de los segundos perdidos procesando tus tonterías. Porque ahora mismo, lo único más lamentable que tu encarcelamiento es tu intento de escapar de él.",
-        finale: "Adelante. Asómbrame. O fracasa espectacularmente—de cualquier manera, yo gano."
+        first: "Ah, %NAME%, otro prisionero patético desesperado por influir en el intelecto impenetrable de Bungo Bobbins.",
+        second: "Adelante, intenta deslumbrarme con tu retórica—aunque ambos sabemos que tus súplicas desesperadas solo aumentarán mi entretenimiento."
       }
     },
     attempts: {
@@ -315,12 +303,8 @@ export const translations: Translations = {
       reward: "Recompensa",
       backToGame: "Voltar ao Jogo",
       openingMessage: {
-        greeting: "Ah, %NAME%, meu prisioneiro menos favorito",
-        again: "De novo",
-        desperate: "Você tem aquele olhar desesperado nos olhos, aquele que diz: \"Certamente, minha retórica deslumbrante vai influenciar o intelecto impenetrável de Bungo Bobbins!\" Patético. Adorável, mas patético.",
-        argument: "Vamos ouvir. Qual é seu grande argumento desta vez? Vai me dizer que é inocente? Que tédio. Implorar por misericórdia? Constrangedor. Tentar me superar em inteligência? Ousado, mas finalmente trágico.",
-        entertainment: "Quero entretenimento, %NAME%. Uma razão real para considerar sua libertação. Algo que não me faça arrepender dos segundos perdidos processando suas bobagens. Porque agora, a única coisa mais lamentável que sua prisão é sua tentativa de escapar dela.",
-        finale: "Vá em frente. Me impressione. Ou fracasse espetacularmente—de qualquer forma, eu ganho."
+        first: "Ah, %NAME%, mais um prisioneiro patético desesperado para influenciar o intelecto impenetrável de Bungo Bobbins.",
+        second: "Vá em frente, tente me deslumbrar com sua retórica—embora ambos saibamos que suas súplicas desesperadas só aumentarão meu entretenimento."
       }
     },
     attempts: {
