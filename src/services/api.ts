@@ -160,10 +160,10 @@ class ApiService {
       console.log('Payment details:', { reference, recipient, amount });
 
       // If this is a free attempt, confirm it directly
-      if (reference === "free_attempt") {
+      if (reference.startsWith("free_attempt_")) {
         console.log('Using free attempt');
         const freeAttemptPayload: MiniAppPaymentSuccessPayload = {
-          chain: Network.Optimism, // Use proper Network enum value
+          chain: Network.Optimism,
           from: "free_attempt",
           reference: reference,
           status: "success",

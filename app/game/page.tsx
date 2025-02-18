@@ -21,7 +21,7 @@ const INSTRUCTIONS_SHOWN_KEY = 'bungo_instructions_shown';
 export default function GamePage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [showInstructions, setShowInstructions] = useState(true);
   const [language, setLanguage] = useState('en');
