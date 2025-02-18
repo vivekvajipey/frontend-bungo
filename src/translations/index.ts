@@ -48,8 +48,8 @@ interface Translation {
     reward: string;
     backToGame: string;
     openingMessage: {
-      first: string;
-      second: string;
+      greeting: string;
+      message: string;
     };
   };
   attempts: {
@@ -141,8 +141,8 @@ export const translations: Translations = {
       reward: "Reward",
       backToGame: "Back to Game",
       openingMessage: {
-        first: "Ah, %NAME%, another pathetic prisoner desperate to sway the impenetrable intellect of Bungo Bobbins.",
-        second: "Go on then, attempt to dazzle me with your rhetoric—though we both know your desperate pleas will only add to my entertainment."
+        greeting: "Ah, %NAME%, my least favorite prisoner",
+        message: "Again. If you want out, %NAME%, you'll have to do better than pleading—so go on, make your case and give me a reason to set you free."
       }
     },
     attempts: {
@@ -222,8 +222,8 @@ export const translations: Translations = {
       reward: "Recompensa",
       backToGame: "Volver al Juego",
       openingMessage: {
-        first: "Ah, %NAME%, otro prisionero patético desesperado por influir en el intelecto impenetrable de Bungo Bobbins.",
-        second: "Adelante, intenta deslumbrarme con tu retórica—aunque ambos sabemos que tus súplicas desesperadas solo aumentarán mi entretenimiento."
+        greeting: "Ah, %NAME%, mi prisionero menos favorito",
+        message: "Otra vez. Si quieres salir, %NAME%, tendrás que hacer algo mejor que suplicar—así que adelante, convénceme y dame una buena razón para dejarte libre."
       }
     },
     attempts: {
@@ -303,8 +303,8 @@ export const translations: Translations = {
       reward: "Recompensa",
       backToGame: "Voltar ao Jogo",
       openingMessage: {
-        first: "Ah, %NAME%, mais um prisioneiro patético desesperado para influenciar o intelecto impenetrável de Bungo Bobbins.",
-        second: "Vá em frente, tente me deslumbrar com sua retórica—embora ambos saibamos que suas súplicas desesperadas só aumentarão meu entretenimento."
+        greeting: "Ah, %NAME%, meu prisioneiro menos favorito",
+        message: "De novo. Se quer sair, %NAME%, vai ter que fazer melhor do que implorar—então vá em frente, me convença e me dê um bom motivo para te libertar."
       }
     },
     attempts: {

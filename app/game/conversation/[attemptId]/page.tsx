@@ -53,14 +53,12 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
         if (attemptData.messages.length === 0) {
           const userName = localStorage.getItem('user_name') || 'prisoner';
           const openingMessage = translations[savedLanguage || 'en'].conversation.openingMessage;
-          const firstMessage = openingMessage.first.replace('%NAME%', userName);
+          const greeting = openingMessage.greeting.replace('%NAME%', userName);
+          const message = openingMessage.message.replace('%NAME%', userName);
           
           attemptData.messages = [{
             content: "",
-            ai_response: [
-              firstMessage,
-              openingMessage.second
-            ].join('\n\n')
+            ai_response: `${greeting} ${message}`
           }];
         }
         
