@@ -135,6 +135,17 @@ export default function GamePage() {
               {translations[language].game.entryFee}: ${session.entry_fee} USDC
             </p>
             
+            {/* Challenge Text */}
+            <div className="relative mb-8 py-4">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-950/0 via-red-900/20 to-red-950/0
+                animate-[shimmer_2s_infinite]" />
+              <div className="absolute top-0 left-0 w-32 h-0.5 bg-gradient-to-r from-red-500/50 to-transparent" />
+              <div className="absolute bottom-0 right-0 w-32 h-0.5 bg-gradient-to-l from-red-500/50 to-transparent" />
+              <h2 className="relative text-2xl font-bold text-red-500 tracking-wide">
+                {translations[language].game.challenge}
+              </h2>
+            </div>
+            
             <button
               onClick={createAttempt}
               className="group relative w-full py-4 px-6 bg-red-950/30 border border-red-800/50 text-red-500 rounded-lg

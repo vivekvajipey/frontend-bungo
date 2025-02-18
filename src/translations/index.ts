@@ -37,6 +37,7 @@ interface Translation {
     challengeButton: string;
     sessionEnds: string;
     totalPot: string;
+    challenge: string;
   };
   conversation: {
     title: string;
@@ -134,7 +135,8 @@ export const translations: Translations = {
       entryFee: "Entry Fee",
       challengeButton: "Challenge Bungo",
       sessionEnds: "Session ends",
-      totalPot: "Total Pot"
+      totalPot: "Total Pot",
+      challenge: "The Challenge: Convince Bungo to Let You Go!"
     },
     conversation: {
       title: "Bungo's Bungorium",
@@ -194,7 +196,7 @@ export const translations: Translations = {
     verificationError: "Verificación fallida. Por favor, intenta de nuevo.",
     proveHumanity: "PROBAR HUMANIDAD",
     instructions: {
-      title: "Cómo usar el Bungorium de Bungo",
+      title: "Cómo Jugar en el Bungorium de Bungo",
       steps: [
         "¡Bungo te tiene en la cárcel!",
         "Convence a Bungo de que te deje ir mediante halagos u otros medios.",
@@ -220,7 +222,8 @@ export const translations: Translations = {
       entryFee: "Cuota de Entrada",
       challengeButton: "Desafiar a Bungo",
       sessionEnds: "La sesión termina",
-      totalPot: "Bote Total"
+      totalPot: "Bote Total",
+      challenge: "El Desafío: ¡Convence a Bungo de que te Deje Ir!"
     },
     conversation: {
       title: "Bungorium de Bungo",
@@ -280,7 +283,7 @@ export const translations: Translations = {
     verificationError: "Verificação falhou. Por favor, tente novamente.",
     proveHumanity: "PROVAR HUMANIDADE",
     instructions: {
-      title: "Como Usar o Bungorium do Bungo",
+      title: "Como Jogar no Bungorium do Bungo",
       steps: [
         "Bungo tem você na prisão!",
         "Convença Bungo a deixar você ir através de elogios ou outros meios.",
@@ -304,9 +307,10 @@ export const translations: Translations = {
       noSession: "Nenhuma sessão ativa disponível. Por favor, tente novamente mais tarde.",
       currentSession: "Sessão Atual",
       entryFee: "Taxa de Entrada",
-      challengeButton: "Desafiar o Bungo",
+      challengeButton: "Desafiar Bungo",
       sessionEnds: "A sessão termina",
-      totalPot: "Prêmio Total"
+      totalPot: "Prêmio Total",
+      challenge: "O Desafio: Convença Bungo a Deixar Você Sair!"
     },
     conversation: {
       title: "Bungorium do Bungo",
