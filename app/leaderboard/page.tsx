@@ -22,7 +22,7 @@ export default function LeaderboardPage() {
             <span className="material-icons-outlined text-6xl text-red-800 mb-4">construction</span>
             <p className="text-xl text-red-400">Coming Soon</p>
             <p className="text-sm text-red-800 mt-2">
-              The leaderboard is under construction. Check back later to see who&apos;s teaching Bungo the most!
+              The leaderboard is under construction. Check back later to see Bungo's escapees...
             </p>
           </div>
         </motion.div>
