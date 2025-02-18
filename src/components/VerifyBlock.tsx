@@ -4,7 +4,7 @@ import { MiniKit, VerificationLevel } from "@worldcoin/minikit-js";
 import { useCallback, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
-import { translations } from '@/src/translations';
+import { translations, languageCodeToName } from '@/src/translations';
 
 interface VerifyBlockProps {
   onVerificationSuccess: () => void;
@@ -23,6 +23,27 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
   const [isVerified, setIsVerified] = useState(false);
   const [verifyError, setVerifyError] = useState<string | null>(null);
   const router = useRouter();
+
+  const updateUserLanguage = async (credentials: WorldIDCredentials) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/language`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${JSON.stringify(credentials)}`
+        },
+        body: JSON.stringify({
+          language: languageCodeToName[language]
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update language preference');
+      }
+    } catch (error) {
+      console.error('Error updating language preference:', error);
+    }
+  };
 
   const handleVerify = useCallback(async () => {
     if (!MiniKit.isInstalled()) {
@@ -48,8 +69,7 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
         proof: finalPayload.proof,
         verification_level: finalPayload.verification_level,
         action: "enter",
-        name: localStorage.getItem('user_name') || 'Anonymous User',
-        language: language // Include selected language
+        name: localStorage.getItem('user_name') || 'Anonymous User'
       };
 
       const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
@@ -74,6 +94,9 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
           verification_level: finalPayload.verification_level
         };
         localStorage.setItem('worldid_credentials', JSON.stringify(credentials));
+        
+        // Update user's language preference
+        await updateUserLanguage(credentials);
         
         setIsVerified(true);
         setVerifyError(null);

@@ -13,6 +13,12 @@ interface Translations {
   [key: string]: Translation;
 }
 
+export const languageCodeToName: { [key: string]: string } = {
+  'en': 'english',
+  'es': 'spanish',
+  'pt': 'portuguese'
+};
+
 export const translations: Translations = {
   en: {
     frames: [
