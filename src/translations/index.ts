@@ -24,6 +24,15 @@ interface Translation {
     comingSoon: string;
     underConstruction: string;
   };
+  game: {
+    loading: string;
+    noSession: string;
+    currentSession: string;
+    entryFee: string;
+    challengeButton: string;
+    sessionEnds: string;
+    totalPot: string;
+  };
 }
 
 interface Translations {
@@ -77,6 +86,15 @@ export const translations: Translations = {
       title: "Leaderboard",
       comingSoon: "Coming Soon",
       underConstruction: "The leaderboard is under construction. Check back later to see Bungo&apos;s escapees..."
+    },
+    game: {
+      loading: "Loading...",
+      noSession: "No active session available. Please try again later.",
+      currentSession: "Current Session",
+      entryFee: "Entry Fee",
+      challengeButton: "Challenge Bungo",
+      sessionEnds: "Session ends",
+      totalPot: "Total Pot"
     }
   },
   es: {
@@ -119,6 +137,15 @@ export const translations: Translations = {
       title: "Tabla de Clasificación",
       comingSoon: "Próximamente",
       underConstruction: "La tabla de clasificación está en construcción. Vuelve más tarde para ver a los que escaparon de Bungo..."
+    },
+    game: {
+      loading: "Cargando...",
+      noSession: "No hay sesión activa disponible. Por favor, inténtalo más tarde.",
+      currentSession: "Sesión Actual",
+      entryFee: "Cuota de Entrada",
+      challengeButton: "Desafiar a Bungo",
+      sessionEnds: "La sesión termina",
+      totalPot: "Bote Total"
     }
   },
   pt: {
@@ -161,6 +188,15 @@ export const translations: Translations = {
       title: "Classificação",
       comingSoon: "Em Breve",
       underConstruction: "A classificação está em construção. Volte mais tarde para ver os fugitivos do Bungo..."
+    },
+    game: {
+      loading: "Carregando...",
+      noSession: "Nenhuma sessão ativa disponível. Por favor, tente novamente mais tarde.",
+      currentSession: "Sessão Atual",
+      entryFee: "Taxa de Entrada",
+      challengeButton: "Desafiar o Bungo",
+      sessionEnds: "A sessão termina",
+      totalPot: "Prêmio Total"
     }
   }
 }; 
