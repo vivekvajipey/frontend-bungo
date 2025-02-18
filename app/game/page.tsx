@@ -22,6 +22,7 @@ export default function GamePage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [showInstructions, setShowInstructions] = useState(true);
+  const [language, setLanguage] = useState('en');
 
   useEffect(() => {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -34,6 +35,12 @@ export default function GamePage() {
     const instructionsShown = localStorage.getItem(INSTRUCTIONS_SHOWN_KEY);
     if (instructionsShown === 'true') {
       setShowInstructions(false);
+    }
+
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
     }
 
     const fetchSession = async () => {
@@ -102,7 +109,8 @@ export default function GamePage() {
     <>
       <InstructionsModal 
         isOpen={showInstructions} 
-        onClose={handleCloseInstructions} 
+        onClose={handleCloseInstructions}
+        language={language}
       />
       
       <main className={`min-h-screen bg-black text-red-600 pb-20 ${tomorrow.className}`}>

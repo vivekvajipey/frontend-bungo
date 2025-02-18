@@ -19,6 +19,11 @@ interface Translation {
     steps: string[];
     letsBegin: string;
   };
+  leaderboard: {
+    title: string;
+    comingSoon: string;
+    underConstruction: string;
+  };
 }
 
 interface Translations {
@@ -59,14 +64,19 @@ export const translations: Translations = {
     verificationError: "Verification failed. Please try again.",
     proveHumanity: "PROVE HUMANITY",
     instructions: {
-      title: "Bungo's Bungorium How-To",
+      title: "Bungo&apos;s Bungorium How-To",
       steps: [
         "Every hour, a new Bungo competition session begins.",
         "For $0.1 USDC, you can attempt to teach Bungo something new, surprise him, or demonstrate something about humanity he... might not expect.",
         "Per attempt, you get 5 messages to shock Bungo.",
         "At the end of the session, the conversations with the best score share the pot."
       ],
-      letsBegin: "Let's Begin"
+      letsBegin: "Let&apos;s Begin"
+    },
+    leaderboard: {
+      title: "Leaderboard",
+      comingSoon: "Coming Soon",
+      underConstruction: "The leaderboard is under construction. Check back later to see Bungo&apos;s escapees..."
     }
   },
   es: {
@@ -104,6 +114,11 @@ export const translations: Translations = {
         "Al final de la sesión, las conversaciones con la mejor puntuación comparten el bote."
       ],
       letsBegin: "Comencemos"
+    },
+    leaderboard: {
+      title: "Tabla de Clasificación",
+      comingSoon: "Próximamente",
+      underConstruction: "La tabla de clasificación está en construcción. Vuelve más tarde para ver a los que escaparon de Bungo..."
     }
   },
   pt: {
@@ -141,6 +156,11 @@ export const translations: Translations = {
         "No final da sessão, as conversas com a melhor pontuação compartilham o prêmio."
       ],
       letsBegin: "Vamos Começar"
+    },
+    leaderboard: {
+      title: "Classificação",
+      comingSoon: "Em Breve",
+      underConstruction: "A classificação está em construção. Volte mais tarde para ver os fugitivos do Bungo..."
     }
   }
 }; 
