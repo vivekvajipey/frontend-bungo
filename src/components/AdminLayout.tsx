@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import AdminNav from './AdminNav';
+import { useRouter } from 'next/router';
 
 // Check if user is admin based on verify response
 const checkAdminStatus = async () => {
@@ -19,6 +20,8 @@ const checkAdminStatus = async () => {
       body: JSON.stringify({
         ...credentials,
         action: "enter",
+        name: localStorage.getItem('user_name') || 'Anonymous User',
+        language: localStorage.getItem('language') || 'english'
       }),
     });
 
@@ -36,9 +39,36 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [showAdminNav, setShowAdminNav] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    checkAdminStatus().then(setShowAdminNav);
+    const verifyAdmin = async () => {
+      const credentials = localStorage.getItem('worldid_credentials');
+      if (!credentials) {
+        router.push('/');
+        return;
+      }
+
+      const parsedCredentials = JSON.parse(credentials);
+      const storedLanguage = localStorage.getItem('language') || 'english';
+
+      const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...parsedCredentials,
+          action: "enter",
+          name: localStorage.getItem('user_name') || 'Anonymous User',
+          language: storedLanguage
+        }),
+      });
+
+      const data = await verifyResponse.json();
+      setShowAdminNav(data.is_admin || false);
+    };
+    verifyAdmin();
   }, []);
 
   return (
