@@ -24,27 +24,6 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
   const [verifyError, setVerifyError] = useState<string | null>(null);
   const router = useRouter();
 
-  const updateUserLanguage = async (credentials: WorldIDCredentials) => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/language`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${JSON.stringify(credentials)}`
-        },
-        body: JSON.stringify({
-          language: languageCodeToName[language]
-        }),
-      });
-
-      if (!response.ok) {
-        console.error('Failed to update language preference');
-      }
-    } catch (error) {
-      console.error('Error updating language preference:', error);
-    }
-  };
-
   const handleVerify = useCallback(async () => {
     if (!MiniKit.isInstalled()) {
       setVerifyError("Please open this app in World App");
@@ -69,7 +48,8 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
         proof: finalPayload.proof,
         verification_level: finalPayload.verification_level,
         action: "enter",
-        name: localStorage.getItem('user_name') || 'Anonymous User'
+        name: localStorage.getItem('user_name') || 'Anonymous User',
+        language: languageCodeToName[language]
       };
 
       const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
@@ -94,9 +74,6 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
           verification_level: finalPayload.verification_level
         };
         localStorage.setItem('worldid_credentials', JSON.stringify(credentials));
-        
-        // Update user's language preference
-        await updateUserLanguage(credentials);
         
         setIsVerified(true);
         setVerifyError(null);
