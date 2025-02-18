@@ -4,10 +4,12 @@ import { MiniKit, VerificationLevel } from "@worldcoin/minikit-js";
 import { useCallback, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/src/services/api';
+import { translations } from '@/src/translations';
 
 interface VerifyBlockProps {
   onVerificationSuccess: () => void;
   show: boolean;
+  language: string;
 }
 
 interface WorldIDCredentials {
@@ -17,7 +19,7 @@ interface WorldIDCredentials {
   verification_level: string;
 }
 
-export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
+export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlockProps) {
   const [isVerified, setIsVerified] = useState(false);
   const [verifyError, setVerifyError] = useState<string | null>(null);
   const router = useRouter();
@@ -46,7 +48,8 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         proof: finalPayload.proof,
         verification_level: finalPayload.verification_level,
         action: "enter",
-        name: localStorage.getItem('user_name') || 'Anonymous User'
+        name: localStorage.getItem('user_name') || 'Anonymous User',
+        language: language // Include selected language
       };
 
       const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`, {
@@ -98,17 +101,17 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
       console.error('Verification error:', error);
       setVerifyError("Verification failed. Please try again.");
     }
-  }, [onVerificationSuccess, router]);
+  }, [onVerificationSuccess, router, language]);
 
   if (!show) return null;
 
   return (
     <div className="flex flex-col items-center gap-4 p-4">
-      <h2 className="text-xl font-bold text-red-500">World ID Verification</h2>
+      <h2 className="text-xl font-bold text-red-500">{translations[language].verifyHumanity.title}</h2>
       {!isVerified ? (
         <>
           <p className="text-center text-red-400/70">
-            Verify your humanity to play Bungo
+            {translations[language].verifyHumanity.description}
           </p>
           <button
             className="group relative px-8 py-3 bg-red-950/30 border border-red-800/50 text-red-500 rounded
@@ -124,7 +127,7 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
               group-hover:opacity-100 transition-opacity duration-300
               animate-pulse" />
             
-            <span className="relative z-10">VERIFY WITH WORLD ID</span>
+            <span className="relative z-10">{translations[language].verifyHumanity.button}</span>
           </button>
           {verifyError && (
             <p className="text-red-500 text-sm">{verifyError}</p>
@@ -132,7 +135,7 @@ export function VerifyBlock({ onVerificationSuccess, show }: VerifyBlockProps) {
         </>
       ) : (
         <div className="text-center text-red-500">
-          ✓ Verified - You can now play
+          {translations[language].verifyHumanity.verified}
         </div>
       )}
     </div>

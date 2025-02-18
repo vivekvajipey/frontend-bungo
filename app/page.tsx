@@ -8,6 +8,8 @@ import ScrambleText from '@/src/components/ScrambleText';
 import NameInput from '@/src/components/NameInput';
 import ProveHumanityButton from '@/src/components/ProveHumanityButton';
 import { VerifyBlock } from '@/src/components/VerifyBlock';
+import { LanguageSelector } from '@/src/components/LanguageSelector';
+import { translations } from '@/src/translations';
 import { MiniKit } from '@worldcoin/minikit-js';
 
 const tomorrow = Tomorrow({ 
@@ -15,21 +17,11 @@ const tomorrow = Tomorrow({
   weight: ['400', '700'],
 });
 
-const FRAMES = [
-  ["i am bungo"],
-  ["what are you called?"],
-  ["many have come before you", "many will come after you"],
-  ["few leave richer than they came."],
-  ["to play,", "you must pay."],
-  ["but if you win, you", "receive what others gave"],
-  ["ready?"],
-  ["are you a real human?", "prove it"]
-];
-
 export default function Home() {
   const router = useRouter();
   const [showVerification, setShowVerification] = useState(false);
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
   useEffect(() => {
     // Check if user is already verified
@@ -37,6 +29,13 @@ export default function Home() {
     if (credentials) {
       // If verified, redirect to game page
       router.replace('/game');
+    }
+
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      setSelectedLanguage(savedLanguage);
+      setCurrentFrame(1); // Skip language selection if already set
     }
   }, [router]);
 
@@ -49,12 +48,11 @@ export default function Home() {
   };
 
   const handleVerificationSuccess = () => {
-    // Success is now handled in VerifyBlock component
     console.log("Verification successful");
   };
 
   const handleFrameClick = () => {
-    if (currentFrame < FRAMES.length - 1) {
+    if (currentFrame < translations[selectedLanguage].frames.length - 1) {
       setCurrentFrame(prev => prev + 1);
     }
   };
@@ -64,12 +62,21 @@ export default function Home() {
     handleFrameClick();
   };
 
+  const handleLanguageSelect = (language: string) => {
+    setSelectedLanguage(language);
+    localStorage.setItem('language', language);
+    setCurrentFrame(1);
+  };
+
   const getPostScrambleContent = (frameIndex: number) => {
-    if (frameIndex === 1) {
+    if (frameIndex === 0) {
+      return <LanguageSelector onLanguageSelect={handleLanguageSelect} />;
+    }
+    if (frameIndex === 2) {
       return <NameInput onSubmit={handleNameSubmit} />;
     }
-    if (frameIndex === 7) {
-      const content = Array(FRAMES[frameIndex].length).fill(null);
+    if (frameIndex === 8) {
+      const content = Array(translations[selectedLanguage].frames[frameIndex].length).fill(null);
       content[content.length - 1] = <ProveHumanityButton onClick={handleEnter} />;
       return content;
     }
@@ -81,39 +88,39 @@ export default function Home() {
       {!showVerification ? (
         <div 
           className="relative w-full h-screen flex flex-col items-center justify-center"
-          onClick={currentFrame !== 1 && currentFrame !== 7 ? handleFrameClick : undefined}
+          onClick={currentFrame !== 0 && currentFrame !== 2 && currentFrame !== 8 ? handleFrameClick : undefined}
         >
           <motion.div
             key={`frame-${currentFrame}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={currentFrame === 1 || currentFrame === 7 ? "" : "pointer-events-none"}
+            className={currentFrame === 0 || currentFrame === 2 || currentFrame === 8 ? "" : "pointer-events-none"}
           >
             <div className="text-4xl whitespace-pre-line text-center">
               <ScrambleText 
                 postScrambleContent={
-                  currentFrame === 7 
-                    ? FRAMES[currentFrame].map((_, i) => 
-                        i === FRAMES[currentFrame].length - 1 ? <ProveHumanityButton key={i} onClick={handleEnter} /> : null
+                  currentFrame === 8 
+                    ? translations[selectedLanguage].frames[currentFrame].map((_, i) => 
+                        i === translations[selectedLanguage].frames[currentFrame].length - 1 ? <ProveHumanityButton key={i} onClick={handleEnter} /> : null
                       )
-                    : FRAMES[currentFrame].map((_, i) => {
+                    : translations[selectedLanguage].frames[currentFrame].map((_, i) => {
                         const content = getPostScrambleContent(currentFrame);
                         return content ? <div key={i}>{content}</div> : null;
                       })
                 }
               >
-                {FRAMES[currentFrame]}
+                {translations[selectedLanguage].frames[currentFrame]}
               </ScrambleText>
             </div>
-            {currentFrame !== 1 && currentFrame !== 7 && (
+            {currentFrame !== 0 && currentFrame !== 2 && currentFrame !== 8 && (
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
                 className="mt-8 text-base text-red-800 text-center"
               >
-                click to continue
+                {translations[selectedLanguage].clickToContinue}
               </motion.p>
             )}
           </motion.div>
@@ -130,6 +137,7 @@ export default function Home() {
             <VerifyBlock 
               onVerificationSuccess={handleVerificationSuccess}
               show={showVerification}
+              language={selectedLanguage}
             />
           </div>
         </motion.div>
