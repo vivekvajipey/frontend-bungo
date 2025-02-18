@@ -7,6 +7,12 @@ interface Translation {
     button: string;
     verified: string;
   };
+  nameInput: {
+    placeholder: string;
+    continue: string;
+  };
+  worldAppError: string;
+  verificationError: string;
 }
 
 interface Translations {
@@ -38,7 +44,13 @@ export const translations: Translations = {
       description: "Verify your humanity to play Bungo",
       button: "VERIFY WITH WORLD ID",
       verified: "✓ Verified - You can now play"
-    }
+    },
+    nameInput: {
+      placeholder: "Enter your name",
+      continue: "CONTINUE"
+    },
+    worldAppError: "Please open this app in World App",
+    verificationError: "Verification failed. Please try again."
   },
   es: {
     frames: [
@@ -58,7 +70,13 @@ export const translations: Translations = {
       description: "Verifica tu humanidad para jugar Bungo",
       button: "VERIFICAR CON WORLD ID",
       verified: "✓ Verificado - Ya puedes jugar"
-    }
+    },
+    nameInput: {
+      placeholder: "Ingresa tu nombre",
+      continue: "CONTINUAR"
+    },
+    worldAppError: "Por favor, abre esta aplicación en World App",
+    verificationError: "Verificación fallida. Por favor, intenta de nuevo."
   },
   pt: {
     frames: [
@@ -78,6 +96,12 @@ export const translations: Translations = {
       description: "Verifique sua humanidade para jogar Bungo",
       button: "VERIFICAR COM WORLD ID",
       verified: "✓ Verificado - Você pode jogar agora"
-    }
+    },
+    nameInput: {
+      placeholder: "Digite seu nome",
+      continue: "CONTINUAR"
+    },
+    worldAppError: "Por favor, abra este aplicativo no World App",
+    verificationError: "Verificação falhou. Por favor, tente novamente."
   }
 }; 

@@ -3,12 +3,14 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Input } from '@/src/components/ui/input';
+import { translations } from '@/src/translations';
 
 type Props = {
     onSubmit: (name: string) => void;
+    language: string;
   };
   
-  const NameInput: React.FC<Props> = ({ onSubmit }) => {
+  const NameInput: React.FC<Props> = ({ onSubmit, language }) => {
     const [name, setName] = useState('');
   
     const handleSubmit = (e: React.FormEvent) => {
@@ -32,7 +34,7 @@ type Props = {
             className="bg-transparent border-2 border-red-500/20 text-red-500 text-lg py-3 px-4 rounded-lg 
                      placeholder:text-red-500/50 focus:border-red-500 focus:ring-1 focus:ring-red-500
                      transition-all duration-300"
-            placeholder="Enter your name"
+            placeholder={translations[language].nameInput.placeholder}
             autoFocus
           />
           
@@ -44,7 +46,7 @@ type Props = {
                      hover:border-red-500/40 rounded-lg py-3 text-lg font-bold tracking-widest
                      transition-all duration-300"
           >
-            CONTINUE
+            {translations[language].nameInput.continue}
           </motion.button>
         </form>
       </motion.div>

@@ -73,7 +73,7 @@ export default function Home() {
       return <LanguageSelector onLanguageSelect={handleLanguageSelect} />;
     }
     if (frameIndex === 2) {
-      return <NameInput onSubmit={handleNameSubmit} />;
+      return <NameInput onSubmit={handleNameSubmit} language={selectedLanguage} />;
     }
     if (frameIndex === 8) {
       const content = Array(translations[selectedLanguage].frames[frameIndex].length).fill(null);

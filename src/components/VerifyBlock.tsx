@@ -26,7 +26,7 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
 
   const handleVerify = useCallback(async () => {
     if (!MiniKit.isInstalled()) {
-      setVerifyError("Please open this app in World App");
+      setVerifyError(translations[language].worldAppError);
       return;
     }
 
@@ -37,7 +37,7 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
       });
 
       if (finalPayload.status === "error") {
-        setVerifyError("Verification failed");
+        setVerifyError(translations[language].verificationError);
         return;
       }
 
@@ -99,7 +99,7 @@ export function VerifyBlock({ onVerificationSuccess, show, language }: VerifyBlo
       }
     } catch (error) {
       console.error('Verification error:', error);
-      setVerifyError("Verification failed. Please try again.");
+      setVerifyError(translations[language].verificationError);
     }
   }, [onVerificationSuccess, router, language]);
 
