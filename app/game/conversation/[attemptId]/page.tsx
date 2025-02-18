@@ -150,7 +150,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
   }
 
   return (
-    <main className={`min-h-screen bg-black text-red-500 flex items-center justify-center p-4 ${tomorrow.className}`}>
+    <main className={`min-h-screen bg-black text-red-500 flex items-center justify-center p-4 pb-24 ${tomorrow.className}`}>
       <div className="w-full max-w-4xl bg-black rounded-lg overflow-hidden relative">
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-1 bg-red-600/50 animate-pulse" />
@@ -167,8 +167,8 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
           </div>
         </div>
 
-        {/* Chat Container */}
-        <div className="h-[32rem] overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black">
+        {/* Chat Container - adjusted height */}
+        <div className="h-[calc(100vh-20rem)] overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black">
           {attempt.messages.map((msg, i) => (
             <div key={i} className="space-y-2">
               {/* User Message - only render if content exists */}

@@ -19,6 +19,11 @@ interface Translation {
     steps: string[];
     letsBegin: string;
   };
+  navigation: {
+    session: string;
+    attempts: string;
+    leaders: string;
+  };
   leaderboard: {
     title: string;
     comingSoon: string;
@@ -112,6 +117,11 @@ export const translations: Translations = {
       ],
       letsBegin: "Let's Begin"
     },
+    navigation: {
+      session: "Session",
+      attempts: "Attempts",
+      leaders: "Leaders"
+    },
     leaderboard: {
       title: "Leaderboard",
       comingSoon: "Coming Soon",
@@ -193,6 +203,11 @@ export const translations: Translations = {
       ],
       letsBegin: "Comencemos"
     },
+    navigation: {
+      session: "Sesión",
+      attempts: "Intentos",
+      leaders: "Líderes"
+    },
     leaderboard: {
       title: "Tabla de Clasificación",
       comingSoon: "Próximamente",
@@ -273,6 +288,11 @@ export const translations: Translations = {
         "No final da sessão, as conversas com a melhor pontuação compartilham o prêmio."
       ],
       letsBegin: "Vamos Começar"
+    },
+    navigation: {
+      session: "Sessão",
+      attempts: "Tentativas",
+      leaders: "Líderes"
     },
     leaderboard: {
       title: "Classificação",

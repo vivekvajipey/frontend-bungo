@@ -3,9 +3,20 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { translations } from '@/src/translations';
+import { useEffect, useState } from 'react';
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const [language, setLanguage] = useState('en');
+
+  useEffect(() => {
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
 
   return (
     <motion.nav 
@@ -22,7 +33,7 @@ export default function BottomNav() {
           } hover:text-red-600 transition-colors`}
         >
           <span className="material-icons-outlined mb-1">monetization_on</span>
-          <span>Session</span>
+          <span>{translations[language].navigation.session}</span>
         </Link>
         <Link 
           href="/attempts" 
@@ -31,7 +42,7 @@ export default function BottomNav() {
           } hover:text-red-600 transition-colors`}
         >
           <span className="material-icons-outlined mb-1">history</span>
-          <span>Attempts</span>
+          <span>{translations[language].navigation.attempts}</span>
         </Link>
         <Link 
           href="/leaderboard" 
@@ -40,7 +51,7 @@ export default function BottomNav() {
           } hover:text-red-600 transition-colors`}
         >
           <span className="material-icons-outlined mb-1">leaderboard</span>
-          <span>Leaders</span>
+          <span>{translations[language].navigation.leaders}</span>
         </Link>
       </div>
     </motion.nav>
