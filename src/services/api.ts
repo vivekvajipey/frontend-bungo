@@ -233,7 +233,7 @@ class ApiService {
 
   async hasFreeAttempt(): Promise<boolean> {
     try {
-      const response = await axios.get(`${API_BASE_URL}/has_free_attempt`, {
+      const response = await axios.get(`${API_BASE_URL}/users/has_free_attempt`, {
         headers: this.getAuthHeaders()
       });
       return response.data.has_free_attempt;
