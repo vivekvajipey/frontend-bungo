@@ -112,9 +112,9 @@ export const translations: Translations = {
       title: "Bungo's Bungorium How-To",
       steps: [
         "Bungo has you in jail!",
-        "Convince Bungo to let you go through flattery or other means.",
-        "After 5 messages, your ability to escape is scored!",
-        "Conversations with the best score share the pot."
+        "Convince him to let you go.",
+        "After 5 messages, your success is scored!",
+        "The best conversations win the pot."
       ],
       letsBegin: "Let's Begin"
     },
@@ -133,7 +133,7 @@ export const translations: Translations = {
       noSession: "No active session available. Please try again later.",
       currentSession: "Current Session",
       entryFee: "Entry Fee",
-      challengeButton: "Challenge Bungo",
+      challengeButton: "Battle Bungo",
       sessionEnds: "Session ends",
       totalPot: "Total Pot",
       challenge: "The Challenge: Convince Bungo to Let You Go!"
@@ -220,7 +220,7 @@ export const translations: Translations = {
       noSession: "No hay sesión activa disponible. Por favor, inténtalo más tarde.",
       currentSession: "Sesión Actual",
       entryFee: "Cuota de Entrada",
-      challengeButton: "Desafiar a Bungo",
+      challengeButton: "Batalla con Bungo",
       sessionEnds: "La sesión termina",
       totalPot: "Bote Total",
       challenge: "El Desafío: ¡Convence a Bungo de que te Deje Ir!"
@@ -307,7 +307,7 @@ export const translations: Translations = {
       noSession: "Nenhuma sessão ativa disponível. Por favor, tente novamente mais tarde.",
       currentSession: "Sessão Atual",
       entryFee: "Taxa de Entrada",
-      challengeButton: "Desafiar Bungo",
+      challengeButton: "Batalhar com Bungo",
       sessionEnds: "A sessão termina",
       totalPot: "Prêmio Total",
       challenge: "O Desafio: Convença Bungo a Deixar Você Sair!"
