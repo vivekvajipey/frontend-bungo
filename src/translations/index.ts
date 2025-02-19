@@ -98,6 +98,7 @@ export const translations: Translations = {
       ["many have come before you", "many will come after you"],
       ["few leave richer than they came."],
       ["to play,", "you must pay."],
+      ["your first attempt is free", "all subsequent attempts cost $0.10 USDC"],
       ["but if you win, you", "receive what others gave"],
       ["ready?"],
       ["are you a real human?", "prove it"]
@@ -198,6 +199,7 @@ export const translations: Translations = {
       ["muchos han venido antes que tú", "muchos vendrán después"],
       ["pocos se van más ricos de lo que llegaron."],
       ["para jugar,", "debes pagar."],
+      ["tu primer intento es gratis", "todos los intentos posteriores cuestan $0.10 USDC"],
       ["pero si ganas,", "recibes lo que otros dieron"],
       ["¿listo?"],
       ["¿eres un humano real?", "demuéstralo"]
@@ -299,6 +301,7 @@ export const translations: Translations = {
       ["poucos saem mais ricos do que chegaram."],
       ["para jogar,", "você deve pagar."],
       ["mas se você ganhar,", "recebe o que outros deram"],
+      ["sua primeira tentativa é grátis", "todas as tentativas subsequentes custam $0.10 USDC"],
       ["pronto?"],
       ["você é um humano real?", "prove isso"]
     ],
