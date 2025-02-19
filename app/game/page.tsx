@@ -63,6 +63,10 @@ export default function GamePage() {
       try {
         const sessionData = await apiService.getCurrentSession();
         setSession(sessionData);
+        // Save session ID for leaderboard
+        if (sessionData) {
+          localStorage.setItem('current_session_id', sessionData.id);
+        }
       } catch (error) {
         console.error('Error fetching session:', error);
         router.push('/');

@@ -364,7 +364,7 @@ export const translations: Translations = {
       currentSession: "Sessão Atual",
       entryFee: "Taxa de Entrada",
       challengeButton: "Batalhar com Bungo",
-      challengeButtonFree: "Desafio Gratuito (Primeira Vez)",
+      challengeButtonFree: "Entrar no Desafio (Primeira Vez Grátis)",
       sessionEnds: "A sessão termina",
       totalPot: "Prêmio Total",
       challenge: "O Desafio: Convença Bungo a Deixar Você Sair!"
