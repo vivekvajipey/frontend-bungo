@@ -69,12 +69,6 @@ export interface AttemptResponse {
   is_free_attempt: boolean;
 }
 
-interface PaymentConfirmationPayload {
-  status: string;
-  transaction_id?: string;
-  [key: string]: unknown;
-}
-
 class ApiService {
   private getAuthHeaders() {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -236,7 +230,7 @@ class ApiService {
       const response = await axios.get(`${API_BASE_URL}/users/has_free_attempt`, {
         headers: this.getAuthHeaders()
       });
-      return response.data.has_free_attempt;
+      return response.data;
     } catch (error) {
       console.error('Failed to check free attempt status:', error);
       return false;
@@ -248,12 +242,13 @@ class ApiService {
     return this.get('/api/admin/unpaid_attempts');
   }
 
-  async markAttemptPaid(attemptId: string) {
-    return this.post(`/api/admin/attempts/${attemptId}/mark_paid`, {});
-  }
-
-  async confirmAdminPayment(reference: string, payload: PaymentConfirmationPayload) {
-    return this.post(`/api/payments/${reference}/confirm`, { payload });
+  async markAttemptPaid(attemptId: string): Promise<void> {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/admin/attempts/${attemptId}/mark_paid`,
+      {},
+      { headers: this.getAuthHeaders() }
+    );
+    return response.data;
   }
 
   private async get(url: string) {

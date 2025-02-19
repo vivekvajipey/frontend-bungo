@@ -70,7 +70,6 @@ export default function AdminPayments() {
 
       if (payRes.finalPayload.status === "success") {
         console.log('Payment successful, confirming with backend...');
-        await apiService.confirmAdminPayment(reference, payRes.finalPayload);
         await apiService.markAttemptPaid(attempt.attempt_id);
         
         // Remove from list
