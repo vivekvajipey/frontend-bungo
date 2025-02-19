@@ -201,14 +201,6 @@ class ApiService {
     }
   }
 
-  async getUserStats(wlddId: string): Promise<any> {
-    const response = await axios.get(
-      `${API_BASE_URL}/userinfo/${wlddId}/stats`,
-      { headers: this.getAuthHeaders() }
-    );
-    return response.data;
-  }
-
   async getAttempt(attemptId: string): Promise<Attempt> {
     const response = await axios.get(
       `${API_BASE_URL}/attempts/${attemptId}`,
