@@ -107,23 +107,40 @@ export default function AdminPayments() {
               key={attempt.attempt_id}
               className="border p-4 rounded-lg flex justify-between items-center"
             >
-              <div>
-                <p><strong>User ID:</strong> {attempt.wldd_id}</p>
-                <p><strong>Wallet:</strong> {attempt.wallet_address}</p>
+              <div className="overflow-hidden">
+                <p><strong>User ID:</strong> <span className="break-all">{attempt.wldd_id}</span></p>
+                <p><strong>Wallet:</strong> <span className="break-all">{attempt.wallet_address}</span></p>
                 <p><strong>Amount:</strong> {(attempt.earnings_raw / 1_000_000).toFixed(6)} WLDD (raw: {attempt.earnings_raw})</p>
                 <p><strong>Created:</strong> {new Date(attempt.created_at).toLocaleString()}</p>
               </div>
-              <button
-                onClick={() => handlePay(attempt)}
-                disabled={processing[attempt.attempt_id]}
-                className={`px-4 py-2 rounded ${
-                  processing[attempt.attempt_id]
-                    ? 'bg-gray-400'
-                    : 'bg-blue-500 hover:bg-blue-600'
-                } text-white`}
-              >
-                {processing[attempt.attempt_id] ? 'Processing...' : 'Pay'}
-              </button>
+              <div className="flex items-center gap-2 ml-4 flex-shrink-0">
+                {processing[attempt.attempt_id] === false && (
+                  <svg 
+                    className="w-6 h-6 text-green-500" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M5 13l4 4L19 7" 
+                    />
+                  </svg>
+                )}
+                <button
+                  onClick={() => handlePay(attempt)}
+                  disabled={processing[attempt.attempt_id]}
+                  className={`px-4 py-2 rounded ${
+                    processing[attempt.attempt_id]
+                      ? 'bg-gray-400'
+                      : 'bg-blue-500 hover:bg-blue-600'
+                  } text-white`}
+                >
+                  {processing[attempt.attempt_id] ? 'Processing...' : 'Pay'}
+                </button>
+              </div>
             </div>
           ))
         )}
