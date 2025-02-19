@@ -69,6 +69,11 @@ export interface AttemptResponse {
   is_free_attempt: boolean;
 }
 
+interface LeaderboardEntry {
+  name: string;
+  score: number;
+}
+
 class ApiService {
   private getAuthHeaders() {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -212,6 +217,14 @@ class ApiService {
   async getSessionAttempts(): Promise<AttemptResponse[]> {
     const response = await axios.get(
       `${API_BASE_URL}/sessions/active/attempts`,
+      { headers: this.getAuthHeaders() }
+    );
+    return response.data;
+  }
+
+  async getSessionLeaderboard(sessionId: string): Promise<LeaderboardEntry[]> {
+    const response = await axios.get<LeaderboardEntry[]>(
+      `${API_BASE_URL}/session/${sessionId}/leaderboard`,
       { headers: this.getAuthHeaders() }
     );
     return response.data;

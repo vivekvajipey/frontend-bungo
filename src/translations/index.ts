@@ -28,6 +28,10 @@ interface Translation {
     title: string;
     comingSoon: string;
     underConstruction: string;
+    loading: string;
+    error: string;
+    noSession: string;
+    noEntries: string;
   };
   game: {
     loading: string;
@@ -136,7 +140,11 @@ export const translations: Translations = {
     leaderboard: {
       title: "Leaderboard",
       comingSoon: "Coming Soon",
-      underConstruction: "The leaderboard is under construction. Check back later to see Bungo's escapees..."
+      underConstruction: "The leaderboard is under construction. Check back later to see Bungo's escapees...",
+      loading: "Loading leaderboard...",
+      error: "Failed to load leaderboard",
+      noSession: "No active session found",
+      noEntries: "No attempts yet in this session",
     },
     game: {
       loading: "Loading...",
@@ -238,7 +246,11 @@ export const translations: Translations = {
     leaderboard: {
       title: "Tabla de Clasificación",
       comingSoon: "Próximamente",
-      underConstruction: "La tabla de clasificación está en construcción. Vuelve más tarde para ver a los que escaparon de Bungo..."
+      underConstruction: "La tabla de clasificación está en construcción. Vuelve más tarde para ver a los que escaparon de Bungo...",
+      loading: "Cargando tabla de clasificación...",
+      error: "Error al cargar la tabla de clasificación",
+      noSession: "No se encontró sesión activa",
+      noEntries: "No hay intentos en esta sesión",
     },
     game: {
       loading: "Cargando...",
@@ -340,7 +352,11 @@ export const translations: Translations = {
     leaderboard: {
       title: "Classificação",
       comingSoon: "Em Breve",
-      underConstruction: "A classificação está em construção. Volte mais tarde para ver os fugitivos do Bungo..."
+      underConstruction: "A classificação está em construção. Volte mais tarde para ver os fugitivos do Bungo...",
+      loading: "Carregando classificação...",
+      error: "Erro ao carregar classificação",
+      noSession: "Nenhuma sessão ativa encontrada",
+      noEntries: "Nenhuma tentativa na sessão",
     },
     game: {
       loading: "Carregando...",
