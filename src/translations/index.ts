@@ -98,8 +98,8 @@ export const translations: Translations = {
       ["many have come before you", "many will come after you"],
       ["few leave richer than they came."],
       ["to play,", "you must pay."],
-      ["your first attempt is free", "all subsequent attempts cost $0.10 USDC"],
       ["but if you win, you", "receive what others gave"],
+      ["first attempt is free, but wins no money", "all subsequent attempts cost $0.10 USDC"],
       ["ready?"],
       ["are you a real human?", "prove it"]
     ],
@@ -179,7 +179,7 @@ export const translations: Translations = {
     },
     freeAttempt: {
       badge: "First Attempt Free!",
-      tooltip: "Try Bungo for free - no payment needed for your first attempt!"
+      tooltip: "Try Bungo for free - no payment needed for your first attempt, but no winnings either!"
     },
     info: {
       title: "How It Works",
@@ -199,8 +199,8 @@ export const translations: Translations = {
       ["muchos han venido antes que tú", "muchos vendrán después"],
       ["pocos se van más ricos de lo que llegaron."],
       ["para jugar,", "debes pagar."],
-      ["tu primer intento es gratis", "todos los intentos posteriores cuestan $0.10 USDC"],
       ["pero si ganas,", "recibes lo que otros dieron"],
+      ["primer intento es gratis, pero no gana dinero", "todos los intentos posteriores cuestan $0.10 USDC"],
       ["¿listo?"],
       ["¿eres un humano real?", "demuéstralo"]
     ],
@@ -280,7 +280,7 @@ export const translations: Translations = {
     },
     freeAttempt: {
       badge: "¡Primer Intento Gratis!",
-      tooltip: "Prueba Bungo gratis - ¡no se necesita pago para tu primer intento!"
+      tooltip: "Prueba Bungo gratis - ¡no se necesita pago para tu primer intento, pero no hay ganancias!"
     },
     info: {
       title: "Cómo Funciona",
@@ -301,7 +301,7 @@ export const translations: Translations = {
       ["poucos saem mais ricos do que chegaram."],
       ["para jogar,", "você deve pagar."],
       ["mas se você ganhar,", "recebe o que outros deram"],
-      ["sua primeira tentativa é grátis", "todas as tentativas subsequentes custam $0.10 USDC"],
+      ["primeira tentativa é grátis, mas não ganha dinheiro", "todas as tentativas subsequentes custam $0.10 USDC"],
       ["pronto?"],
       ["você é um humano real?", "prove isso"]
     ],
