@@ -7,9 +7,11 @@ import { Session } from '@/src/services/api';
 import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
 import { InstructionsModal } from '@/src/components/InstructionsModal';
+import { InfoModal } from '@/src/components/InfoModal';
 import { FreeAttemptBadge } from '@/src/components/ui/FreeAttemptBadge';
 import { motion } from 'framer-motion';
 import { translations } from '@/src/translations';
+import { Info } from 'lucide-react';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -26,6 +28,7 @@ export default function GamePage() {
   const [showInstructions, setShowInstructions] = useState(true);
   const [language, setLanguage] = useState('en');
   const [hasFreeAttempt, setHasFreeAttempt] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     const credentials = localStorage.getItem('worldid_credentials');
@@ -127,6 +130,12 @@ export default function GamePage() {
         language={language}
       />
       
+      <InfoModal
+        isOpen={showInfo}
+        onClose={() => setShowInfo(false)}
+        language={language}
+      />
+      
       <main className={`min-h-screen bg-black text-red-600 pb-20 ${tomorrow.className}`}>
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
@@ -137,8 +146,17 @@ export default function GamePage() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm"
+            className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm relative"
           >
+            {/* Info Button */}
+            <button
+              onClick={() => setShowInfo(true)}
+              className="absolute top-4 right-4 p-2 text-red-500/70 hover:text-red-500
+                transition-all duration-200 rounded-full hover:bg-red-500/10"
+            >
+              <Info size={20} />
+            </button>
+
             <h1 className="text-3xl mb-4">{translations[language].game.currentSession}</h1>
             <div className="mb-2">
               <span className="text-sm text-red-800">{translations[language].game.totalPot}:</span>

@@ -73,6 +73,10 @@ interface Translation {
     badge: string;
     tooltip: string;
   };
+  info: {
+    title: string;
+    rules: string[];
+  };
 }
 
 interface Translations {
@@ -175,6 +179,15 @@ export const translations: Translations = {
     freeAttempt: {
       badge: "First Attempt Free!",
       tooltip: "Try Bungo for free - no payment needed for your first attempt!"
+    },
+    info: {
+      title: "How It Works",
+      rules: [
+        "Your first attempt is free (no winnings on first attempt)",
+        "All subsequent attempts cost $0.10 USDC",
+        "Winners are determined at the END of the 24-hour session",
+        "The higher your score, the more you get paid from the pot"
+      ]
     }
   },
   es: {
@@ -266,6 +279,15 @@ export const translations: Translations = {
     freeAttempt: {
       badge: "¡Primer Intento Gratis!",
       tooltip: "Prueba Bungo gratis - ¡no se necesita pago para tu primer intento!"
+    },
+    info: {
+      title: "Cómo Funciona",
+      rules: [
+        "Tu primer intento es gratis (sin ganancias en el primer intento)",
+        "Todos los intentos posteriores cuestan $0.10 USDC",
+        "Los ganadores se determinan al FINAL de la sesión de 24 horas",
+        "Cuanto más alta sea tu puntuación, más recibirás del bote"
+      ]
     }
   },
   pt: {
@@ -357,6 +379,15 @@ export const translations: Translations = {
     freeAttempt: {
       badge: "Primeira Tentativa Grátis!",
       tooltip: "Experimente Bungo gratuitamente - sem pagamento necessário para sua primeira tentativa!"
+    },
+    info: {
+      title: "Como Funciona",
+      rules: [
+        "Sua primeira tentativa é grátis (sem ganhos na primeira tentativa)",
+        "Todas as tentativas subsequentes custam $0.10 USDC",
+        "Os vencedores são determinados no FIM da sessão de 24 horas",
+        "Quanto maior sua pontuação, mais você recebe do prêmio"
+      ]
     }
   }
 };
