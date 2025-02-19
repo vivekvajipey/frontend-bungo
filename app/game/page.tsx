@@ -197,7 +197,7 @@ export default function GamePage() {
               {hasFreeAttempt && (
                 <FreeAttemptBadge 
                   language={language}
-                  className="absolute -top-3 -right-3 transform rotate-12 z-20"
+                  className="absolute top-1/2 left-4 transform -translate-y-1/2"
                 />
               )}
             </button>
