@@ -35,6 +35,7 @@ interface Translation {
     currentSession: string;
     entryFee: string;
     challengeButton: string;
+    challengeButtonFree: string;
     sessionEnds: string;
     totalPot: string;
     challenge: string;
@@ -143,6 +144,7 @@ export const translations: Translations = {
       currentSession: "Current Session",
       entryFee: "Entry Fee",
       challengeButton: "Battle Bungo",
+      challengeButtonFree: "Enter Challenge (Free)",
       sessionEnds: "Session ends",
       totalPot: "Total Pot",
       challenge: "The Challenge: Convince Bungo to Let You Go!"
@@ -244,6 +246,7 @@ export const translations: Translations = {
       currentSession: "Sesión Actual",
       entryFee: "Cuota de Entrada",
       challengeButton: "Batalla con Bungo",
+      challengeButtonFree: "Entrar al Desafío (Gratis)",
       sessionEnds: "La sesión termina",
       totalPot: "Bote Total",
       challenge: "El Desafío: ¡Convence a Bungo de que te Deje Ir!"
@@ -345,6 +348,7 @@ export const translations: Translations = {
       currentSession: "Sessão Atual",
       entryFee: "Taxa de Entrada",
       challengeButton: "Batalhar com Bungo",
+      challengeButtonFree: "Entrar no Desafio (Grátis)",
       sessionEnds: "A sessão termina",
       totalPot: "Prêmio Total",
       challenge: "O Desafio: Convença Bungo a Deixar Você Sair!"

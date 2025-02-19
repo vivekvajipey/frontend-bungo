@@ -8,7 +8,6 @@ import { AxiosError } from 'axios';
 import { Tomorrow } from 'next/font/google';
 import { InstructionsModal } from '@/src/components/InstructionsModal';
 import { InfoModal } from '@/src/components/InfoModal';
-import { FreeAttemptBadge } from '@/src/components/ui/FreeAttemptBadge';
 import { motion } from 'framer-motion';
 import { translations } from '@/src/translations';
 import { Info } from 'lucide-react';
@@ -191,15 +190,9 @@ export default function GamePage() {
                 group-hover:opacity-100 transition-opacity duration-300
                 animate-pulse" />
               
-              <span className="relative z-10">{translations[language].game.challengeButton}</span>
-              
-              {/* Free attempt badge */}
-              {hasFreeAttempt && (
-                <FreeAttemptBadge 
-                  language={language}
-                  className="absolute top-1/2 left-4 transform -translate-y-1/2"
-                />
-              )}
+              <span className="relative z-10">
+                {hasFreeAttempt ? translations[language].game.challengeButtonFree : translations[language].game.challengeButton}
+              </span>
             </button>
 
             {error && (
