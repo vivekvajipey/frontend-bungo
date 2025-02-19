@@ -75,7 +75,7 @@ export default function Home() {
     if (frameIndex === 2) {
       return <NameInput onSubmit={handleNameSubmit} language={selectedLanguage} />;
     }
-    if (frameIndex === 8) {
+    if (frameIndex === 3) {
       const content = Array(translations[selectedLanguage].frames[frameIndex].length).fill(null);
       content[content.length - 1] = <ProveHumanityButton onClick={handleEnter} language={selectedLanguage} />;
       return content;
