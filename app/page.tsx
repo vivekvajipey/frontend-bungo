@@ -76,9 +76,7 @@ export default function Home() {
       return <NameInput onSubmit={handleNameSubmit} language={selectedLanguage} />;
     }
     if (frameIndex === 3) {
-      const content = Array(translations[selectedLanguage].frames[frameIndex].length).fill(null);
-      content[content.length - 1] = <ProveHumanityButton onClick={handleEnter} language={selectedLanguage} />;
-      return content;
+      return <ProveHumanityButton onClick={handleEnter} language={selectedLanguage} />;
     }
     return null;
   };
@@ -88,19 +86,19 @@ export default function Home() {
       {!showVerification ? (
         <div 
           className="relative w-full h-screen flex flex-col items-center justify-center"
-          onClick={currentFrame !== 0 && currentFrame !== 2 && currentFrame !== 8 ? handleFrameClick : undefined}
+          onClick={currentFrame !== 0 && currentFrame !== 2 && currentFrame !== 3 ? handleFrameClick : undefined}
         >
           <motion.div
             key={`frame-${currentFrame}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={currentFrame === 0 || currentFrame === 2 || currentFrame === 8 ? "" : "pointer-events-none"}
+            className={currentFrame === 0 || currentFrame === 2 || currentFrame === 3 ? "" : "pointer-events-none"}
           >
             <div className="text-4xl whitespace-pre-line text-center">
               <ScrambleText 
                 postScrambleContent={
-                  currentFrame === 8 
+                  currentFrame === 3 
                     ? translations[selectedLanguage].frames[currentFrame].map((_, i) => 
                         i === translations[selectedLanguage].frames[currentFrame].length - 1 
                           ? <ProveHumanityButton key={i} onClick={handleEnter} language={selectedLanguage} /> 
@@ -115,7 +113,7 @@ export default function Home() {
                 {translations[selectedLanguage].frames[currentFrame]}
               </ScrambleText>
             </div>
-            {currentFrame !== 0 && currentFrame !== 2 && currentFrame !== 8 && (
+            {currentFrame !== 0 && currentFrame !== 2 && currentFrame !== 3 && (
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
