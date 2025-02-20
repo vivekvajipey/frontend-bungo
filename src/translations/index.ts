@@ -35,6 +35,7 @@ interface Translation {
     free: string;
     paid: string;
     noPaidAttempts: string;
+    freeDisclaimer: string;
   };
   game: {
     loading: string;
@@ -144,7 +145,8 @@ export const translations: Translations = {
       noEntries: "No attempts yet in this session",
       free: "Free",
       paid: "Paid",
-      noPaidAttempts: "No paid attempts yet"
+      noPaidAttempts: "No paid attempts yet",
+      freeDisclaimer: "Free users are not eligible to win money"
     },
     game: {
       loading: "Loading...",
@@ -247,7 +249,8 @@ export const translations: Translations = {
       noEntries: "No hay intentos en esta sesión",
       free: "Gratis",
       paid: "Pagado",
-      noPaidAttempts: "Aún no hay intentos pagados"
+      noPaidAttempts: "Aún no hay intentos pagados",
+      freeDisclaimer: "Los usuarios gratuitos no pueden ganar dinero"
     },
     game: {
       loading: "Cargando...",
@@ -350,7 +353,8 @@ export const translations: Translations = {
       noEntries: "Ainda não há tentativas",
       free: "Grátis",
       paid: "Pago",
-      noPaidAttempts: "Ainda não há tentativas pagas"
+      noPaidAttempts: "Ainda não há tentativas pagas",
+      freeDisclaimer: "Usuários gratuitos não podem ganhar dinheiro"
     },
     game: {
       loading: "Carregando...",

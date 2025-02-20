@@ -79,23 +79,35 @@ export default function LeaderboardPage() {
               <Trophy className="w-8 h-8" />
               {translations[language].leaderboard.title}
             </h1>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setShowPaidLeaderboard(false)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  !showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
-                }`}
-              >
-                {translations[language].leaderboard.free}
-              </button>
-              <button
-                onClick={() => setShowPaidLeaderboard(true)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
-                }`}
-              >
-                {translations[language].leaderboard.paid}
-              </button>
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowPaidLeaderboard(false)}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    !showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
+                  }`}
+                >
+                  {translations[language].leaderboard.free}
+                </button>
+                <button
+                  onClick={() => setShowPaidLeaderboard(true)}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
+                  }`}
+                >
+                  {translations[language].leaderboard.paid}
+                </button>
+              </div>
+              {!showPaidLeaderboard && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="text-xs text-red-400 text-center max-w-[200px]"
+                >
+                  {translations[language].leaderboard.freeDisclaimer}
+                </motion.p>
+              )}
             </div>
           </div>
 
