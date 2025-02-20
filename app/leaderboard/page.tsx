@@ -74,19 +74,19 @@ export default function LeaderboardPage() {
           animate={{ y: 0, opacity: 1 }}
           className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm"
         >
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col items-center gap-4 mb-6">
             <h1 className="text-3xl font-bold text-center flex items-center gap-3">
               <Trophy className="w-8 h-8" />
               {translations[language].leaderboard.title}
             </h1>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowPaidLeaderboard(false)}
                 className={`px-4 py-2 rounded-lg transition-colors ${
                   !showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
                 }`}
               >
-                Free
+                {translations[language].leaderboard.free}
               </button>
               <button
                 onClick={() => setShowPaidLeaderboard(true)}
@@ -94,7 +94,7 @@ export default function LeaderboardPage() {
                   showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
                 }`}
               >
-                Paid
+                {translations[language].leaderboard.paid}
               </button>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function LeaderboardPage() {
           ) : currentLeaderboard.length === 0 ? (
             <p className="text-center text-red-400">
               {showPaidLeaderboard
-                ? "No paid attempts yet"
+                ? translations[language].leaderboard.noPaidAttempts
                 : translations[language].leaderboard.noEntries}
             </p>
           ) : (

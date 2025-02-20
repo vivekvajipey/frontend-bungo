@@ -32,6 +32,9 @@ interface Translation {
     error: string;
     noSession: string;
     noEntries: string;
+    free: string;
+    paid: string;
+    noPaidAttempts: string;
   };
   game: {
     loading: string;
@@ -139,6 +142,9 @@ export const translations: Translations = {
       error: "Failed to load leaderboard",
       noSession: "No active session found",
       noEntries: "No attempts yet in this session",
+      free: "Free",
+      paid: "Paid",
+      noPaidAttempts: "No paid attempts yet"
     },
     game: {
       loading: "Loading...",
@@ -239,6 +245,9 @@ export const translations: Translations = {
       error: "Error al cargar la tabla de clasificación",
       noSession: "No se encontró sesión activa",
       noEntries: "No hay intentos en esta sesión",
+      free: "Gratis",
+      paid: "Pagado",
+      noPaidAttempts: "Aún no hay intentos pagados"
     },
     game: {
       loading: "Cargando...",
@@ -336,9 +345,12 @@ export const translations: Translations = {
       comingSoon: "Em Breve",
       underConstruction: "A classificação está em construção. Volte mais tarde para ver os fugitivos do Bungo...",
       loading: "Carregando classificação...",
-      error: "Erro ao carregar classificação",
+      error: "Falha ao carregar classificação",
       noSession: "Nenhuma sessão ativa encontrada",
-      noEntries: "Nenhuma tentativa na sessão",
+      noEntries: "Ainda não há tentativas",
+      free: "Grátis",
+      paid: "Pago",
+      noPaidAttempts: "Ainda não há tentativas pagas"
     },
     game: {
       loading: "Carregando...",
