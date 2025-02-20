@@ -222,9 +222,9 @@ class ApiService {
     return response.data;
   }
 
-  async getSessionLeaderboard(sessionId: string): Promise<LeaderboardEntry[]> {
+  async getSessionLeaderboard(sessionId: string, attemptType: 'free' | 'paid'): Promise<LeaderboardEntry[]> {
     const response = await axios.get<LeaderboardEntry[]>(
-      `${API_BASE_URL}/session/${sessionId}/leaderboard`,
+      `${API_BASE_URL}/session/${sessionId}/leaderboard/${attemptType}`,
       { headers: this.getAuthHeaders() }
     );
     return response.data;

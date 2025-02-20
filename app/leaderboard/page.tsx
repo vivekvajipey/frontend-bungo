@@ -20,6 +20,8 @@ interface LeaderboardEntry {
 export default function LeaderboardPage() {
   const [language, setLanguage] = useState('en');
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [paidLeaderboard, setPaidLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [showPaidLeaderboard, setShowPaidLeaderboard] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -30,15 +32,19 @@ export default function LeaderboardPage() {
       setLanguage(savedLanguage);
     }
 
-    const fetchLeaderboard = async () => {
+    const fetchLeaderboards = async () => {
       try {
         const sessionId = localStorage.getItem('current_session_id');
         if (!sessionId) {
           setError(translations[language].leaderboard.noSession);
           return;
         }
-        const data = await apiService.getSessionLeaderboard(sessionId);
-        setLeaderboard(data);
+        const [freeData, paidData] = await Promise.all([
+          apiService.getSessionLeaderboard(sessionId, 'free'),
+          apiService.getSessionLeaderboard(sessionId, 'paid')
+        ]);
+        setLeaderboard(freeData);
+        setPaidLeaderboard(paidData);
       } catch (err) {
         console.error('Error fetching leaderboard:', err);
         setError(translations[language].leaderboard.error);
@@ -47,7 +53,7 @@ export default function LeaderboardPage() {
       }
     };
 
-    fetchLeaderboard();
+    fetchLeaderboards();
   }, [language]);
 
   if (loading) {
@@ -58,6 +64,8 @@ export default function LeaderboardPage() {
     );
   }
 
+  const currentLeaderboard = showPaidLeaderboard ? paidLeaderboard : leaderboard;
+
   return (
     <main className={`min-h-screen bg-black text-red-600 pb-20 ${tomorrow.className}`}>
       <div className="max-w-3xl mx-auto px-4 py-8">
@@ -66,18 +74,42 @@ export default function LeaderboardPage() {
           animate={{ y: 0, opacity: 1 }}
           className="bg-black/50 p-8 rounded-lg border border-red-800 backdrop-blur-sm"
         >
-          <h1 className="text-3xl font-bold mb-6 text-center flex items-center justify-center gap-3">
-            <Trophy className="w-8 h-8" />
-            {translations[language].leaderboard.title}
-          </h1>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-3xl font-bold text-center flex items-center gap-3">
+              <Trophy className="w-8 h-8" />
+              {translations[language].leaderboard.title}
+            </h1>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setShowPaidLeaderboard(false)}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  !showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
+                }`}
+              >
+                Free
+              </button>
+              <button
+                onClick={() => setShowPaidLeaderboard(true)}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  showPaidLeaderboard ? 'bg-red-600 text-black' : 'bg-red-950/30'
+                }`}
+              >
+                Paid
+              </button>
+            </div>
+          </div>
 
           {error ? (
             <p className="text-center text-red-400">{error}</p>
-          ) : leaderboard.length === 0 ? (
-            <p className="text-center text-red-400">{translations[language].leaderboard.noEntries}</p>
+          ) : currentLeaderboard.length === 0 ? (
+            <p className="text-center text-red-400">
+              {showPaidLeaderboard
+                ? "No paid attempts yet"
+                : translations[language].leaderboard.noEntries}
+            </p>
           ) : (
             <div className="space-y-4">
-              {leaderboard.map((entry, index) => (
+              {currentLeaderboard.map((entry, index) => (
                 <motion.div
                   key={index}
                   initial={{ x: -20, opacity: 0 }}
