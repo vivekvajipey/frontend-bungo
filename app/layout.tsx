@@ -5,6 +5,7 @@ import MiniKitProvider from "@/src/components/MiniKitProvider";
 import { ErudaDebug } from "@/src/components/ErudaDebug";
 import AdminLayout from "@/src/components/AdminLayout";
 import ClientLayout from "@/src/components/ClientLayout";
+import { SageSupport } from 'sage-support';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
           <MiniKitProvider>
             <ClientLayout>
               {children}
+              <SageSupport projectId={12} />
             </ClientLayout>
           </MiniKitProvider>
           <ErudaDebug />
