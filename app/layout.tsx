@@ -26,7 +26,8 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <AdminLayout>
           <MiniKitProvider>
-            <SageSupport projectId={12} />
+            <SageSupport projectId={12} returnURI='https://worldcoin.org/mini-app?app_id=app_fa0cfa8c9f657dc60db5c48ef18b7790&path=/game' />
+            
             <ClientLayout>
               {children}
             </ClientLayout>
