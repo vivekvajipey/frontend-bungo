@@ -166,7 +166,7 @@ export default function GamePage() {
               <p className="text-5xl font-bold">${session.total_pot.toFixed(2)}</p>
             </div>
             <p className="text-sm text-red-800 mb-8">
-              {translations[language].game.entryFee}: ${session.entry_fee} USDC
+              {translations[language].game.entryFee}: ${session.entry_fee} WLD
             </p>
             
             {/* Challenge Text */}

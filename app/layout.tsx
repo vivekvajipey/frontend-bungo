@@ -26,9 +26,9 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <AdminLayout>
           <MiniKitProvider>
+            <SageSupport projectId={12} />
             <ClientLayout>
               {children}
-              <SageSupport projectId={12} />
             </ClientLayout>
           </MiniKitProvider>
           <ErudaDebug />

@@ -182,8 +182,8 @@ class ApiService {
         reference,
         to: recipient!,  // We know it's not null for paid attempts
         tokens: [{
-          symbol: Tokens.USDCE,
-          token_amount: tokenToDecimals(parseFloat(amount), Tokens.USDCE).toString()
+          symbol: Tokens.WLD,
+          token_amount: tokenToDecimals(parseFloat(amount), Tokens.WLD).toString()
         }],
         description: "Bungo game attempt entry fee"
       };

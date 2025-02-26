@@ -197,7 +197,7 @@ export const translations: Translations = {
       title: "How It Works",
       rules: [
         "Your first attempt is free (no winnings on first attempt)",
-        "All subsequent attempts cost $0.10 USDC",
+        "All subsequent attempts cost $0.10 WLD",
         "Winners are determined at the END of the 24-hour session",
         "The higher your score, the more you get paid from the pot"
       ]
@@ -301,7 +301,7 @@ export const translations: Translations = {
       title: "Cómo Funciona",
       rules: [
         "Tu primer intento es gratis (sin ganancias en el primer intento)",
-        "Todos los intentos posteriores cuestan $0.10 USDC",
+        "Todos los intentos posteriores cuestan $0.10 WLD",
         "Los ganadores se determinan al FINAL de la sesión de 24 horas",
         "Cuanto más alta sea tu puntuación, más recibirás del bote"
       ]
@@ -405,7 +405,7 @@ export const translations: Translations = {
       title: "Como Funciona",
       rules: [
         "Sua primeira tentativa é grátis (sem ganhos na primeira tentativa)",
-        "Todas as tentativas subsequentes custam $0.10 USDC",
+        "Todas as tentativas subsequentes custam $0.10 WLD",
         "Os vencedores são determinados no FIM da sessão de 24 horas",
         "Quanto maior sua pontuação, mais você recebe do prêmio"
       ]

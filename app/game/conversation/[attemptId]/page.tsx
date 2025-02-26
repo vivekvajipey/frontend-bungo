@@ -247,7 +247,7 @@ export default function ConversationPage({ params, searchParams }: PageProps) {
                 <p className="text-2xl font-bold text-red-500 mt-1">{attempt.score.toFixed(1)}/10</p>
               </div>
               <p className="text-red-400">
-                {translations[language].conversation.reward}: {attempt.earnings ? `$${attempt.earnings} USDC` : ''}
+                {translations[language].conversation.reward}: {attempt.earnings ? `$${attempt.earnings} WLD` : ''}
               </p>
             </div>
             <div className="mt-6">

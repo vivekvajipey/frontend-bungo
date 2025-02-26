@@ -58,8 +58,8 @@ export default function AdminPayments() {
         reference,
         to: attempt.wallet_address,
         tokens: [{
-          symbol: Tokens.USDCE,
-          token_amount: tokenToDecimals(parseFloat(amount), Tokens.USDCE).toString()
+          symbol: Tokens.WLD,
+          token_amount: tokenToDecimals(parseFloat(amount), Tokens.WLD).toString()
         }],
         description: "Bungo game winnings payout"
       };
