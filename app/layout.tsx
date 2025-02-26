@@ -5,7 +5,6 @@ import MiniKitProvider from "@/src/components/MiniKitProvider";
 import { ErudaDebug } from "@/src/components/ErudaDebug";
 import AdminLayout from "@/src/components/AdminLayout";
 import ClientLayout from "@/src/components/ClientLayout";
-import { SageSupport } from 'sage-support';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,9 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <AdminLayout>
-          <MiniKitProvider>
-            <SageSupport projectId={12} returnURI='https://worldcoin.org/mini-app?app_id=app_fa0cfa8c9f657dc60db5c48ef18b7790&path=/game' />
-            
+          <MiniKitProvider>            
             <ClientLayout>
               {children}
             </ClientLayout>

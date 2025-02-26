@@ -11,6 +11,7 @@ import { InfoModal } from '@/src/components/InfoModal';
 import { motion } from 'framer-motion';
 import { translations } from '@/src/translations';
 import { Info } from 'lucide-react';
+import { SageSupport } from 'sage-support';
 
 const tomorrow = Tomorrow({ 
   subsets: ['latin'],
@@ -140,6 +141,7 @@ export default function GamePage() {
       />
       
       <main className={`min-h-screen bg-black text-red-600 pb-20 ${tomorrow.className}`}>
+        <SageSupport projectId={12} returnURI='https://worldcoin.org/mini-app?app_id=app_fa0cfa8c9f657dc60db5c48ef18b7790&path=/game' />
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
